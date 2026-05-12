@@ -1,0 +1,388 @@
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign base_price = current_variant.price
+
+  assign tag_gate_pass = true
+  if block.settings.show_only_for_tags != blank
+    assign wanted_tags = block.settings.show_only_for_tags | downcase | replace: ', ', ',' | split: ','
+    assign tag_gate_pass = false
+    for tag in product.tags
+      assign tag_l = tag | downcase
+      if wanted_tags contains tag_l
+        assign tag_gate_pass = true
+        break
+      endif
+    endfor
+  endif
+
+  assign metafield_gate_pass = true
+  if block.settings.metafield_gate_enable and block.settings.metafield_gate_bool == false
+    assign metafield_gate_pass = false
+  endif
+
+  assign should_render = false
+  if tag_gate_pass and metafield_gate_pass
+    assign should_render = true
+  endif
+  if request.design_mode
+    assign should_render = true
+  endif
+-%}
+
+{%- if should_render -%}
+{%- liquid
+  assign hide_ids_attr = block.settings.hide_variant_ids | replace: ' ', '' | escape
+  assign hide_titles_attr = block.settings.hide_variant_titles | downcase | escape
+
+  assign current_variant_id_str = current_variant.id | append: ''
+  assign is_initial_hidden = false
+  if block.settings.hide_variant_ids != blank
+    assign hide_ids_list = block.settings.hide_variant_ids | replace: ' ', '' | split: ','
+    if hide_ids_list contains current_variant_id_str
+      assign is_initial_hidden = true
+    endif
+  endif
+  if is_initial_hidden == false and block.settings.hide_variant_titles != blank
+    assign hide_titles_list = block.settings.hide_variant_titles | downcase | split: ','
+    assign current_title_lc = current_variant.title | downcase
+    if hide_titles_list contains current_title_lc
+      assign is_initial_hidden = true
+    endif
+  endif
+-%}
+<div id="BkmBundle-{{ block.id }}" class="bkm-bundle"
+     data-section-id="{{ section.id }}"
+     data-product-id="{{ product.id }}"
+     data-initial-variant-id="{{ current_variant.id }}"
+     data-initial-price="{{ base_price }}"
+     data-currency-symbol="{{ cart.currency.symbol }}"
+     data-currency-code="{{ cart.currency.iso_code }}"
+     data-hide-variant-ids="{{ hide_ids_attr }}"
+     data-hide-variant-titles="{{ hide_titles_attr }}"
+     data-discount-1="{{ block.settings.discount_1 }}"
+     data-discount-2="{{ block.settings.discount_2 }}"
+     data-discount-3="{{ block.settings.discount_3 }}"
+     data-show-original="{{ block.settings.show_original_price }}"
+     data-show-discounted="{{ block.settings.show_discounted_price }}"
+     data-show-savings="{{ block.settings.show_savings }}"
+     data-default-pack="{{ block.settings.default_pack | default: 1 }}"
+     data-preorder-enabled="{{ block.settings.show_preorder_message }}"
+     data-money-format="{{ shop.money_format | strip_html | escape }}"
+     {% if is_initial_hidden %}style="display:none"{% endif %}>
+  {%- if block.settings.heading != blank -%}
+    <h3 class="bkm-bundle__heading">{{ block.settings.heading }}</h3>
+  {%- endif -%}
+  {%- if block.settings.subheading != blank -%}
+    <p class="bkm-bundle__subheading">{{ block.settings.subheading }}</p>
+  {%- endif -%}
+
+  <div class="bkm-bundle__options" role="radiogroup" aria-label="{{ block.settings.heading | default: 'Select pack' }}">
+    <button type="button" class="bkm-card" data-qty="1" aria-pressed="false" aria-label="{{ block.settings.label_1 | escape }}">
+      <span class="bkm-card__left">
+        <span class="bkm-card__title">{{ block.settings.label_1 }}</span>
+      </span>
+      {%- liquid
+        assign d1 = block.settings.discount_1 | times: 1
+      -%}
+      {%- if block.settings.show_savings and block.settings.show_savings_1 and d1 > 0 -%}
+        <span class="bkm-card__center">
+          <span class="bkm-card__discount">-{{ d1 }}%</span>
+        </span>
+      {%- endif -%}
+      <span class="bkm-card__right">
+        {%- if block.settings.show_original_price -%}
+          <span class="bkm-card__price bkm-card__price--original" data-price-original="1"></span>
+        {%- endif -%}
+        {%- if block.settings.show_discounted_price -%}
+          <span class="bkm-card__price bkm-card__price--final" data-price-final="1"></span>
+        {%- endif -%}
+      </span>
+    </button>
+
+    <button type="button" class="bkm-card" data-qty="2" aria-pressed="false" aria-label="{{ block.settings.label_2 | escape }}">
+      <span class="bkm-card__left">
+        <span class="bkm-card__title">{{ block.settings.label_2 }}</span>
+      </span>
+      {%- liquid
+        assign d2 = block.settings.discount_2 | times: 1
+      -%}
+      {%- if block.settings.show_savings and block.settings.show_savings_2 and d2 > 0 -%}
+        <span class="bkm-card__center">
+          <span class="bkm-card__discount">-{{ d2 }}%</span>
+        </span>
+      {%- endif -%}
+      <span class="bkm-card__right">
+        {%- if block.settings.show_original_price -%}
+          <span class="bkm-card__price bkm-card__price--original" data-price-original="2"></span>
+        {%- endif -%}
+        {%- if block.settings.show_discounted_price -%}
+          <span class="bkm-card__price bkm-card__price--final" data-price-final="2"></span>
+        {%- endif -%}
+      </span>
+    </button>
+
+    <button type="button" class="bkm-card" data-qty="3" aria-pressed="false" aria-label="{{ block.settings.label_3 | escape }}">
+      <span class="bkm-card__left">
+        <span class="bkm-card__title">{{ block.settings.label_3 }}</span>
+      </span>
+      {%- liquid
+        assign d3 = block.settings.discount_3 | times: 1
+      -%}
+      {%- if block.settings.show_savings and block.settings.show_savings_3 and d3 > 0 -%}
+        <span class="bkm-card__center">
+          <span class="bkm-card__discount">-{{ d3 }}%</span>
+        </span>
+      {%- endif -%}
+      <span class="bkm-card__right">
+        {%- if block.settings.show_original_price -%}
+          <span class="bkm-card__price bkm-card__price--original" data-price-original="3"></span>
+        {%- endif -%}
+        {%- if block.settings.show_discounted_price -%}
+          <span class="bkm-card__price bkm-card__price--final" data-price-final="3"></span>
+        {%- endif -%}
+      </span>
+    </button>
+  </div>
+
+  {%- if block.settings.show_preorder_message and block.settings.preorder_message != blank -%}
+    <p class="bkm-bundle__preorder">{{ block.settings.preorder_message }}</p>
+  {%- endif -%}
+
+  <script type="application/json" data-bkm-product="{{ product.id }}">
+    {{ product | json }}
+  </script>
+</div>
+
+<style>
+.bkm-bundle {
+  margin: 16px 0 24px 0;
+}
+.bkm-bundle__heading {
+  margin: 0 0 6px 0;
+  font-weight: 700;
+  font-size: 18px;
+}
+.bkm-bundle__subheading {
+  margin: 0 0 12px 0;
+  color: #4b5563;
+  font-size: 14px;
+}
+.bkm-bundle__options {
+  display: grid;
+  gap: 12px;
+}
+.bkm-card {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 2px solid #0b1f35;
+  background: #fff;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease;
+}
+.bkm-card[aria-pressed="true"] {
+  background: #0e2743;
+  color: #fff;
+}
+.bkm-card__title {
+  font-weight: 600;
+  font-size: 15px;
+}
+.bkm-card__center {
+  text-align: right;
+  margin-right: 12px;
+  color: inherit;
+}
+.bkm-card__discount {
+  color: inherit;
+  opacity: .9;
+  font-weight: 600;
+}
+.bkm-card__right {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  align-items: baseline;
+  white-space: nowrap;
+}
+.bkm-card__price {
+  font-weight: 600;
+  font-size: 14px;
+}
+.bkm-card__price--original {
+  opacity: .6;
+  text-decoration: line-through;
+}
+.bkm-bundle__preorder {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #374151;
+}
+@media (max-width: 480px) {
+  .bkm-card {
+    grid-template-columns: 1fr auto;
+    row-gap: 4px;
+  }
+  .bkm-card__right {
+    grid-column: 1 / -1;
+    justify-content: space-between;
+  }
+}
+</style>
+
+<script>
+  (function() {
+    var root = document.getElementById('BkmBundle-{{ block.id }}');
+    if (!root) return;
+
+    var productJSONScript = root.querySelector('script[type="application/json"][data-bkm-product="{{ product.id }}"]');
+    var productData = null;
+    try { productData = JSON.parse(productJSONScript?.textContent || '{}'); } catch(e) {}
+
+    var formRoot = root.closest('section, main, .product, .product__info, .product-single, body');
+    var productForms = formRoot ? formRoot.querySelectorAll('form[action*="/cart/add"]') : document.querySelectorAll('form[action*="/cart/add"]');
+    var qtyInputs = [];
+    productForms.forEach(function(form) {
+      var input = form.querySelector('input[name="quantity"]');
+      if (!input) {
+        input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'quantity';
+        input.value = '1';
+        form.appendChild(input);
+      }
+      qtyInputs.push(input);
+    });
+    var anyForm = productForms[0] || null;
+    var variantInput = anyForm ? anyForm.querySelector('input[name="id"]') : document.querySelector('form[action*="/cart/add"] input[name="id"]');
+
+    var defaultPack = parseInt(root.getAttribute('data-default-pack') || '1', 10);
+    var buttons = Array.prototype.slice.call(root.querySelectorAll('.bkm-card'));
+    var showOriginal = root.getAttribute('data-show-original') === 'true';
+    var showDiscounted = root.getAttribute('data-show-discounted') === 'true';
+    var showSavings = root.getAttribute('data-show-savings') === 'true';
+    var selectedQty = defaultPack || 1;
+    var discounts = {
+      1: parseFloat(root.getAttribute('data-discount-1') || '0'),
+      2: parseFloat(root.getAttribute('data-discount-2') || '0'),
+      3: parseFloat(root.getAttribute('data-discount-3') || '0')
+    };
+
+    function formatMoney(cents) {
+      if (window.Shopify && typeof Shopify.formatMoney === 'function') {
+        return Shopify.formatMoney(Math.round(cents), '{{ shop.money_format | strip_newlines | strip }}');
+      }
+      var value = (Math.round(cents) / 100).toFixed(2);
+      return value;
+    }
+    function ensureCurrency(str) {
+      var out = String(str || '');
+      var sym = root.getAttribute('data-currency-symbol') || '';
+      var code = (root.getAttribute('data-currency-code') || '').toUpperCase();
+      if ((sym && out.indexOf(sym) !== -1) || (code && out.toUpperCase().indexOf(code) !== -1)) {
+        return out;
+      }
+      return (out + (sym ? ' ' + sym : (code ? ' ' + code : ''))).trim();
+    }
+
+    function getSelectedVariantPrice() {
+      var id = parseInt(variantInput?.value || root.getAttribute('data-initial-variant-id'), 10);
+      if (!productData || !productData.variants) return parseFloat(root.getAttribute('data-initial-price') || '0');
+      var v = productData.variants.find(function(x){ return x.id === id; });
+      return v ? v.price : parseFloat(root.getAttribute('data-initial-price') || '0');
+    }
+
+    function shouldHideForVariant(variant) {
+      if (!variant) return false;
+      var hideIds = (root.getAttribute('data-hide-variant-ids') || '').split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+      if (hideIds.length && hideIds.indexOf(String(variant.id)) !== -1) return true;
+      var hideTitles = (root.getAttribute('data-hide-variant-titles') || '').toLowerCase().split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+      if (hideTitles.length && hideTitles.indexOf(String(variant.title || '').toLowerCase()) !== -1) return true;
+      return false;
+    }
+
+    function applyVisibility() {
+      var id = parseInt(variantInput?.value || root.getAttribute('data-initial-variant-id'), 10);
+      var variant = (productData && productData.variants) ? productData.variants.find(function(v){ return v.id === id; }) : null;
+      var hide = shouldHideForVariant(variant);
+      root.style.display = hide ? 'none' : '';
+    }
+
+    function updateCardPrices() {
+      var basePrice = getSelectedVariantPrice();
+      [1,2,3].forEach(function(qty) {
+        var originalTotal = basePrice * qty;
+        var discountPct = discounts[qty] || 0;
+        var finalTotal = originalTotal * (1 - (discountPct / 100));
+
+        var originalLabel = root.querySelector('[data-price-original="'+qty+'"]');
+        var finalLabel = root.querySelector('[data-price-final="'+qty+'"]');
+        if (originalLabel) originalLabel.textContent = showOriginal ? ensureCurrency(formatMoney(originalTotal)) : '';
+        if (finalLabel) finalLabel.textContent = showDiscounted ? ensureCurrency(formatMoney(finalTotal)) : '';
+      });
+    }
+
+    function setActive(qty) {
+      selectedQty = qty;
+      buttons.forEach(function(btn) {
+        var isActive = parseInt(btn.getAttribute('data-qty'), 10) === qty;
+        btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      });
+      if (qtyInputs.length) {
+        qtyInputs.forEach(function(input){
+          input.value = String(qty);
+          try {
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+            if (input.form) input.form.dispatchEvent(new Event('change', { bubbles: true }));
+          } catch(e) {}
+        });
+      }
+    }
+
+    buttons.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var qty = parseInt(btn.getAttribute('data-qty'), 10);
+        setActive(qty);
+      });
+    });
+
+    if (variantInput) {
+      variantInput.addEventListener('change', function(){
+        updateCardPrices();
+        applyVisibility();
+      });
+    }
+    document.addEventListener('variant:change', function(){
+      updateCardPrices();
+      applyVisibility();
+    }, { passive: true });
+
+    // Ensure quantity is set on whichever Add to Cart button is used
+    document.addEventListener('click', function(e){
+      var target = e.target;
+      var button = target && (target.matches('[data-add-to-cart]') ? target : target.closest('[data-add-to-cart]'));
+      if (!button) return;
+      var form = button.closest('form');
+      if (!form) return;
+      var input = form.querySelector('input[name="quantity"]');
+      if (!input) {
+        input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'quantity';
+        form.appendChild(input);
+      }
+      input.value = String(selectedQty || 1);
+    }, true);
+
+    setActive(defaultPack || 1);
+    updateCardPrices();
+    applyVisibility();
+  })();
+</script>
+{%- endif -%}
+
+
