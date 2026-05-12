@@ -1,0 +1,148 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "section_promotion_row_Ya4xhC": {
+      "type": "section-promotion-row",
+      "blocks": {
+        "column_efpBWC": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/a-lone-tree-on-a-rock321-near-a-body-of-water-with-a-2023-11-27-04-54-58-utc.jpg",
+            "subheading": "",
+            "subheading_size": 75,
+            "heading": "<p>The ingredients</p>",
+            "heading_highlight_type": "italics",
+            "highlight_color": "#ffffff",
+            "highlight_text_color": "#ffffff",
+            "heading_size": 135,
+            "description": "Want to know more about what is in your BKM supplement?  You have come to the right place",
+            "description_size": 135,
+            "disclaimer": "",
+            "disclaimer_size": 75,
+            "button_text": "",
+            "button_link": "",
+            "button_color": "btn--black",
+            "button_style": "btn--solid",
+            "button_size": "btn--small",
+            "bg_color": "",
+            "gradient_background": "",
+            "text_color": "#ffffff",
+            "overlay_opacity": 10
+          }
+        }
+      },
+      "block_order": [
+        "column_efpBWC"
+      ],
+      "settings": {
+        "layout": "1",
+        "height": "400",
+        "bg_color": "",
+        "enable_slider_mobile": true,
+        "width": "wrapper--full-padded",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "section_icons_row_fWHXz6": {
+      "type": "section-icons-row",
+      "blocks": {
+        "text_W8YhGB": {
+          "type": "text",
+          "settings": {
+            "icon_name": "scientific",
+            "icon_image": "shopify://shop_images/001-value_proposal.png",
+            "title": "Transparancy",
+            "text": "<p>We always try to be transparent</p>"
+          }
+        },
+        "text_nrdD7p": {
+          "type": "text",
+          "settings": {
+            "icon_name": "plant-based",
+            "icon_image": "shopify://shop_images/016-mental_health.png",
+            "title": "Highest bioactivity",
+            "text": "<p>Bioactivity are key in all ingredients</p>"
+          }
+        },
+        "text_FQP8UR": {
+          "type": "text",
+          "settings": {
+            "icon_name": "calendar",
+            "icon_image": "shopify://shop_images/043-microscope.png",
+            "title": "Scientifically Proven",
+            "text": "<p>We only use proven ingredients</p>"
+          }
+        },
+        "text_RFhzqM": {
+          "type": "text",
+          "settings": {
+            "icon_name": "vegetarian",
+            "icon_image": "shopify://shop_images/Sweden-icon-country.png",
+            "title": "Swedish made",
+            "text": "<p>Our production right here in Sweden.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_W8YhGB",
+        "text_nrdD7p",
+        "text_FQP8UR",
+        "text_RFhzqM"
+      ],
+      "settings": {
+        "alignment": "center",
+        "columns": 4,
+        "icons_width": 50,
+        "heading": "",
+        "subheading": "",
+        "bg_color": "",
+        "text_color": "#333333",
+        "box_color": "",
+        "button_text": "",
+        "button_link": "",
+        "button_color": "btn--black",
+        "button_style": "btn--solid",
+        "button_size": "btn--small",
+        "enable_slider_mobile": false,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "main": {
+      "type": "blog",
+      "custom_css": [
+        "h1 {display: none;}",
+        ".blog__post-content {text-align: center;}"
+      ],
+      "settings": {
+        "default_color": "accent",
+        "blog_style": "standard",
+        "post_columns": 3,
+        "image_aspect_ratio": 0.8,
+        "show_rss_icon": false,
+        "show_date": false,
+        "show_author": false,
+        "show_tags": true,
+        "show_comments_count": false,
+        "tag_alignment": "center",
+        "bg_color_secondary": false,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "section_promotion_row_Ya4xhC",
+    "section_icons_row_fWHXz6",
+    "main"
+  ]
+}

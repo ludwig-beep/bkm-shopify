@@ -1,0 +1,245 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "show_page_title": true,
+        "bg_color_secondary": false,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "section_promotion_row_88Lfbr": {
+      "type": "section-promotion-row",
+      "blocks": {
+        "column_gfnYCh": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/sweden-beautiful-swedisnh-wooden-log-cabins-houses-2023-11-27-05-07-25-utc.jpg",
+            "subheading": "",
+            "subheading_size": 75,
+            "heading": "<p>Contact us</p>",
+            "heading_highlight_type": "italics",
+            "highlight_color": "#ffffff",
+            "highlight_text_color": "#ffffff",
+            "heading_size": 135,
+            "description": "",
+            "description_size": 100,
+            "disclaimer": "",
+            "disclaimer_size": 75,
+            "button_text": "",
+            "button_link": "",
+            "button_color": "btn--black",
+            "button_style": "btn--solid",
+            "button_size": "btn--small",
+            "bg_color": "",
+            "gradient_background": "",
+            "text_color": "#ffffff",
+            "overlay_opacity": 10
+          }
+        }
+      },
+      "block_order": [
+        "column_gfnYCh"
+      ],
+      "settings": {
+        "layout": "1",
+        "height": "400",
+        "bg_color": "",
+        "enable_slider_mobile": true,
+        "width": "wrapper--full-padded",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "59699d9d-c66c-4bd5-a248-64f1b1587cd5": {
+      "type": "section-banner-image",
+      "blocks": {
+        "template--18952593998145__59699d9d-c66c-4bd5-a248-64f1b1587cd5-16831285413c69ee80-1": {
+          "type": "heading",
+          "settings": {
+            "text": "<p>Contact</p>",
+            "size": 180,
+            "heading_highlight_type": "italics",
+            "highlight_color": "rgba(0,0,0,0)",
+            "highlight_text_color": "#000000"
+          }
+        },
+        "template--18952593998145__59699d9d-c66c-4bd5-a248-64f1b1587cd5-16831285413c69ee80-2": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Share information about your brand, describe a product, share announcements, or welcome customers to your store.</p>",
+            "size": 100
+          }
+        },
+        "template--18952593998145__59699d9d-c66c-4bd5-a248-64f1b1587cd5-16831285413c69ee80-3": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_1_text": "Shop All",
+            "button_1_link": "shopify://collections/all",
+            "button_1_color": "btn--white",
+            "button_1_style": "btn--solid-border",
+            "button_1_size": "btn--small",
+            "button_2_text": "",
+            "button_2_link": "",
+            "button_2_color": "btn--black",
+            "button_2_style": "btn--solid",
+            "button_2_size": "btn--small"
+          }
+        }
+      },
+      "block_order": [
+        "template--18952593998145__59699d9d-c66c-4bd5-a248-64f1b1587cd5-16831285413c69ee80-1",
+        "template--18952593998145__59699d9d-c66c-4bd5-a248-64f1b1587cd5-16831285413c69ee80-2",
+        "template--18952593998145__59699d9d-c66c-4bd5-a248-64f1b1587cd5-16831285413c69ee80-3"
+      ],
+      "disabled": true,
+      "settings": {
+        "height": "one-third-height",
+        "enable_mobile_height": false,
+        "mobile_height": "four-fifty-height-mobile",
+        "image": "shopify://shop_images/swedish-nature-sweden-rawa-lake-or-river-in-be-2023-11-27-04-58-40-utc.jpg",
+        "overlay_opacity": 10,
+        "transition": "zoom-out",
+        "enable_zoom_animation": true,
+        "text_width": "normal",
+        "text_position": "center",
+        "text_color": "text-light"
+      }
+    },
+    "locations": {
+      "type": "section-locations",
+      "blocks": {
+        "locations-0": {
+          "type": "locations",
+          "settings": {
+            "title": "We are here to answer!",
+            "working_time": "<p>We always try to answer in 48 hours!</p>"
+          }
+        }
+      },
+      "block_order": [
+        "locations-0"
+      ],
+      "disabled": true,
+      "settings": {
+        "subheading": "",
+        "title": "Have a question?",
+        "bg_color_secondary": false,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "contact-form": {
+      "type": "section-contact-form",
+      "blocks": {
+        "contact-form-0": {
+          "type": "heading",
+          "disabled": true,
+          "settings": {
+            "title": "Contact us"
+          }
+        },
+        "contact-form-1": {
+          "type": "text",
+          "settings": {
+            "title": "Name",
+            "required": false
+          }
+        },
+        "select_YHpMAY": {
+          "type": "select",
+          "settings": {
+            "title": "What is your message about?",
+            "label-one": "A product",
+            "label-two": "About subscriptions",
+            "label-three": "About an ongoing subscription",
+            "label-four": "Other",
+            "label-five": "",
+            "label-six": ""
+          }
+        },
+        "contact-form-2": {
+          "type": "email",
+          "settings": {
+            "title": "Email",
+            "required": true
+          }
+        },
+        "contact-form-3": {
+          "type": "body",
+          "settings": {
+            "title": "Message",
+            "required": true
+          }
+        }
+      },
+      "block_order": [
+        "contact-form-0",
+        "contact-form-1",
+        "select_YHpMAY",
+        "contact-form-2",
+        "contact-form-3"
+      ],
+      "settings": {
+        "button_color": "btn--black",
+        "button_style": "btn--solid",
+        "button_size": "btn--large",
+        "width": "wrapper--narrow",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "section_faq_support_PCy8UE": {
+      "type": "section-faq-support",
+      "blocks": {
+        "faq_eAFDnA": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I cancel my subscription?",
+            "answer": "<p>Canceling your subscription only takes a few steps:</p><ol><li>Log in to your account.</li><li>Select the product subscription you’d like to cancel.</li><li>Scroll down and click “Cancel subscription.”</li><li>Confirm your cancellation.</li></ol><p>Your subscription will then be stopped, and you won’t receive any further charges.<br/>If you decide to start again in the future, you can simply log in to your account and reactivate your subscription, or create a new one at any time.</p>"
+          }
+        },
+        "faq_iwgxAi": {
+          "type": "faq",
+          "settings": {
+            "question": "Where can i track my order?",
+            "answer": "<p>You can follow your delivery status at any time:</p><ol><li>Visit our tracking page: <a href=\"https://bkm.health/a/track\">https://bkm.health/a/track</a><br/></li><li>Enter your order number and the email address used at checkout.<br/></li><li>Click <strong>“Track”</strong> to view the latest shipping updates.<br/></li></ol><p>If you have trouble locating your order number, please check your order confirmation email.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_eAFDnA",
+        "faq_iwgxAi"
+      ],
+      "name": "FAQ support",
+      "settings": {
+        "title": "FAQ",
+        "bg_color_secondary": false,
+        "text_color": "text-dark",
+        "width": "wrapper--narrow",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "main",
+    "section_promotion_row_88Lfbr",
+    "59699d9d-c66c-4bd5-a248-64f1b1587cd5",
+    "locations",
+    "contact-form",
+    "section_faq_support_PCy8UE"
+  ]
+}

@@ -1,0 +1,121 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "section_promotion_row_Ya4xhC": {
+      "type": "section-promotion-row",
+      "blocks": {
+        "column_efpBWC": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/lake-in-the-mountains-2312023-11-27-05-34-17-utc.jpg",
+            "subheading": "",
+            "subheading_size": 75,
+            "heading": "<p>Knowledge bank</p>",
+            "heading_highlight_type": "italics",
+            "highlight_color": "#ffffff",
+            "highlight_text_color": "#ffffff",
+            "heading_size": 135,
+            "description": "",
+            "description_size": 100,
+            "disclaimer": "",
+            "disclaimer_size": 75,
+            "button_text": "",
+            "button_link": "",
+            "button_color": "btn--black",
+            "button_style": "btn--solid",
+            "button_size": "btn--small",
+            "bg_color": "",
+            "gradient_background": "",
+            "text_color": "#ffffff",
+            "overlay_opacity": 10
+          }
+        }
+      },
+      "block_order": [
+        "column_efpBWC"
+      ],
+      "settings": {
+        "layout": "1",
+        "height": "400",
+        "bg_color": "",
+        "enable_slider_mobile": true,
+        "width": "wrapper--full-padded",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "three_column_features_VBktiL": {
+      "type": "three-column-features",
+      "blocks": {
+        "feature_McBhae": {
+          "type": "feature",
+          "settings": {
+            "title": "News",
+            "description": "For me, it's all about gaining the extra focus and",
+            "link": "/news",
+            "icon_image": "shopify://shop_images/Cologne-list_ENG_CMYK.png"
+          }
+        },
+        "feature_U4iKwT": {
+          "type": "feature",
+          "settings": {
+            "title": "Sleep",
+            "description": "For me, it's all about gaining the extra focus and",
+            "link": "/sleep"
+          }
+        },
+        "feature_DbPimt": {
+          "type": "feature",
+          "settings": {
+            "title": "Woman's health",
+            "description": "For me, it's all about gaining the extra focus and",
+            "link": "/womans-health"
+          }
+        }
+      },
+      "block_order": [
+        "feature_McBhae",
+        "feature_U4iKwT",
+        "feature_DbPimt"
+      ],
+      "disabled": true,
+      "settings": {
+        "spacing": "contained"
+      }
+    },
+    "main": {
+      "type": "blog",
+      "custom_css": [
+        "h1 {display: none;}"
+      ],
+      "settings": {
+        "default_color": "accent",
+        "blog_style": "photo",
+        "post_columns": 3,
+        "image_aspect_ratio": 0.8,
+        "show_rss_icon": false,
+        "show_date": true,
+        "show_author": true,
+        "show_tags": true,
+        "show_comments_count": false,
+        "tag_alignment": "center",
+        "bg_color_secondary": false,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "section_promotion_row_Ya4xhC",
+    "three_column_features_VBktiL",
+    "main"
+  ]
+}

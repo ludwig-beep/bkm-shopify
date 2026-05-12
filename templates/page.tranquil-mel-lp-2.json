@@ -1,0 +1,99 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "show_page_title": true,
+        "bg_color_secondary": false,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "instant_st_ztt3tw_lyvzu_fqy_VRgP7K": {
+      "type": "instant-stZtt3twLyvzuFqy",
+      "name": "Section",
+      "settings": {
+        "text_8fsz2BhAhMEqToHM": "<h2>Why People Are Ditching Melatonin for BKM Tranquil</h2>",
+        "text_rkhANODKFmqmDAvX": "<p>4.6</p>",
+        "text_Rqnh09oTuNcANfzn": "<h3>1.</h3>",
+        "text_NLPlgVwQuTLANYCm": "<h3>FALL ASLEEP FASTER,</h3><h3>SLEEP DEEPER</h3>",
+        "text_RQSMPUgbVMdLrxXx": "<p>Tossing and turning? Not anymore.</p><p>BKM Tranquil combines calming magnesium and plant-based nutrients to help you fall asleep faster and stay deeply asleep — so you wake up refreshed, not groggy.</p>",
+        "text_wicOZOVGgBiB3wG3": "<h3>“better sleep and longer deep sleep!”</h3>",
+        "text_xOOUsqne09LxbXwa": "<p>Gustav S.</p>",
+        "text_WiZaKBpfgG6Awitq": "<p> Verified Buyer</p>",
+        "text_ci4nXowdZlamrnyB": "<p>\"I am suprised, it actually helped giving me a better sleep and longer deep sleep\"</p>",
+        "text_RXd5We39P8kRsdpC": "<h3><strong>2.</strong></h3>",
+        "text_tcoCWDOkL1cUarir": "<h3>DEVELOPED WITH LI KARLSÉN, OUR CO-FOUNDER AND EXPERT IN RECOVERY</h3>",
+        "text_DTAiKot6pYCS3U7k": "<p>This formula was created together with our co-founder Li Karlsén, world record holder and expert in recovery, drawing on insights from leading sleep scientists and nutritionists. Every ingredient is carefully chosen to support deep, restorative sleep and overnight recovery.</p>",
+        "text_v9wKBtoTS7YazmYy": "<h3>“I feel safe that I will have a good night sleep”</h3>",
+        "text_1W4M54VgSjB7vQyh": "<p>Jacqueline N.</p>",
+        "text_pQeJscs26CKbMg9I": "<p> Verified Buyer</p>",
+        "text_x6z9z7pjGWJjmycV": "<p>Love love love this product! I have been sleeping like a princess since I started to use this! I have had trouble with my sleep for a long time, and you all know how important that is! Now when I got this sleep supplement, I don´t need to worry about my sleep anymore because I feel safe that I will have a good night sleep. Every day since I started with Tranquil I have felt rested and relaxed. Thank you for saving me!</p>",
+        "text_HF8xGxqXrhLeOJOR": "<h3><strong>3.</strong></h3>",
+        "text_KnehLUaiXAA8Ynhc": "<h3>MELATONIN-FREE,</h3><h3>SO YOU STAY IN CONTROL</h3>",
+        "text_oVppfFplmtFyeg8F": "<p>Unlike many sleep products, Tranquil is completely melatonin-free. That means no messing with your body's natural rhythms — just pure support for deep relaxation and restful sleep, without any hormonal side effects.</p>",
+        "text_tzwcAnXlyPaWCU3L": "<h3>“Extending my time in deep sleep and has increased REM”</h3>",
+        "text_k2z4D647RkpORsoK": "<p>Stefan B.</p>",
+        "text_CwN4MsZ6qvU8kDO3": "<p> Verified Buyer</p>",
+        "text_q4BgbDgflEnEQoNa": "<p>\"My favorite ingredients in just two capsules. Extending my time in deep sleep and has increased REM.\"</p>",
+        "text_xlI8hXIEclKf68n8": "<h3><strong>4.</strong></h3>",
+        "text_QBcG9dBSfDG0jwYC": "<h3>NO NEXT-DAY GROGGINESS</h3>",
+        "text_f0kFNiYp5ItJdkEI": "<p>Wake up sharp and refreshed. Unlike many sleep aids, Tranquil doesn’t leave you foggy. Magnesium, L-theanine, and calming herbs help you drift into natural, quality sleep without interfering with your morning energy.</p>",
+        "text_8J4h61OhfREJqBvx": "<h3>“easier to fall asleep and wake up more refreshed”</h3>",
+        "text_WaEjYLaMFzY20gYI": "<p>Erika J.</p>",
+        "text_xCQ1R4w8M81zijDv": "<p> Verified Buyer</p>",
+        "text_LBPPVSl1F6dEce7n": "<p>\"I have trouble sleeping and have noticed a difference after using Tranquil. With a good routine and Tranquil before bed, I find it easier to fall asleep and wake up more refreshed. I can wholeheartedly recommend Tranquil and think it's worth a try, especially if you're one of those who feel hesitant about supplements.\"</p>",
+        "text_hPNBFLSwE1ng9kgg": "<h3><strong>5.</strong></h3>",
+        "text_fm85itsQx5cRrg3e": "<h3>Feel the difference,</h3><h3>or It’s free</h3>",
+        "text_1Hr5Uo7hgx4ouEmK": "<p>And the best part?</p><p>If Tranquil doesn’t work for you, you get your money back, no hassle, no hard feelings. Try it for 30 days, risk-free, and feel the difference for yourself.*</p>",
+        "text_z0ObqDaXVX0b8rWD": "<h3>“much more energised”</h3>",
+        "text_DLSSASqjrcPydvH9": "<p>Petra R.</p>",
+        "text_rKXQsWq4qL7XuhDR": "<p> Verified Buyer</p>",
+        "text_BREeacnwsg8OMKB8": "<p>\"I feel so much more energised during the day because I sleep way better with Tranquil! Thank you so much for that!\"</p>",
+        "url_bFZgTumGu7AElUqd": "https://bkm.health/products/tranquil",
+        "text_sB0dEqRlIlvSMhuM": "<p>Shop now</p>",
+        "text_rnrrntYYsYozSMla": "<h3>READY FOR THE BEST SLEEP OF YOUR LIFE?</h3>",
+        "url_JznkmMWuR2AEjTMr": "https://bkm.health/products/tranquil",
+        "text_Xx5ra89dXTOnEUsb": "<p>Shop now</p>",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "shopdev_sticky_shop_now_bar_VqGRaR": {
+      "type": "shopdev-sticky-shop-now-bar",
+      "name": "Sticky Shop Now Bar",
+      "settings": {
+        "product": "tranquil",
+        "button_text": "Shop Now",
+        "trust_message": "30-day money-back guarantee",
+        "show_trust_signals": true,
+        "trust_signal_1": "Secure Checkout",
+        "trust_signal_2": "Made in sweden",
+        "trust_signal_3": "",
+        "trust_signal_1_icon": "shopify://shop_images/Delivery.svg",
+        "trust_signal_2_icon": "shopify://shop_images/Sweden-BKM.svg",
+        "background_color": "#ffffff",
+        "text_color": "#2c3e50",
+        "button_bg_color": "#0a2240",
+        "button_text_color": "#ffffff",
+        "border_color": "#ecf0f1",
+        "font_family": "system-ui, -apple-system, sans-serif"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "instant_st_ztt3tw_lyvzu_fqy_VRgP7K",
+    "shopdev_sticky_shop_now_bar_VqGRaR"
+  ]
+}
