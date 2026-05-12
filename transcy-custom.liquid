@@ -1,0 +1,107 @@
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const selectors = [".kl_reviews__review__content", ".kl_reviews__summary__header", ".kl_reviews__filters__pill"];
+    const combinedSelector = selectors.map(sel => `${sel}:has(font)`).join(", ");
+    function addCusEventListener(selector, event, handler) {
+      document.body.addEventListener(event, function (evt) {
+        let targetElement = evt.target;
+        while (targetElement !== null) {
+          if (targetElement.matches(selector)) {
+            handler(evt);
+            return;
+          }
+          targetElement = targetElement.parentElement;
+        }
+      }, true);
+    }
+    function removeTextOutsideFont() {
+      document.querySelectorAll(combinedSelector).forEach(elmnt => {
+        Array.from(elmnt.childNodes).forEach(node => {
+          if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== "") {
+            elmnt.removeChild(node);
+          }
+        });
+      });
+    }
+    addCusEventListener(combinedSelector, "mouseover", removeTextOutsideFont);
+    const observer = new MutationObserver(removeTextOutsideFont);
+    observer.observe(document.body, { childList: true, subtree: true });
+  });
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // Prevent Google Translate from translating specific elements
+  // document.querySelectorAll(".shopify-payment-button__more-options")
+  //   .forEach(el => el.classList.add("notranslate"))
+  
+  // Remove original text, keep only translated <font> content
+  function cleanTranslatedElements(selectors) {
+    document.querySelectorAll(selectors).forEach(el => {
+      const fonts = el.querySelectorAll("font")
+      if (fonts.length > 0) {
+        Array.from(el.childNodes).forEach((child, i) => {
+          const isText = child.nodeType === Node.TEXT_NODE
+          const isFont = child.nodeName === "FONT" && i > 0
+          if (isText || isFont) el.removeChild(child)
+        })
+        el.classList.add("notranslate")
+      }
+    })
+  }
+
+  // Event delegation
+  function delegate(selector, event, handler) {
+    document.body.addEventListener(event, function (e) {
+      let el = e.target
+      while (el && el !== document.body) {
+        if (el.matches(selector)) {
+          handler(e)
+          break
+        }
+        el = el.parentElement
+      }
+    }, true)
+  }
+
+  // Target selectors where duplicated translation might occur
+  const selectorsToClean = [
+    ".kl_reviews__summary__average_value",
+    ".kl_reviews__summary__stars__count",
+    ".kl_reviews__summary__average_denominator",
+    ".kl_reviews__histogram__rating",
+    ".kl_reviews__histogram__value",
+    ".kl_reviews__reviews_list.kl_reviews__reviews_list button.kl_reviews__button",
+    ".kl_reviews__reviews_list.kl_reviews__reviews_list.kl_reviews__reviews_list button.kl_reviews__list__tab",
+    ".kl_reviews__reviews_list.kl_reviews__reviews_list.kl_reviews__reviews_list .kl_reviews__filters__pill select",
+    ".kl_reviews__reviews_list.kl_reviews__reviews_list.kl_reviews__reviews_list .kl_reviews__filters__pill select option",
+    ".kl_reviews__reviews_list.kl_reviews__reviews_list.kl_reviews__reviews_list .kl_reviews__filters__pill button span",
+    ".kl_reviews__review__author",
+    ".kl_reviews__review__timestamp",
+    ".kl_reviews__review__verified span"
+  ].join(", ")
+
+  // Watch DOM changes to clean up injected translation
+  const observer = new MutationObserver(() => {
+    cleanTranslatedElements(selectorsToClean)
+    document.querySelectorAll(".kl_reviews__review__author div").forEach(el => el.classList.add("notranslate"))
+  })
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  })
+
+  // Attach manual cleanup on known user actions
+  const triggerSelectors = [
+    ".shopify-cleanslate",
+    ".shopify-payment-button__more-options",
+    ".ProductForm__AddToCart",
+    ".shopify-payment-button"
+  ]
+
+  triggerSelectors.forEach(sel => {
+    delegate(sel, "click", () => cleanTranslatedElements(selectorsToClean))
+  })
+})
+</script>

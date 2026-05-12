@@ -1,0 +1,503 @@
+{%- liquid
+  assign selected_variant = product.selected_or_first_available_variant
+  assign container_id = 'variant-tier-selector-' | append: section.id | append: '-' | append: block.id
+  assign heading = block.settings.heading
+  assign subheading = block.settings.subheading
+  assign price_format = block.settings.price_format | default: 'money_with_currency'
+  assign append_price_suffix = block.settings.append_price_suffix
+  assign price_suffix = block.settings.price_suffix
+  assign show_discount_badge = block.settings.show_discount_badge
+  assign discount_prefix = block.settings.discount_prefix | default: '-'
+  assign discount_suffix = block.settings.discount_suffix | default: '%'
+  assign sold_out_label = block.settings.sold_out_label | default: 'Sold out'
+  assign card_gap = block.settings.card_gap | default: 12
+  assign card_border_radius = block.settings.card_border_radius | default: 12
+  assign card_border_width = block.settings.card_border_width | default: 1
+  assign card_padding_vertical = block.settings.card_padding_vertical | default: 16
+  assign card_padding_horizontal = block.settings.card_padding_horizontal | default: 20
+  assign card_background = block.settings.card_background | default: '#ffffff'
+  assign card_text_color = block.settings.card_text_color | default: '#0f172a'
+  assign card_subtext_color = block.settings.card_subtext_color | default: '#475467'
+  assign card_border_color = block.settings.card_border_color | default: '#0f172a'
+  assign card_hover_background = block.settings.card_hover_background | default: '#f8fafc'
+  assign card_hover_border_color = block.settings.card_hover_border_color | default: '#0f172a'
+  assign card_price_color = block.settings.card_price_color | default: '#0f172a'
+  assign card_discount_color = block.settings.card_discount_color | default: '#1d4ed8'
+  assign card_discount_background = block.settings.card_discount_background | default: '#e8f0ff'
+  assign card_discount_badge_radius = block.settings.card_discount_badge_radius | default: 999
+  assign card_selected_background = block.settings.card_selected_background | default: '#0b2141'
+  assign card_selected_border_color = block.settings.card_selected_border_color | default: '#0b2141'
+  assign card_selected_text_color = block.settings.card_selected_text_color | default: '#ffffff'
+  assign card_selected_price_color = block.settings.card_selected_price_color | default: '#ffffff'
+  assign sold_out_color = block.settings.sold_out_color | default: '#9ca3af'
+  assign enable_url_update = block.settings.update_url_with_variant
+-%}
+
+<div id="{{ container_id }}"
+  class="variant-tier-selector"
+  data-variant-quantity-selector
+  data-product-form-id="{{ product_form_id }}"
+  data-update-url="{{ enable_url_update | default: true }}">
+  {% if heading or subheading %}
+    <div class="variant-tier-selector__head">
+      {% if heading %}
+        <p class="variant-tier-selector__heading">{{ heading }}</p>
+      {% endif %}
+      {% if subheading %}
+        <p class="variant-tier-selector__subheading">{{ subheading }}</p>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <fieldset class="variant-tier-selector__list" role="radiogroup" aria-label="{{ heading | default: 'Select an option' }}">
+    {% if heading %}
+      <legend class="visually-hidden">{{ heading }}</legend>
+    {% endif %}
+    {% for variant in product.variants %}
+      {%- assign option_input_id = container_id | append: '--' | append: variant.id -%}
+      {%- capture formatted_price -%}
+        {%- case price_format -%}
+          {%- when 'money' -%}{{ variant.price | money }}
+          {%- when 'money_with_currency' -%}{{ variant.price | money_with_currency }}
+          {%- when 'money_without_trailing_zeros' -%}{{ variant.price | money_without_trailing_zeros }}
+          {%- when 'money_without_trailing_zeros_with_currency' -%}{{ variant.price | money_without_trailing_zeros_with_currency }}
+          {%- else -%}{{ variant.price | money_with_currency }}
+        {%- endcase -%}
+      {%- endcapture -%}
+      {%- assign formatted_price = formatted_price | strip -%}
+      {%- assign is_unavailable = false -%}
+      {%- unless variant.available -%}
+        {%- assign is_unavailable = true -%}
+      {%- endunless -%}
+      {%- assign discount_percent = 0 -%}
+      {%- assign show_discount = false -%}
+      {%- if show_discount_badge and variant.compare_at_price > variant.price -%}
+        {%- assign savings = variant.compare_at_price | minus: variant.price -%}
+        {%- if savings > 0 -%}
+          {%- assign discount_percent = savings | times: 100 | divided_by: variant.compare_at_price -%}
+          {%- if discount_percent > 0 -%}
+            {%- assign show_discount = true -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endif -%}
+
+      <div class="variant-tier-selector__option">
+        <input
+          type="radio"
+          id="{{ option_input_id }}"
+          name="id"
+          value="{{ variant.id }}"
+          class="variant-tier-selector__input"
+          form="{{ product_form_id }}"
+          {% if variant.id == selected_variant.id %}checked{% endif %}
+          {% if is_unavailable %}disabled{% endif %}>
+
+        <label
+          for="{{ option_input_id }}"
+          class="variant-tier-card{% if variant.id == selected_variant.id %} is-selected{% endif %}{% if is_unavailable %} is-unavailable{% endif %}"
+          data-variant-card="{{ variant.id }}">
+          <div class="variant-tier-card__stack">
+            <span class="variant-tier-card__title">{{ variant.title }}</span>
+            {% if is_unavailable %}
+              <span class="variant-tier-card__status">{{ sold_out_label }}</span>
+            {% endif %}
+          </div>
+
+          <div class="variant-tier-card__pricing">
+            {% if show_discount %}
+              <span class="variant-tier-card__discount">{{ discount_prefix }}{{ discount_percent | round }}{{ discount_suffix }}</span>
+            {% endif %}
+            <span class="variant-tier-card__price">
+              {{ formatted_price }}
+              {% if append_price_suffix and price_suffix != blank %}
+                <span class="variant-tier-card__price-suffix">{{ price_suffix }}</span>
+              {% endif %}
+            </span>
+          </div>
+        </label>
+      </div>
+    {% endfor %}
+  </fieldset>
+
+  <script type="application/json" data-variant-selector-product>
+    {{ product | json }}
+  </script>
+</div>
+
+<style>
+  #{{ container_id }} {
+    --variant-tier-gap: {{ card_gap }}px;
+    --variant-tier-radius: {{ card_border_radius }}px;
+    --variant-tier-border-width: {{ card_border_width }}px;
+    --variant-tier-padding-y: {{ card_padding_vertical }}px;
+    --variant-tier-padding-x: {{ card_padding_horizontal }}px;
+    --variant-tier-card-bg: {{ card_background }};
+    --variant-tier-card-color: {{ card_text_color }};
+    --variant-tier-card-subtext: {{ card_subtext_color }};
+    --variant-tier-card-border: {{ card_border_color }};
+    --variant-tier-card-hover-bg: {{ card_hover_background }};
+    --variant-tier-card-hover-border: {{ card_hover_border_color }};
+    --variant-tier-card-price: {{ card_price_color }};
+    --variant-tier-card-discount: {{ card_discount_color }};
+    --variant-tier-card-discount-bg: {{ card_discount_background }};
+    --variant-tier-card-discount-radius: {{ card_discount_badge_radius }}px;
+    --variant-tier-card-selected-bg: {{ card_selected_background }};
+    --variant-tier-card-selected-border: {{ card_selected_border_color }};
+    --variant-tier-card-selected-color: {{ card_selected_text_color }};
+    --variant-tier-card-selected-price: {{ card_selected_price_color }};
+    --variant-tier-card-soldout: {{ sold_out_color }};
+  }
+
+  #{{ container_id }} .variant-tier-selector__head {
+    margin-bottom: 0.75rem;
+  }
+
+  #{{ container_id }} .variant-tier-selector__heading {
+    margin: 0;
+    font-weight: 600;
+    color: var(--variant-tier-card-color);
+    font-size: 1rem;
+  }
+
+  #{{ container_id }} .variant-tier-selector__subheading {
+    margin: 0.25rem 0 0;
+    color: var(--variant-tier-card-subtext);
+    font-size: 0.95rem;
+  }
+
+  #{{ container_id }} .variant-tier-selector__list {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--variant-tier-gap);
+  }
+
+  #{{ container_id }} .variant-tier-selector__option {
+    position: relative;
+  }
+
+  #{{ container_id }} .variant-tier-selector__input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  #{{ container_id }} .variant-tier-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    background: var(--variant-tier-card-bg);
+    color: var(--variant-tier-card-color);
+    border: var(--variant-tier-border-width) solid var(--variant-tier-card-border);
+    border-radius: var(--variant-tier-radius);
+    padding: var(--variant-tier-padding-y) var(--variant-tier-padding-x);
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+    cursor: pointer;
+  }
+
+  #{{ container_id }} .variant-tier-card__stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  #{{ container_id }} .variant-tier-card__title {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  #{{ container_id }} .variant-tier-card__status {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--variant-tier-card-soldout);
+  }
+
+  #{{ container_id }} .variant-tier-card__pricing {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-weight: 600;
+  }
+
+  #{{ container_id }} .variant-tier-card__price {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.15rem;
+    color: var(--variant-tier-card-price);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  #{{ container_id }} .variant-tier-card__price-suffix {
+    font-size: 0.85rem;
+    color: inherit;
+    text-transform: uppercase;
+  }
+
+  #{{ container_id }} .variant-tier-card__discount {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.1rem;
+    padding: 0.1rem 0.5rem;
+    border-radius: var(--variant-tier-card-discount-radius);
+    background: var(--variant-tier-card-discount-bg);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--variant-tier-card-discount);
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  #{{ container_id }} .variant-tier-card:not(.is-unavailable):hover {
+    background: var(--variant-tier-card-hover-bg);
+    border-color: var(--variant-tier-card-hover-border);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+  }
+
+  #{{ container_id }} .variant-tier-selector__input:focus-visible + .variant-tier-card {
+    outline: 2px solid rgba(37, 99, 235, 0.35);
+    outline-offset: 2px;
+  }
+
+  #{{ container_id }} .variant-tier-card.is-selected {
+    background: var(--variant-tier-card-selected-bg);
+    border-color: var(--variant-tier-card-selected-border);
+    color: var(--variant-tier-card-selected-color);
+    box-shadow: 0 12px 30px rgba(8, 14, 40, 0.2);
+  }
+
+  #{{ container_id }} .variant-tier-card.is-selected .variant-tier-card__price {
+    color: var(--variant-tier-card-selected-price);
+  }
+
+  #{{ container_id }} .variant-tier-card.is-selected .variant-tier-card__discount {
+    color: var(--variant-tier-card-selected-color);
+  }
+
+  #{{ container_id }} .variant-tier-card.is-unavailable {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  @media (max-width: 480px) {
+    #{{ container_id }} .variant-tier-card {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    #{{ container_id }} .variant-tier-card__pricing {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    var ATTR = 'data-variant-quantity-selector';
+
+    function getProductData(container) {
+      if (container.__variantSelectorProduct) {
+        return container.__variantSelectorProduct;
+      }
+
+      var dataNode = container.querySelector('[data-variant-selector-product]');
+      if (dataNode) {
+        try {
+          container.__variantSelectorProduct = JSON.parse(dataNode.textContent.trim());
+        } catch (error) {
+          console.warn('[Variant Selector] Unable to parse product JSON', error);
+        }
+      }
+
+      if (!container.__variantSelectorProduct) {
+        var metaProduct = window.meta && window.meta.product ? window.meta.product : null;
+        container.__variantSelectorProduct = window.productJson || metaProduct || null;
+      }
+
+      return container.__variantSelectorProduct;
+    }
+
+    function updateSelectionState(container, variantId) {
+      container.querySelectorAll('[data-variant-card]').forEach(function(cardEl) {
+        cardEl.classList.toggle('is-selected', cardEl.dataset.variantCard === variantId);
+      });
+    }
+
+    function getProductRoot(container) {
+      var mainFormId = container.dataset.productFormId;
+      if (mainFormId) {
+        var form = document.getElementById(mainFormId);
+        if (form) {
+          return form.closest('[data-product]') || form;
+        }
+      }
+      return container.closest('[data-product]') || document;
+    }
+
+    function dispatchOptionEvents(element) {
+      ['change', 'input'].forEach(function(eventType) {
+        element.dispatchEvent(new Event(eventType, { bubbles: true }));
+      });
+    }
+
+    function syncThemeVariantSelectors(container, variant) {
+      if (!variant || !variant.options || !variant.options.length) return;
+
+      var productRoot = getProductRoot(container);
+      if (!productRoot) return;
+
+      var selectors = productRoot.querySelectorAll('[data-single-option-selector]');
+      if (!selectors.length) return;
+
+      selectors.forEach(function(selector) {
+        var optionIndexAttr = selector.getAttribute('data-index') || selector.dataset.index || '';
+        var optionPosition = parseInt(optionIndexAttr.replace('option', ''), 10);
+
+        if (isNaN(optionPosition)) {
+          var parentOption = selector.closest('[data-option-position]');
+          if (parentOption) {
+            optionPosition = parseInt(parentOption.getAttribute('data-option-position'), 10);
+          }
+        }
+
+        if (isNaN(optionPosition) || optionPosition < 1) {
+          optionPosition = 1;
+        }
+
+        var desiredValue = variant.options[optionPosition - 1];
+        if (!desiredValue) return;
+
+        var tagName = selector.tagName.toLowerCase();
+        var inputType = (selector.type || '').toLowerCase();
+
+        if (inputType === 'radio') {
+          var shouldCheck = selector.value === desiredValue;
+          if (shouldCheck && !selector.checked) {
+            selector.checked = true;
+            dispatchOptionEvents(selector);
+          } else if (shouldCheck) {
+            dispatchOptionEvents(selector);
+          }
+        } else if (tagName === 'select') {
+          if (selector.value !== desiredValue) {
+            selector.value = desiredValue;
+            dispatchOptionEvents(selector);
+          } else {
+            dispatchOptionEvents(selector);
+          }
+        } else {
+          if (selector.value !== desiredValue) {
+            selector.value = desiredValue;
+          }
+          dispatchOptionEvents(selector);
+        }
+      });
+    }
+
+    function bindSelector(container) {
+      if (container.dataset.variantSelectorInit === 'true') return;
+
+      var updateUrl = container.dataset.updateUrl !== 'false';
+      var radios = container.querySelectorAll('input[type="radio"][name="id"]');
+      var productData = getProductData(container);
+      container.dataset.variantSelectorInit = 'true';
+
+      radios.forEach(function(radio) {
+        radio.addEventListener('change', function() {
+          if (!radio.checked || radio.disabled) return;
+
+          var variantId = radio.value;
+          updateSelectionState(container, variantId);
+
+          var mainFormId = container.dataset.productFormId;
+          var targetForm = mainFormId ? document.getElementById(mainFormId) : container.closest('form');
+
+          if (!targetForm) {
+            targetForm = document.querySelector('form[data-product-form]');
+          }
+
+          if (targetForm) {
+            var variantInput = targetForm.querySelector('input[name="id"]');
+            if (variantInput && variantInput.value !== variantId) {
+              variantInput.value = variantId;
+              variantInput.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+            targetForm.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+
+          var variantData = null;
+          if (productData && productData.variants) {
+            variantData = productData.variants.find(function(v) {
+              return String(v.id) === variantId;
+            }) || null;
+          }
+
+          if (variantData) {
+            syncThemeVariantSelectors(container, variantData);
+            window.variant = variantData;
+            document.dispatchEvent(new CustomEvent('variant:change', {
+              bubbles: true,
+              detail: { variant: variantData }
+            }));
+          }
+
+          if (updateUrl && typeof window.history !== 'undefined' && typeof window.history.replaceState === 'function') {
+            try {
+              var url = new URL(window.location.href);
+              url.searchParams.set('variant', variantId);
+              window.history.replaceState({}, '', url.toString());
+            } catch (error) {
+              console.warn('[Variant Selector] Unable to update URL', error);
+            }
+          }
+        });
+      });
+    }
+
+    function initAll(scope) {
+      var root = scope || document;
+      var containers = root.querySelectorAll('[' + ATTR + ']');
+      if (!containers.length) return;
+      containers.forEach(bindSelector);
+    }
+
+    function syncWithVariant(variant) {
+      if (!variant || !variant.id) return;
+      var variantId = String(variant.id);
+      document.querySelectorAll('[' + ATTR + ']').forEach(function(container) {
+        var radio = container.querySelector('input[type="radio"][name="id"][value="' + variantId + '"]');
+        if (radio && !radio.checked) {
+          radio.checked = true;
+          updateSelectionState(container, variantId);
+        }
+      });
+    }
+
+    if (!window.BKMVariantQuantitySelector) {
+      window.BKMVariantQuantitySelector = {
+        initAll: initAll,
+        syncWithVariant: syncWithVariant
+      };
+      document.addEventListener('DOMContentLoaded', function() { initAll(); });
+      document.addEventListener('shopify:section:load', function(event) { initAll(event.target); });
+      document.addEventListener('shopify:section:select', function(event) { initAll(event.target); });
+      document.addEventListener('variant:change', function(event) {
+        if (event && event.detail && event.detail.variant) {
+          syncWithVariant(event.detail.variant);
+        }
+      });
+    }
+
+    window.BKMVariantQuantitySelector.initAll();
+  })();
+</script>
+

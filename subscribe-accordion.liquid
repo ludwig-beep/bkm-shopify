@@ -1,0 +1,169 @@
+{%- liquid
+  assign heading = block_settings.accordion_heading
+  assign text = block_settings.accordion_text
+  assign page = block_settings.accordion_page
+  assign content = page.content | default: text
+  assign heading_style = block_settings.heading_style
+  assign image_1 = block_settings.accordion_image_1
+  assign image_2 = block_settings.accordion_image_2
+  assign image_1_text = block_settings.accordion_image_1_text
+  assign image_2_text = block_settings.accordion_image_2_text
+-%}
+
+{%- if heading != '' -%}
+  <div class="product__accordion">
+    <button class="product__accordion__title {{ heading_style }}" aria-controls="ProductAccordion--page-{{ heading | handle }}--{{ section.id }}--{{ block_id }}" data-collapsible-trigger>
+      {{- heading -}}
+      {%- render 'icon-toggle-plus' -%}
+      {%- render 'icon-toggle-minus' -%}
+    </button>
+    <div class="product__accordion__content" id="ProductAccordion--page-{{ heading | handle }}--{{ section.id }}--{{ block_id }}" data-collapsible-container>
+      <div class="product__accordion__inner rte" data-collapsible-content>
+        <div class="accordion-content-wrapper">
+          <div class="accordion-left">
+            {%- if content != blank -%}
+              <div class="accordion-text">
+                {{- content -}}
+              </div>
+            {%- else -%}
+              <div class="accordion-text">
+                <p>Add content to this accordion in the theme editor.</p>
+              </div>
+            {%- endif -%}
+          </div>
+          
+          {%- if image_1 != blank or image_2 != blank -%}
+            <div class="accordion-right">
+              <div class="accordion-images">
+                {%- if image_1 != blank -%}
+                  <div class="accordion-image-container">
+                    <div class="accordion-image">
+                      <img src="{{ image_1 | img_url: '300x300' }}" 
+                           alt="{{ image_1.alt | default: 'Accordion image 1' }}" 
+                           loading="lazy">
+                    </div>
+                    {%- if image_1_text != blank -%}
+                      <div class="accordion-image-text">
+                        {{ image_1_text }}
+                      </div>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+                
+                {%- if image_2 != blank -%}
+                  <div class="accordion-image-container">
+                    <div class="accordion-image">
+                      <img src="{{ image_2 | img_url: '300x300' }}" 
+                           alt="{{ image_2.alt | default: 'Accordion image 2' }}" 
+                           loading="lazy">
+                    </div>
+                    {%- if image_2_text != blank -%}
+                      <div class="accordion-image-text">
+                        {{ image_2_text }}
+                      </div>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+<style>
+  .accordion-content-wrapper {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+  }
+
+  .accordion-left {
+    flex: 1;
+    max-width: 50%;
+    display: flex;
+    align-items: center;
+  }
+
+  .accordion-right {
+    flex: 1;
+    max-width: 50%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .accordion-text {
+    line-height: 1.6;
+    color: #666;
+  }
+
+  .accordion-images {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .accordion-image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .accordion-image {
+    flex-shrink: 0;
+  }
+
+  .accordion-image img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+  }
+
+  .accordion-image img:hover {
+    transform: translateY(-2px);
+  }
+
+  .accordion-image-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    line-height: 1.4;
+    max-width: 120px;
+  }
+
+  @media (max-width: 768px) {
+    .accordion-content-wrapper {
+      flex-direction: column;
+      gap: 24px;
+    }
+    
+    .accordion-left,
+    .accordion-right {
+      max-width: 100%;
+    }
+    
+    .accordion-images {
+      gap: 20px;
+    }
+    
+    .accordion-image img {
+      width: 100px;
+      height: 100px;
+    }
+
+    .accordion-image-text {
+      font-size: 13px;
+      max-width: 100px;
+    }
+  }
+</style>

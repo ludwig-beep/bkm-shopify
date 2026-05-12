@@ -1,0 +1,510 @@
+{% comment %}
+  Enhanced Product Variant Selector Block - Buttons Only
+  Features: Dynamic variant buttons that interact with existing theme elements
+  Usage: {% render 'product-variant-selector-2', block: block %}
+{% endcomment %}
+
+{% assign variant_title = block.settings.variant_title | default: 'Select Variant' %}
+{% assign out_of_stock_indicator = block.settings.out_of_stock_indicator | default: '(Out of Stock)' %}
+
+<div class="enhanced-variant-selector {{ block.id }}" 
+     data-product-id="{{ product.id }}"
+     data-block-id="{{ block.id }}"
+     style="padding-top: {{ block.settings.padding_top | default: 20 }}px; 
+            padding-bottom: {{ block.settings.padding_bottom | default: 20 }}px; 
+            margin-bottom: {{ block.settings.margin_bottom | default: 32 }}px;">
+
+  <!-- Dynamic Variant Buttons -->
+  {% if product.variants.size > 1 %}
+    <div class="notranslate enhanced-variant-selector__wrapper">
+      <h3 class="enhanced-variant-selector__title">{{ variant_title }}</h3>
+      <div class="enhanced-variant-selector__buttons">
+        {% for variant in product.variants %}
+          <button 
+            type="button"
+            class="enhanced-variant-button {% if variant.id == product.selected_or_first_available_variant.id %}enhanced-variant-button--active{% endif %} {% unless variant.available %}enhanced-variant-button--unavailable{% endunless %}"
+            data-variant-id="{{ variant.id }}"
+            data-variant-available="{{ variant.available }}"
+            data-variant-price="{{ variant.price }}"
+            data-variant-compare-price="{{ variant.compare_at_price }}"
+            data-variant-image="{% if variant.featured_image %}{{ variant.featured_image | img_url: '800x800' }}{% endif %}"
+            data-variant-image-alt="{% if variant.featured_image %}{{ variant.featured_image.alt }}{% endif %}"
+            data-variant-url="{{ product.url }}?variant={{ variant.id }}"
+            data-block-id="{{ block.id }}"
+          >
+            <span class="enhanced-variant-button__name">{{ variant.title }}</span>
+            {% unless variant.available %}
+              <span class="enhanced-variant-button__stock">{{ out_of_stock_indicator }}</span>
+            {% endunless %}
+          </button>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<style>
+  .enhanced-variant-selector {
+    font-family: inherit;
+  }
+
+  .enhanced-variant-selector__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .enhanced-variant-selector__title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--text, #333);
+  }
+
+  .enhanced-variant-selector__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .enhanced-variant-button {
+    background: #e5e5e5;
+    border: 2px solid #d0d0d0;
+    border-radius: 6px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-width: 120px;
+    font-family: inherit;
+    color: #333;
+  }
+
+  .enhanced-variant-button:hover {
+    background: #e0e0e0;
+  }
+
+  .enhanced-variant-button--active {
+    border-color: #000000;
+    background: #000000;
+    color: white;
+  }
+
+  .enhanced-variant-button--unavailable {
+    background: #f5f5f5;
+    border-color: #ddd;
+    color: #999;
+    cursor: not-allowed;
+  }
+
+  .enhanced-variant-button--unavailable:hover {
+    transform: none;
+    border-color: #ddd;
+    background: #f5f5f5;
+  }
+
+  .enhanced-variant-button__name {
+    font-weight: 600;
+  }
+
+  .enhanced-variant-button__stock {
+    font-size: 11px;
+    font-style: italic;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .enhanced-variant-selector__buttons {
+      justify-content: flex-start;
+    }
+
+    .enhanced-variant-button {
+      min-width: 100px;
+      padding: 10px 14px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const blockId = '{{ block.id }}';
+    const enhancedSelector = document.querySelector('.enhanced-variant-selector.' + blockId);
+    if (!enhancedSelector) {
+      console.log('Enhanced variant selector not found');
+      return;
+    }
+
+    const variantButtons = enhancedSelector.querySelectorAll('.enhanced-variant-button');
+    console.log('Found variant buttons:', variantButtons.length);
+    
+    // Find existing theme elements with more comprehensive selectors
+    const existingVariantInput = document.querySelector('input[name="id"]') || 
+                                document.querySelector('[data-product-select]') ||
+                                document.querySelector('select[name="id"]') ||
+                                document.querySelector('#product-select');
+    
+    const existingProductImages = document.querySelectorAll(
+      '.product-single__media-slide img, ' +
+      '.product__image img, ' +
+      '[data-product-image], ' +
+      '.featured-product__photo img, ' +
+      '.product-photo img, ' +
+      '.product-gallery img'
+    );
+    
+    const existingPriceElements = document.querySelectorAll(
+      '[data-product-price], ' +
+      '.product__price, ' +
+      '.price, ' +
+      '.product-price, ' +
+      '.product__price--regular, ' +
+      '#ProductPrice'
+    );
+    
+    const existingAddToCartButton = document.querySelector(
+      '[data-add-to-cart], ' +
+      '.product__submit__add, ' +
+      '.btn--add-to-cart, ' +
+      '.product-form__cart-submit, ' +
+      '#AddToCart'
+    ) || document.querySelector('button[type="submit"]');
+
+    console.log('Found elements:', {
+      variantInput: !!existingVariantInput,
+      productImages: existingProductImages.length,
+      priceElements: existingPriceElements.length,
+      addToCartButton: !!existingAddToCartButton
+    });
+
+    // Variant switching functionality
+    variantButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        console.log('Variant button clicked:', this.dataset.variantId);
+        
+        const variantId = this.dataset.variantId;
+        const isAvailable = this.dataset.variantAvailable === 'true';
+        const variantImage = this.dataset.variantImage;
+        const variantImageAlt = this.dataset.variantImageAlt;
+        const variantUrl = this.dataset.variantUrl;
+
+        // Update active state on buttons
+        variantButtons.forEach(btn => {
+          btn.classList.remove('enhanced-variant-button--active');
+        });
+        this.classList.add('enhanced-variant-button--active');
+
+        // Update existing theme's variant input
+        if (existingVariantInput) {
+          console.log('Updating variant input to:', variantId);
+          existingVariantInput.value = variantId;
+          
+          // Trigger multiple events to ensure theme responds
+          ['change', 'input', 'variant:change'].forEach(eventType => {
+            const event = new Event(eventType, { bubbles: true });
+            existingVariantInput.dispatchEvent(event);
+          });
+        } else {
+          console.log('No variant input found');
+        }
+
+        // Update existing product images
+        if (variantImage) {
+          console.log('Updating product image to:', variantImage);
+          updateProductImages(variantImage, variantImageAlt);
+        }
+
+        // Update URL without page reload
+        updateUrl(variantUrl);
+
+        // Handle recharge widget visibility
+        updateRechargeWidget(isAvailable);
+
+        // Trigger theme's variant change events
+        triggerThemeVariantChange(variantId, isAvailable);
+      });
+    });
+
+    function updateProductImages(imageSrc, imageAlt) {
+      let imagesUpdated = 0;
+      existingProductImages.forEach(img => {
+        if (img && imageSrc) {
+          // Create new image to preload
+          const newImage = new Image();
+          newImage.onload = function() {
+            img.src = imageSrc;
+            if (imageAlt) img.alt = imageAlt;
+            imagesUpdated++;
+          };
+          newImage.src = imageSrc;
+        }
+      });
+      console.log('Updating', existingProductImages.length, 'product images');
+    }
+
+    function updateUrl(variantUrl) {
+      if (window.history && window.history.pushState) {
+        console.log('Updating URL to:', variantUrl);
+        window.history.pushState({}, '', variantUrl);
+      }
+    }
+
+    function updateRechargeWidget(isAvailable) {
+      // Find recharge widget elements using common selectors
+      const rechargeWidgets = document.querySelectorAll(
+        '.rc_widget, ' +
+        '.recharge-widget, ' +
+        '[class*="recharge"], ' +
+        '[id*="recharge"], ' +
+        '.subscription-widget, ' +
+        '[data-recharge], ' +
+        '.rc_popup, ' +
+        '[class*="subscription"]'
+      );
+
+      console.log('Found recharge widgets:', rechargeWidgets.length, 'Available:', isAvailable);
+
+      rechargeWidgets.forEach(widget => {
+        if (isAvailable) {
+          // Show widget when variant is available
+          widget.style.display = '';
+          widget.style.visibility = 'visible';
+          widget.removeAttribute('hidden');
+        } else {
+          // Hide widget when variant is out of stock
+          widget.style.display = 'none';
+          widget.style.visibility = 'hidden';
+          widget.setAttribute('hidden', 'true');
+        }
+      });
+
+      // Also handle any recharge-related form elements
+      const rechargeInputs = document.querySelectorAll(
+        'input[name*="subscription"], ' +
+        'input[name*="recharge"], ' +
+        'select[name*="subscription"], ' +
+        'select[name*="recharge"]'
+      );
+
+      rechargeInputs.forEach(input => {
+        if (isAvailable) {
+          input.disabled = false;
+        } else {
+          input.disabled = true;
+          // Reset any subscription selection when out of stock
+          if (input.type === 'radio' || input.type === 'checkbox') {
+            input.checked = false;
+          } else if (input.tagName === 'SELECT') {
+            input.selectedIndex = 0;
+          }
+        }
+      });
+    }
+
+    function triggerThemeVariantChange(variantId, isAvailable) {
+      console.log('Triggering theme variant change events');
+      
+      // First, find the variant object from product JSON
+      let selectedVariant = null;
+      try {
+        // Try multiple sources for product data
+        let productData = null;
+        
+        if (window.productVariants) {
+          selectedVariant = window.productVariants.find(v => v.id.toString() === variantId);
+        } else if (window.product && window.product.variants) {
+          selectedVariant = window.product.variants.find(v => v.id.toString() === variantId);
+        } else {
+          // Try to find product JSON from script tags
+          const productJsonScript = document.querySelector('script[data-product-json], #ProductJson, script[id*="ProductJson"]');
+          if (productJsonScript) {
+            try {
+              productData = JSON.parse(productJsonScript.textContent);
+              if (productData && productData.variants) {
+                selectedVariant = productData.variants.find(v => v.id.toString() === variantId);
+              }
+            } catch(e) {
+              console.log('Error parsing product JSON:', e);
+            }
+          }
+        }
+        
+        console.log('Found variant object:', selectedVariant);
+      } catch(e) {
+        console.log('Could not find variant object:', e);
+      }
+
+      // Update theme's variant selectors to match the selected variant
+      if (selectedVariant) {
+        updateThemeVariantSelectors(selectedVariant);
+      }
+
+      // Trigger custom event that existing theme can listen to
+      const variantChangeEvent = new CustomEvent('enhancedVariantChange', {
+        detail: {
+          variant: selectedVariant || { id: variantId, available: isAvailable },
+          variantId: variantId
+        }
+      });
+      document.dispatchEvent(variantChangeEvent);
+
+      // Try multiple variant change patterns with more complete data
+      const events = [
+        'variant:change',
+        'variantChange', 
+        'product:variant:change',
+        'shopify:variant:change'
+      ];
+      
+      events.forEach(eventName => {
+        const event = new CustomEvent(eventName, {
+          detail: {
+            variant: selectedVariant || { id: variantId, available: isAvailable },
+            variantId: variantId
+          }
+        });
+        document.dispatchEvent(event);
+      });
+
+      // Try to trigger existing theme's variant change handlers
+      if (window.theme && window.theme.Product) {
+        try {
+          if (typeof window.theme.Product.onVariantChange === 'function') {
+            window.theme.Product.onVariantChange(selectedVariant || variantId);
+          }
+          if (typeof window.theme.Product.updateProductImage === 'function') {
+            window.theme.Product.updateProductImage(variantId);
+          }
+        } catch(e) {
+          console.log('Theme variant handler error:', e);
+        }
+      }
+
+      // Trigger Shopify's option change event if available
+      const optionSelectors = document.querySelectorAll('[data-single-option-selector]');
+      console.log('Found option selectors:', optionSelectors.length);
+      
+      optionSelectors.forEach(selector => {
+        ['change', 'input'].forEach(eventType => {
+          const changeEvent = new Event(eventType, { bubbles: true });
+          selector.dispatchEvent(changeEvent);
+        });
+      });
+    }
+
+    function updateThemeVariantSelectors(variant) {
+      console.log('Updating theme variant selectors for variant:', variant);
+      
+      // Find and update radio button selectors
+      const radioSelectors = document.querySelectorAll('input[type="radio"][data-single-option-selector]');
+      console.log('Found radio selectors:', radioSelectors.length);
+      
+      radioSelectors.forEach((radio, index) => {
+        const optionIndex = radio.getAttribute('data-index') || `option${index + 1}`;
+        const optionPosition = parseInt(optionIndex.replace('option', '')) - 1;
+        
+        if (variant.options && variant.options[optionPosition]) {
+          const variantOptionValue = variant.options[optionPosition];
+          if (radio.value === variantOptionValue) {
+            radio.checked = true;
+            console.log('Updated radio selector:', radio.value);
+            
+            // Trigger change events on the radio button
+            ['change', 'input'].forEach(eventType => {
+              const event = new Event(eventType, { bubbles: true });
+              radio.dispatchEvent(event);
+            });
+          }
+        }
+      });
+
+      // Find and update select dropdowns
+      const selectSelectors = document.querySelectorAll('select[data-single-option-selector]');
+      console.log('Found select selectors:', selectSelectors.length);
+      
+      selectSelectors.forEach((select, index) => {
+        const optionIndex = select.getAttribute('data-index') || `option${index + 1}`;
+        const optionPosition = parseInt(optionIndex.replace('option', '')) - 1;
+        
+        if (variant.options && variant.options[optionPosition]) {
+          const variantOptionValue = variant.options[optionPosition];
+          select.value = variantOptionValue;
+          console.log('Updated select selector:', variantOptionValue);
+          
+          // Trigger change events on the select
+          ['change', 'input'].forEach(eventType => {
+            const event = new Event(eventType, { bubbles: true });
+            select.dispatchEvent(event);
+          });
+        }
+      });
+
+      // Update any hidden inputs that might control variant selection
+      const hiddenInputs = document.querySelectorAll('input[type="hidden"][data-single-option-selector]');
+      console.log('Found hidden inputs:', hiddenInputs.length);
+      
+      hiddenInputs.forEach((input, index) => {
+        const optionIndex = input.getAttribute('data-index') || `option${index + 1}`;
+        const optionPosition = parseInt(optionIndex.replace('option', '')) - 1;
+        
+        if (variant.options && variant.options[optionPosition]) {
+          const variantOptionValue = variant.options[optionPosition];
+          input.value = variantOptionValue;
+          console.log('Updated hidden input:', variantOptionValue);
+          
+          // Trigger change events
+          ['change', 'input'].forEach(eventType => {
+            const event = new Event(eventType, { bubbles: true });
+            input.dispatchEvent(event);
+          });
+        }
+      });
+    }
+
+    // Initialize on page load based on URL variant parameter
+    function initializeFromUrl() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const variantId = urlParams.get('variant');
+      
+      if (variantId) {
+        console.log('Initializing from URL variant:', variantId);
+        const targetButton = enhancedSelector.querySelector(`[data-variant-id="${variantId}"]`);
+        if (targetButton) {
+          targetButton.click();
+        }
+      }
+    }
+
+    // Listen for theme's variant changes to keep buttons in sync
+    const syncEvents = ['variant:change', 'variantChange', 'product:variant:change'];
+    syncEvents.forEach(eventName => {
+      document.addEventListener(eventName, function(e) {
+        if (e.detail && e.detail.variant) {
+          const variantId = e.detail.variant.id.toString();
+          const targetButton = enhancedSelector.querySelector(`[data-variant-id="${variantId}"]`);
+          if (targetButton) {
+            variantButtons.forEach(btn => btn.classList.remove('enhanced-variant-button--active'));
+            targetButton.classList.add('enhanced-variant-button--active');
+          }
+        }
+      });
+    });
+
+    // Debug: Log all found elements
+    console.log('Enhanced Variant Selector Debug Info:', {
+      blockId: blockId,
+      buttonsFound: variantButtons.length,
+      variantInput: existingVariantInput ? existingVariantInput.tagName + (existingVariantInput.name ? '[name="' + existingVariantInput.name + '"]' : '') : 'Not found',
+      imagesFound: existingProductImages.length,
+      priceElementsFound: existingPriceElements.length,
+      addToCartFound: existingAddToCartButton ? existingAddToCartButton.tagName : 'Not found'
+    });
+
+    initializeFromUrl();
+  });
+</script> 

@@ -1,0 +1,145 @@
+<div class="product-form__input product-form__input--variant">
+  {% unless product.has_only_default_variant %}
+    <div class="product-form__buttons">
+      <fieldset class="js product-form__input custom-variant-picker">
+        {% for variant in product.variants %}
+          <input
+            type="radio"
+            id="variant-{{ variant.id }}"
+            name="id"
+            value="{{ variant.id }}"
+            form="product-form"
+            class="variant-input"
+            data-variant-image="{% if variant.featured_image %}{{ variant.featured_image | img_url: 'master' }}{% endif %}"
+            {% if variant == product.selected_or_first_available_variant %}checked{% endif %}>
+
+          <label
+            for="variant-{{ variant.id }}"
+            class="custom-variant-button{% unless variant.available %} is-unavailable{% endunless %}">
+            {{ variant.title }}{% unless variant.available %} (Out of Stock){% endunless %}
+          </label>
+        {% endfor %}
+      </fieldset>
+    </div>
+  {% endunless %}
+</div>
+
+<style>
+.product-form__input.product-form__input--variant {
+  border: none !important;
+  padding: 0;
+  margin: 0;
+}
+
+.product-form__input fieldset.custom-variant-picker {
+  border: none !important;
+  padding: 0;
+  margin: 0;
+}
+
+.custom-variant-button {
+  display: inline-block;
+  padding: {{ settings.button_padding_vertical | default: 12 }}px {{ settings.button_padding_horizontal | default: 24 }}px;
+  margin: {{ settings.button_margin | default: 5 }}px;
+  border: {{ settings.button_border_width | default: 0 }}px solid {{ settings.button_border_color | default: '#f5f5f5' }};
+  border-radius: {{ settings.button_border_radius | default: 6 }}px;
+  background: {{ settings.button_background_color | default: '#f5f5f5' }};
+  color: {{ settings.button_text_color | default: '#333333' }};
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: {{ settings.button_font_weight | default: 500 }};
+  font-size: {{ settings.button_font_size | default: 16 }}px;
+}
+
+.custom-variant-button:hover {
+  background: {{ settings.button_hover_background_color | default: '#e8e8e8' }};
+  color: {{ settings.button_hover_text_color | default: '#333333' }};
+}
+
+input[type="radio"]:checked + .custom-variant-button {
+  background: {{ settings.button_active_background_color | default: '#333333' }};
+  color: {{ settings.button_active_text_color | default: '#ffffff' }};
+  border-color: {{ settings.button_active_border_color | default: '#333333' }};
+}
+
+fieldset.custom-variant-picker input[type="radio"] {
+  display: none;
+}
+
+.custom-variant-button.is-unavailable {
+  color: #999999;
+  border-color: #cccccc;
+  background: #f8f8f8;
+  opacity: 0.7;
+  font-style: italic;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const variantButtons = document.querySelectorAll('.variant-input');
+  const productJson = window.productJson || window.meta?.product;
+  const mainForm = document.querySelector('form[action*="/cart/add"]');
+
+  variantButtons.forEach(button => {
+    button.addEventListener('change', function () {
+      const selectedVariantId = parseInt(this.value);
+      const variant = productJson?.variants?.find(v => v.id === selectedVariantId);
+
+      console.log('[BKM] Variant button clicked:', selectedVariantId);
+
+      if (!variant || !mainForm) return;
+
+      // 1. Update variant ID in form
+      const mainVariantInput = mainForm.querySelector('input[name="id"]');
+      if (mainVariantInput) {
+        mainVariantInput.value = selectedVariantId;
+
+        // Dispatch change event
+        const inputChange = new Event('change', { bubbles: true });
+        mainVariantInput.dispatchEvent(inputChange);
+      }
+
+      // 2. Dispatch form-level change
+      const formChange = new Event('change', { bubbles: true });
+      mainForm.dispatchEvent(formChange);
+
+      // 3. Dispatch Shopify-compatible events
+      window.variant = variant;
+      if (typeof Shopify !== 'undefined' && typeof Shopify.onVariantSelected === 'function') {
+        Shopify.onVariantSelected(variant);
+        console.log('[BKM] Shopify.onVariantSelected called');
+      }
+
+      const variantChangeEvent = new CustomEvent('variant:change', {
+        bubbles: true,
+        detail: { variant: variant }
+      });
+      document.dispatchEvent(variantChangeEvent);
+
+      console.log('[BKM] Dispatched all events for variant:', selectedVariantId);
+
+      // 4. Update product media
+      if (variant.featured_image && variant.featured_image.id) {
+        const mediaId = variant.featured_image.id;
+        const mediaElement = document.querySelector(`[data-media-id*="${mediaId}"]`);
+        if (mediaElement) {
+          document.querySelectorAll('.product-single__media-slide').forEach(el => {
+            el.classList.remove('is-selected');
+          });
+          mediaElement.classList.add('is-selected');
+          console.log('[BKM] Switching to media ID:', mediaId);
+        } else {
+          console.warn('[BKM] No media element found for media ID:', mediaId);
+        }
+      }
+
+      // 5. Update URL
+      const newUrl = new URL(window.location.href);
+      newUrl.searchParams.set('variant', selectedVariantId);
+      window.history.replaceState({}, '', newUrl.toString());
+      console.log('[BKM] URL updated:', newUrl.toString());
+    });
+  });
+});
+</script>
