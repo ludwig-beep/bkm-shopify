@@ -1,0 +1,209 @@
+{%- style -%}
+.testimonial-section {
+  padding: 4rem 1rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.testimonial-heading {
+  text-align: center;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #1A1F2C;
+  margin-bottom: 3rem;
+}
+
+.testimonial-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.testimonial-tab {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.3s;
+  cursor: pointer;
+  background: #f3f4f6;
+  color: #666666;
+}
+
+.testimonial-tab.active {
+  background: #FFB800;
+  color: white;
+}
+
+.testimonial-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: none;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .testimonial-content {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.testimonial-content.active {
+  display: grid;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.testimonial-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.testimonial-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.testimonial-quote {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #1A1F2C;
+  line-height: 1.5;
+}
+
+.testimonial-author {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1A1F2C;
+}
+
+.testimonial-title {
+  color: #666666;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+{%- endstyle -%}
+
+<div class="testimonial-section">
+  <div class="container">
+    <h2 class="testimonial-heading">{{ section.settings.heading }}</h2>
+    
+    <div class="testimonial-tabs">
+      {%- for block in section.blocks -%}
+        <button class="testimonial-tab{% if forloop.first %} active{% endif %}" 
+                data-target="testimonial-{{ block.id }}">
+          {{ block.settings.name }}
+        </button>
+      {%- endfor -%}
+    </div>
+
+    <div class="testimonial-container">
+      {%- for block in section.blocks -%}
+        <div class="testimonial-content{% if forloop.first %} active{% endif %}" 
+             id="testimonial-{{ block.id }}"
+             {{ block.shopify_attributes }}>
+          <div class="testimonial-image-container">
+            <img src="{{ block.settings.image | img_url: 'master' }}"
+                 alt="{{ block.settings.name }}"
+                 class="testimonial-image"
+                 loading="lazy">
+          </div>
+          <div class="testimonial-text">
+            <blockquote class="testimonial-quote">
+              "{{ block.settings.quote }}"
+            </blockquote>
+            <div>
+              <h3 class="testimonial-author">{{ block.settings.name }}</h3>
+              <p class="testimonial-title">{{ block.settings.title }}</p>
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('.testimonial-tab');
+    
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        // Remove active class from all tabs and contents
+        tabs.forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.testimonial-content').forEach(content => {
+          content.classList.remove('active');
+        });
+        
+        // Add active class to clicked tab and corresponding content
+        this.classList.add('active');
+        const targetId = this.getAttribute('data-target');
+        document.getElementById(targetId).classList.add('active');
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Proven by Performers, Approved by Experts"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Person Image"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Marcus Sörenson"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Hockey player, HC Fribourg-Gottéron & Swedish national team"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "To perform at my best on the ice, I feel that Ultra Focus gives me that extra mental edge. Along with BKM Tranquil, I wake up feeling fully rested, getting that optimal deep sleep my body needs."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        {
+          "type": "testimonial"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

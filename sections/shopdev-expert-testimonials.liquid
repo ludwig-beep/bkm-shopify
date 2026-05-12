@@ -1,0 +1,215 @@
+{{ 'shopdev-expert-testimonials.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .shopdev-expert-testimonials .testimonial-tab {
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .shopdev-expert-testimonials .testimonial-tab:hover {
+    background-color: #f3f4f6;
+  }
+  
+  .shopdev-expert-testimonials .testimonial-tab.active {
+    background-color: #f3f4f6;
+    color: #000000;
+    border-color: #d1d5db;
+  }
+  
+  .shopdev-expert-testimonials .testimonial-content {
+    display: none;
+  }
+  
+  .shopdev-expert-testimonials .testimonial-content.active {
+    display: block;
+  }
+  
+  @media (max-width: 768px) {
+    .shopdev-expert-testimonials .testimonial-tabs {
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .shopdev-expert-testimonials .testimonial-container {
+      flex-direction: column;
+      gap: 32px;
+    }
+    
+    .shopdev-expert-testimonials .testimonial-image {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+  }
+</style>
+
+<div class="w-full bg-white py-[120px] px-[20px] md:px-[40px]">
+  <div class="max-w-[1200px] mx-auto">
+    <!-- Main Heading -->
+    <div class="mb-[80px]">
+      <h2 class="text-[48px] md:text-[72px] font-[400] leading-tight text-black">
+        {{ section.settings.main_heading }}
+      </h2>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="testimonial-tabs flex flex-wrap gap-[24px] mb-[80px]">
+      {% for block in section.blocks %}
+        <button class="testimonial-tab px-[32px] py-[16px] text-[20px] md:text-[24px] font-[300] border border-gray-300 rounded-[12px] transition-all duration-300 {% if forloop.first %}active{% endif %}"
+                data-testimonial="{{ forloop.index0 }}"
+                {{ block.shopify_attributes }}>
+          {{ block.settings.author_name }}
+        </button>
+      {% endfor %}
+    </div>
+
+    <!-- Testimonial Content -->
+    <div class="testimonial-container flex flex-col lg:flex-row items-start gap-[80px]">
+      <!-- Testimonial Image -->
+      <div class="testimonial-image w-full lg:w-[500px] h-[400px] lg:h-[600px] rounded-[40px] overflow-hidden flex-shrink-0">
+        {% for block in section.blocks %}
+          <div class="testimonial-content w-full h-full {% if forloop.first %}active{% endif %}" data-content="{{ forloop.index0 }}">
+            {%- if block.settings.author_image != blank -%}
+              {{ block.settings.author_image | image_url: width: 800 | image_tag: 
+                class: 'w-full h-full object-cover',
+                loading: 'lazy',
+                sizes: '(max-width: 768px) 100vw, 500px'
+              }}
+            {%- else -%}
+              {{ 'lifestyle-1' | placeholder_svg_tag: 'w-full h-full bg-gray-200' }}
+            {%- endif -%}
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Testimonial Text -->
+      <div class="flex-1 max-w-[600px]">
+        {% for block in section.blocks %}
+          <div class="testimonial-content {% if forloop.first %}active{% endif %}" data-content="{{ forloop.index0 }}">
+            {% if block.settings.testimonial_text != blank %}
+              <blockquote class="text-[24px] md:text-[32px] leading-relaxed text-black mb-[60px] font-[300]">
+                "{{ block.settings.testimonial_text }}"
+              </blockquote>
+            {% endif %}
+
+            {% if block.settings.author_name != blank %}
+              <div class="mb-[24px]">
+                <h3 class="text-[28px] md:text-[36px] font-[400] text-black">
+                  {{ block.settings.author_name }}
+                </h3>
+              </div>
+            {% endif %}
+
+            {% if block.settings.author_credentials != blank %}
+              <p class="text-[20px] md:text-[24px] text-gray-500 font-[300]">
+                {{ block.settings.author_credentials }}
+              </p>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('.testimonial-tab');
+    const contents = document.querySelectorAll('.testimonial-content');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        const targetIndex = this.getAttribute('data-testimonial');
+        
+        // Remove active class from all tabs and contents
+        tabs.forEach(t => t.classList.remove('active'));
+        contents.forEach(c => c.classList.remove('active'));
+        
+        // Add active class to clicked tab
+        this.classList.add('active');
+        
+        // Show corresponding content
+        const targetContents = document.querySelectorAll(`[data-content="${targetIndex}"]`);
+        targetContents.forEach(content => content.classList.add('active'));
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Expert Testimonials",
+  "class": "shopdev shopdev-expert-testimonials",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "main_heading",
+      "label": "Main Heading",
+      "default": "Proven by Performers, Approved by Experts"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "author_image",
+          "label": "Author Image"
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "Author Name"
+        },
+        {
+          "type": "textarea",
+          "id": "testimonial_text",
+          "label": "Testimonial Text"
+        },
+        {
+          "type": "text",
+          "id": "author_credentials",
+          "label": "Author Credentials/Title"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Expert Testimonials",
+      "settings": {
+        "main_heading": "Proven by Performers, Approved by Experts"
+      },
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Marcus Sörenson",
+            "testimonial_text": "The quality and effectiveness of these products have transformed my training routine. I can feel the difference in my performance and recovery.",
+            "author_credentials": "#1 Tennis Player, Sweden"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Daniel Windahl",
+            "testimonial_text": "For me, it's all about gaining the extra focus and rest between my practice and matches. In Ultra focus and tranquil, you have this opportunity. If you have high goals, you need high quality help as BKM",
+            "author_credentials": "#1 padel, Northern Europe"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Sarah Johnson",
+            "testimonial_text": "As a professional athlete, I need products I can trust. These supplements have become an essential part of my daily routine.",
+            "author_credentials": "Olympic Gold Medalist"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

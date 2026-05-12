@@ -1,0 +1,186 @@
+{%- comment -%} FAQ support section {%- endcomment -%}
+
+{%- liquid
+  assign section_width = section.settings.width
+  assign heading = section.settings.title
+  assign animations_enabled = settings.animations_enabled
+  assign animation_anchor = '#FAQSupport--' | append: section.id
+  assign animation_delay = 150
+  assign text_color = section.settings.text_color
+  assign bg_color_secondary = section.settings.bg_color_secondary
+-%}
+
+{%- style -%}
+  #FAQSupport--{{ section.id }} {
+    --PT: {{ section.settings.padding_top }}px;
+    --PB: {{ section.settings.padding_bottom }}px;
+  }
+{%- endstyle -%}
+
+<section
+  id="FAQSupport--{{ section.id }}"
+  class="section-padding accordions-section {{ text_color }}{% if bg_color_secondary %} bg-secondary{% endif %}"
+  data-section-id="{{ section.id }}"
+  data-section-type="accordions">
+
+  {%- if heading != blank -%}
+    <div class="accordion__header">
+      <div class="{{ section_width }}">
+        <div class="section__header">
+          <h2 class="section__heading h2"
+            {% if animations_enabled %}
+              data-aos="fade-up"
+              data-aos-anchor="{{ animation_anchor }}"
+              data-aos-delay="{{ animation_delay }}"
+            {% endif %}>{{ heading }}</h2>
+
+          {%- if settings.show_spacer_lines -%}
+            <hr class="section__heading-line"
+              {% if animations_enabled %}
+                data-aos="fade-up"
+                data-aos-anchor="{{ animation_anchor }}"
+                data-aos-delay="{{ animation_delay | plus: 150 }}"
+              {% endif %}>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <div class="accordion__content">
+    <div class="{{ section_width }}" data-collapsible-single>
+      {%- if section.blocks.size > 0 -%}
+        <ul class="accordion__list">
+          {%- for block in section.blocks -%}
+            {%- assign question = block.settings.question -%}
+            {%- assign answer = block.settings.answer -%}
+            {%- assign item_id = 'FAQSupportItem--' | append: block.id -%}
+
+            {%- unless question == blank -%}
+              <li id="{{ item_id }}" class="accordion__item{% if forloop.first %} accordion__item--first{% endif %}"
+                aria-haspopup="true"
+                {% if animations_enabled %}
+                  data-aos="fade-up"
+                  data-aos-anchor="{{ animation_anchor }}"
+                  data-aos-delay="{{ 150 | times: forloop.index }}"
+                {% endif %}
+                {{ block.shopify_attributes }}>
+                <button class="accordion__item__title" aria-controls="FAQSupport-panel--{{ forloop.index0 }}-{{ section.id }}" data-collapsible-trigger>
+                  <span class="accordion__item__title__text">{{ question }}</span>
+                  {%- render 'icon-toggle-plus' -%}
+                  {%- render 'icon-toggle-minus' -%}
+                </button>
+
+                <div class="accordion__item__text-wrapper" id="FAQSupport-panel--{{ forloop.index0 }}-{{ section.id }}" aria-expanded="false" data-collapsible-container>
+                  <div class="accordion__item__text rte" data-collapsible-content>
+                    {{- answer -}}
+                  </div>
+                </div>
+              </li>
+            {%- endunless -%}
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        {%- render 'no-blocks' -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ support",
+  "class": "faq-support",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "FAQ"
+    },
+    {
+      "type": "checkbox",
+      "id": "bg_color_secondary",
+      "label": "Background",
+      "info": "Use secondary background color",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "text-dark",
+      "options": [
+        { "value": "text-light", "label": "Light" },
+        { "value": "text-dark", "label": "Dark" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Width",
+      "default": "wrapper--narrow",
+      "options": [
+        { "value": "wrapper--full-padded", "label": "Full width padded" },
+        { "value": "wrapper", "label": "Page width" },
+        { "value": "wrapper--narrow", "label": "Page width narrow" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "How do I cancel my subscription?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Canceling your subscription only takes a few steps. Log in to your account and select the subscription you’d like to cancel, then click “Cancel subscription.”<\/p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ support",
+      "category": "Text",
+      "blocks": [
+        { "type": "faq" },
+        { "type": "faq" },
+        { "type": "faq" }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header","aside","footer"]
+  }
+}
+{% endschema %}
+

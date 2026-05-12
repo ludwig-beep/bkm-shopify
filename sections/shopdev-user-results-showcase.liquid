@@ -1,0 +1,483 @@
+{{ 'shopdev-user-results-showcase.css' | asset_url | stylesheet_tag }}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<style>
+  .shopdev-user-results-showcase .user-results-swiper .swiper-pagination-bullet {
+    background: #000000;
+    opacity: 0.3;
+  }
+  
+  .shopdev-user-results-showcase .user-results-swiper .swiper-pagination-bullet-active {
+    opacity: 1;
+    background: #000000;
+  }
+
+
+  .shopdev-user-results-showcase .metric-card {
+    transition: transform 0.3s ease;
+  }
+  
+  .shopdev-user-results-showcase .metric-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .shopdev-user-results-showcase .improvement-badge {
+    background: linear-gradient(135deg, #0066CC, #004C99);
+  }
+  
+  @media (max-width: 767px) {
+    .shopdev-user-results-showcase .user-profile-mobile {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    
+    .shopdev-user-results-showcase .user-profile-mobile .profile-image {
+      margin-right: 12px;
+      margin-bottom: 0;
+    }
+    
+    .shopdev-user-results-showcase .user-profile-mobile .profile-info {
+      text-align: left;
+    }
+    
+    .shopdev-user-results-showcase .metric-card {
+      padding: 12px !important;
+    }
+    
+    .shopdev-user-results-showcase .metric-value {
+      font-size: 16px !important;
+    }
+  }
+</style>
+
+<div class="py-8 md:py-16 px-3 md:px-4">
+  <div class="max-w-7xl mx-auto">
+    <!-- Section Header -->
+    <div class="text-left mb-8 md:mb-12">
+      {% if section.settings.heading != blank %}
+        <h2 class="text-2xl md:text-4xl font-bold mb-2 md:mb-4">{{ section.settings.heading }}</h2>
+      {% endif %}
+      
+      {% if section.settings.subheading != blank %}
+        <p class="text-sm md:text-lg max-w-3xl">{{ section.settings.subheading }}</p>
+      {% endif %}
+    </div>
+
+    <!-- User Results Carousel -->
+    {% if section.blocks.size > 0 %}
+      <div class="swiper user-results-swiper">
+        <div class="swiper-wrapper">
+          {% for block in section.blocks %}
+            {% if block.type == 'user_testimonial' %}
+              <div class="swiper-slide" {{ block.shopify_attributes }}>
+                <div class="bg-white rounded-lg shadow-md p-4 md:p-8">
+                  <div class="flex flex-col md:flex-row gap-4 md:gap-8">
+                    <!-- Left Column: User Profile & Info -->
+                    <div class="w-full md:w-1/3">
+                      <div class="user-profile-mobile">
+                      {% if block.settings.user_image != blank %}
+                        <div class="w-16 h-16 md:w-24 md:h-24 rounded-full overflow-hidden mb-4 md:mb-4 profile-image">
+                          {{ block.settings.user_image | image_url: width: 200 | image_tag: 
+                            class: 'w-full h-full object-cover',
+                            loading: 'lazy',
+                            alt: block.settings.user_name
+                          }}
+                        </div>
+                      {% else %}
+                        <div class="w-16 h-16 md:w-24 md:h-24 rounded-full bg-gray-200 flex items-center justify-center mb-4 md:mb-4 profile-image">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 md:w-12 md:h-12 text-gray-400">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                          </svg>
+                        </div>
+                      {% endif %}
+                      
+                      <div class="profile-info">
+                        <h3 class="text-lg md:text-xl font-semibold mb-0 md:mb-1">{{ block.settings.user_name }}</h3>
+                      
+                        {% if block.settings.device_type != blank %}
+                          <div class="flex items-center gap-1 mb-0 md:mb-4">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+                          </svg>
+                          <span class="text-sm text-gray-600">{{ block.settings.device_type }}</span>
+                        </div>
+                        {% endif %}
+                      </div>
+                      </div>
+                      
+                      {% if block.settings.testimonial != blank %}
+                        <div class="text-left italic text-gray-700 text-sm md:text-base mt-2 md:mt-4">
+                          "{{ block.settings.testimonial }}"
+                        </div>
+                      {% endif %}
+                    </div>
+                    
+                    <!-- Right Column: Before/After Metrics -->
+                    <div class="w-full md:w-2/3">
+                      <h4 class="text-base md:text-lg font-semibold mb-2 md:mb-4">Tracked Improvements</h4>
+                      
+                      <div class="grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-4">
+                        <!-- Sleep Quality Metric -->
+                        {% if block.settings.sleep_before != blank and block.settings.sleep_after != blank %}
+                          <div class="metric-card bg-gray-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-1 md:mb-2">
+                              <span class="font-medium text-sm md:text-base">Sleep Quality</span>
+                              {% assign sleep_improvement = block.settings.sleep_after | minus: block.settings.sleep_before %}
+                              {% if sleep_improvement > 0 %}
+                                <span class="improvement-badge text-white text-xs px-2 py-0.5 md:py-1 rounded-full">+{{ sleep_improvement }}%</span>
+                              {% endif %}
+                            </div>
+                            <div class="flex items-center gap-2 md:gap-4">
+                              <div class="w-1/2">
+                                <span class="text-xs text-gray-500">Before</span>
+                                <div class="text-xl font-bold metric-value">{{ block.settings.sleep_before }}%</div>
+                              </div>
+                              <div class="w-1/2">
+                                <span class="text-xs text-gray-500">After</span>
+                                <div class="text-xl font-bold metric-value">{{ block.settings.sleep_after }}%</div>
+                              </div>
+                            </div>
+                          </div>
+                        {% endif %}
+                        
+                        <!-- Recovery Metric -->
+                        {% if block.settings.recovery_before != blank and block.settings.recovery_after != blank %}
+                          <div class="metric-card bg-gray-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-1 md:mb-2">
+                              <span class="font-medium text-sm md:text-base">Recovery Score</span>
+                              {% assign recovery_improvement = block.settings.recovery_after | minus: block.settings.recovery_before %}
+                              {% if recovery_improvement > 0 %}
+                                <span class="improvement-badge text-white text-xs px-2 py-0.5 md:py-1 rounded-full">+{{ recovery_improvement }}%</span>
+                              {% endif %}
+                            </div>
+                            <div class="flex items-center gap-2 md:gap-4">
+                              <div class="w-1/2">
+                                <span class="text-xs text-gray-500">Before</span>
+                                <div class="text-xl font-bold metric-value">{{ block.settings.recovery_before }}%</div>
+                              </div>
+                              <div class="w-1/2">
+                                <span class="text-xs text-gray-500">After</span>
+                                <div class="text-xl font-bold metric-value">{{ block.settings.recovery_after }}%</div>
+                              </div>
+                            </div>
+                          </div>
+                        {% endif %}
+                        
+                        <!-- Deep Sleep Metric -->
+                        {% if block.settings.hrv_before != blank and block.settings.hrv_after != blank %}
+                          <div class="metric-card bg-gray-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-1 md:mb-2">
+                              <span class="font-medium text-sm md:text-base">Deep Sleep</span>
+                              {% assign hrv_improvement = block.settings.hrv_after | minus: block.settings.hrv_before %}
+                              {% if hrv_improvement > 0 %}
+                                <span class="improvement-badge text-white text-xs px-2 py-0.5 md:py-1 rounded-full">+{{ hrv_improvement }} min</span>
+                              {% endif %}
+                            </div>
+                            <div class="flex items-center gap-2 md:gap-4">
+                              <div class="w-1/2">
+                                <span class="text-xs text-gray-500">Before</span>
+                                <div class="text-xl font-bold metric-value">{{ block.settings.hrv_before }}</div>
+                              </div>
+                              <div class="w-1/2">
+                                <span class="text-xs text-gray-500">After</span>
+                                <div class="text-xl font-bold metric-value">{{ block.settings.hrv_after }}</div>
+                              </div>
+                            </div>
+                          </div>
+                        {% endif %}
+                        
+                        <!-- REM Sleep Metric -->
+                        {% if block.settings.rhr_before != blank and block.settings.rhr_after != blank %}
+                          <div class="metric-card bg-gray-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-1 md:mb-2">
+                              <span class="font-medium text-sm md:text-base">REM Sleep</span>
+                              {% assign rhr_improvement = block.settings.rhr_after | minus: block.settings.rhr_before %}
+                              {% if rhr_improvement > 0 %}
+                                <span class="improvement-badge text-white text-xs px-2 py-0.5 md:py-1 rounded-full">+{{ rhr_improvement }} min</span>
+                              {% endif %}
+                            </div>
+                            <div class="flex items-center gap-2 md:gap-4">
+                              <div class="w-1/2">
+                                <span class="text-xs text-gray-500">Before</span>
+                                <div class="text-xl font-bold metric-value">{{ block.settings.rhr_before }}</div>
+                              </div>
+                              <div class="w-1/2">
+                                <span class="text-xs text-gray-500">After</span>
+                                <div class="text-xl font-bold metric-value">{{ block.settings.rhr_after }}</div>
+                              </div>
+                            </div>
+                          </div>
+                        {% endif %}
+                      </div>
+                      
+                      <!-- Device Screenshot -->
+                      {% if block.settings.device_screenshot != blank %}
+                        <div class="mt-4 md:mt-6">
+                          <div class="max-w-xs mx-auto md:mx-0">
+                            {{ block.settings.device_screenshot | image_url: width: 300 | image_tag: 
+                              class: 'w-full h-auto rounded-lg shadow-md',
+                              loading: 'lazy',
+                              alt: 'Wearable device data for ' | append: block.settings.user_name
+                            }}
+                          </div>
+                        </div>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+        
+        <!-- Pagination -->
+        <div class="swiper-pagination mt-6"></div>
+      </div>
+    {% else %}
+      <div class="bg-gray-100 p-12 rounded-lg text-center">
+        <p>Add user testimonials to showcase real results</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    new Swiper('.user-results-swiper', {
+      slidesPerView: 1,
+      spaceBetween: 30,
+      loop: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true
+      },
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false
+      },
+      breakpoints: {
+        // Mobile view
+        320: {
+          spaceBetween: 15
+        },
+        // Tablet view
+        768: {
+          spaceBetween: 20
+        },
+        // Desktop view
+        1024: {
+          spaceBetween: 30
+        }
+      }
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "User Results Showcase",
+  "class": "shopdev shopdev-user-results-showcase",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Real Results from Real Users"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "See how BKM Tranquil has improved sleep quality and recovery metrics for our customers, verified by their wearable devices."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "user_testimonial",
+      "name": "User Testimonial",
+      "settings": [
+        {
+          "type": "header",
+          "content": "User Information"
+        },
+        {
+          "type": "image_picker",
+          "id": "user_image",
+          "label": "User Profile Image"
+        },
+        {
+          "type": "text",
+          "id": "user_name",
+          "label": "User Name",
+          "default": "Sarah Johnson"
+        },
+        {
+          "type": "text",
+          "id": "device_type",
+          "label": "Wearable Device Type",
+          "default": "WHOOP"
+        },
+        {
+          "type": "textarea",
+          "id": "testimonial",
+          "label": "User Testimonial",
+          "default": "BKM Tranquil has completely transformed my sleep quality. My REM sleep has increased significantly, helping with my memory and mood. I'm waking up feeling refreshed and my recovery scores have never been better!"
+        },
+        {
+          "type": "header",
+          "content": "Sleep Quality Metrics"
+        },
+        {
+          "type": "range",
+          "id": "sleep_before",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Sleep Quality Before",
+          "default": 65
+        },
+        {
+          "type": "range",
+          "id": "sleep_after",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Sleep Quality After",
+          "default": 87
+        },
+        {
+          "type": "header",
+          "content": "Recovery Metrics"
+        },
+        {
+          "type": "range",
+          "id": "recovery_before",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Recovery Score Before",
+          "default": 58
+        },
+        {
+          "type": "range",
+          "id": "recovery_after",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Recovery Score After",
+          "default": 82
+        },
+        {
+          "type": "header",
+          "content": "Deep Sleep"
+        },
+        {
+          "type": "number",
+          "id": "hrv_before",
+          "label": "Deep Sleep Before (min)",
+          "default": 42
+        },
+        {
+          "type": "number",
+          "id": "hrv_after",
+          "label": "Deep Sleep After (min)",
+          "default": 68
+        },
+        {
+          "type": "header",
+          "content": "REM Sleep"
+        },
+        {
+          "type": "number",
+          "id": "rhr_before",
+          "label": "REM Sleep Before (min)",
+          "default": 60
+        },
+        {
+          "type": "number",
+          "id": "rhr_after",
+          "label": "REM Sleep After (min)",
+          "default": 85
+        },
+        {
+          "type": "header",
+          "content": "Device Data"
+        },
+        {
+          "type": "image_picker",
+          "id": "device_screenshot",
+          "label": "Device Screenshot"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "User Results Showcase",
+      "settings": {
+        "heading": "Real Results from Real Users",
+        "subheading": "See how BKM Tranquil has improved sleep quality and recovery metrics for our customers, verified by their wearable devices."
+      },
+      "blocks": [
+        {
+          "type": "user_testimonial",
+          "settings": {
+            "user_name": "Sarah Johnson",
+            "device_type": "WHOOP",
+            "testimonial": "BKM Tranquil has completely transformed my sleep quality. My REM sleep has increased significantly, helping with my memory and mood. I'm waking up feeling refreshed and my recovery scores have never been better!",
+            "sleep_before": 65,
+            "sleep_after": 87,
+            "recovery_before": 58,
+            "recovery_after": 82,
+            "hrv_before": 42,
+            "hrv_after": 68,
+            "rhr_before": 60,
+            "rhr_after": 85
+          }
+        },
+        {
+          "type": "user_testimonial",
+          "settings": {
+            "user_name": "Michael Chen",
+            "device_type": "Oura Ring",
+            "testimonial": "After just two weeks of using BKM Tranquil, my deep sleep increased by 45 minutes and my REM sleep improved dramatically. I'm dreaming more vividly and waking up mentally sharper. The data doesn't lie!",
+            "sleep_before": 70,
+            "sleep_after": 92,
+            "recovery_before": 62,
+            "recovery_after": 89,
+            "hrv_before": 38,
+            "hrv_after": 65,
+            "rhr_before": 60,
+            "rhr_after": 85
+          }
+        },
+        {
+          "type": "user_testimonial",
+          "settings": {
+            "user_name": "Emma Rodriguez",
+            "device_type": "Fitbit",
+            "testimonial": "As an athlete, recovery is everything. BKM Tranquil has boosted my REM sleep significantly, which has improved my mental focus during training. I'm achieving consistently better sleep scores and faster recovery between training sessions.",
+            "sleep_before": 72,
+            "sleep_after": 88,
+            "recovery_before": 65,
+            "recovery_after": 84,
+            "hrv_before": 45,
+            "hrv_after": 72,
+            "rhr_before": 60,
+            "rhr_after": 85
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

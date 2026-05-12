@@ -1,0 +1,305 @@
+<!-- Floating Shop Now Bar -->
+<div id="floating-cart-bar" class="floating-cart-bar" style="display: none;">
+  <div class="floating-cart-content">
+    <div class="product-info">
+      <span class="product-name">
+        {% if section.settings.product %}
+          {{ section.settings.product.title }}
+        {% else %}
+          {{ section.settings.product_name | default: 'BKM Tranquil' }}
+        {% endif %}
+      </span>
+      <div class="product-rating">
+        <span class="stars">⭐⭐⭐⭐⭐</span>
+        <span class="rating-text">{{ section.settings.rating | default: '4.6' }}</span>
+      </div>
+    </div>
+    <div class="cart-action">
+      <span class="price">
+        {% if section.settings.product %}
+          {{ section.settings.product.price | money }}
+        {% else %}
+          {{ section.settings.price | default: '399 SEK' }}
+        {% endif %}
+      </span>
+      <a href="{% if section.settings.product %}{{ section.settings.product.url }}{% else %}/products/tranquil{% endif %}" class="floating-shop-now-btn">
+        <span class="shop-icon">🛒</span>
+        {{ section.settings.button_text | default: 'Shop Now' }}
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+.floating-cart-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: {{ section.settings.background_color | default: '#1a1a1a' }};
+  color: {{ section.settings.text_color | default: 'white' }};
+  padding: 12px 16px;
+  z-index: 9999;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+  border-top: 1px solid #333;
+  transition: transform 0.3s ease;
+}
+
+.floating-cart-bar.hidden {
+  transform: translateY(100%);
+}
+
+.floating-cart-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 100%;
+}
+
+.product-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.product-name {
+  font-weight: 600;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.product-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.stars {
+  font-size: 12px;
+  line-height: 1;
+}
+
+.rating-text {
+  font-size: 12px;
+  color: #ccc;
+}
+
+.cart-action {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.price {
+  font-weight: 600;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.floating-shop-now-btn {
+  background: {{ section.settings.button_background | default: '#fff' }};
+  color: {{ section.settings.button_text_color | default: '#1a1a1a' }};
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.floating-shop-now-btn:hover {
+  background: #f0f0f0;
+  transform: translateY(-1px);
+  text-decoration: none;
+  color: {{ section.settings.button_text_color | default: '#1a1a1a' }};
+}
+
+.floating-shop-now-btn:active {
+  transform: translateY(0);
+}
+
+.shop-icon {
+  font-size: 14px;
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  .floating-cart-bar {
+    {% unless section.settings.show_on_desktop %}
+    display: none !important;
+    {% endunless %}
+  }
+}
+
+/* Very small screens */
+@media (max-width: 320px) {
+  .floating-cart-content {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .cart-action {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .floating-shop-now-btn {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+/* Safe area for phones with home indicators */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .floating-cart-bar {
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  }
+}
+</style>
+
+<script>
+let floatingCartBar = document.getElementById('floating-cart-bar');
+let hasScrolledPastFirstCTA = false;
+
+// Show/hide logic
+function toggleFloatingCart() {
+  {% if section.settings.target_selector != blank %}
+    const targetElement = document.querySelector('{{ section.settings.target_selector }}');
+  {% else %}
+    const targetElement = document.querySelector('a[href*="tranquil"], a[href*="products"], a:contains("Shop now"), a:contains("SHOP NOW")');
+  {% endif %}
+  
+  const isOnProductPage = window.location.pathname.includes('/products/') || 
+                          window.location.pathname.includes('/cart') || 
+                          window.location.pathname.includes('/checkout');
+  
+  if (isOnProductPage) {
+    floatingCartBar.style.display = 'none';
+    return;
+  }
+
+  if (targetElement) {
+    const elementRect = targetElement.getBoundingClientRect();
+    const hasScrolledPast = elementRect.bottom < 0;
+    
+    if (hasScrolledPast && !hasScrolledPastFirstCTA) {
+      hasScrolledPastFirstCTA = true;
+      floatingCartBar.style.display = 'block';
+    } else if (!hasScrolledPast && hasScrolledPastFirstCTA) {
+      hasScrolledPastFirstCTA = false;
+      floatingCartBar.style.display = 'none';
+    }
+  }
+}
+
+// Event listeners
+window.addEventListener('scroll', toggleFloatingCart);
+window.addEventListener('resize', toggleFloatingCart);
+document.addEventListener('DOMContentLoaded', toggleFloatingCart);
+</script>
+
+{% schema %}
+{
+  "name": "Floating Shop Now Bar",
+  "tag": "section",
+  "class": "floating-shop-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Product Selection"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Select Product"
+    },
+    {
+      "type": "header",
+      "content": "Fallback Settings (if no product selected)"
+    },
+    {
+      "type": "text",
+      "id": "product_name",
+      "label": "Product Name",
+      "default": "BKM Tranquil"
+    },
+    {
+      "type": "text",
+      "id": "price",
+      "label": "Price Display",
+      "default": "399 SEK"
+    },
+    {
+      "type": "text",
+      "id": "rating",
+      "label": "Product Rating",
+      "default": "4.6"
+    },
+    {
+      "type": "header",
+      "content": "Button Settings"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "header",
+      "content": "Behavior"
+    },
+    {
+      "type": "text",
+      "id": "target_selector",
+      "label": "Target Element Selector",
+      "info": "CSS selector for the element to track (e.g., 'a:contains(\"Shop now\")'). Leave empty for auto-detection."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_on_desktop",
+      "label": "Show on Desktop",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Floating Shop Now Bar"
+    }
+  ]
+}
+{% endschema %}

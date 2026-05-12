@@ -1,0 +1,409 @@
+{{ 'shopdev-subscription-interval-selector.css' | asset_url | stylesheet_tag }}
+
+<div class="shopdev subscription-interval-selector">
+  <div class="subscription-options-container p-4 border border-gray-200 rounded-lg mb-6">
+    <div class="subscription-intervals">
+      <p class="text-sm text-gray-700 mb-3">{{ section.settings.interval_label }}</p>
+      <div class="interval-options flex flex-wrap gap-2">
+        <button 
+          class="interval-option flex-1 p-2 border rounded-lg text-center transition-all duration-200 min-w-[100px]"
+          data-interval="1">
+          <span class="block font-medium">1 Month</span>
+          <span class="block text-xs text-gray-500">Monthly</span>
+          <span class="block text-xs text-gray-500 price-per-can" data-interval="1"></span>
+        </button>
+        <button 
+          class="interval-option flex-1 p-2 border rounded-lg text-center transition-all duration-200 min-w-[100px]"
+          data-interval="3">
+          <span class="block font-medium">3 Months</span>
+          <span class="block text-xs text-gray-500">Quarterly</span>
+          <span class="block text-xs text-gray-500 price-per-can" data-interval="3"></span>
+        </button>
+        <button 
+          class="interval-option flex-1 p-2 border rounded-lg text-center transition-all duration-200 min-w-[100px]"
+          data-interval="6">
+          <span class="block font-medium">6 Months</span>
+          <span class="block text-xs text-gray-500">Biannually</span>
+          <span class="block text-xs text-gray-500 price-per-can" data-interval="6"></span>
+        </button>
+      </div>
+    </div>
+    
+    <div class="purchase-type-selector flex flex-col sm:flex-row gap-4 mb-6 mt-6">
+      <button 
+        class="purchase-option subscription flex-1 p-4 border-2 rounded-lg text-center font-medium transition-all duration-200"
+        data-purchase-type="subscription">
+        <span class="block text-lg mb-1">Subscribe</span>
+        <span class="block text-sm text-gray-500">Save {{ section.settings.subscription_discount }}%</span>
+      </button>
+      <button 
+        class="purchase-option one-time-purchase flex-1 p-4 border-2 rounded-lg text-center font-medium transition-all duration-200 active"
+        data-purchase-type="one-time">
+        <span class="block text-lg mb-1">Buy Once</span>
+        <span class="block text-sm text-gray-500">One-time purchase</span>
+      </button>
+    </div>
+    
+    <div class="subscription-benefits p-4 bg-gray-50 rounded-lg mb-4">
+      <h4 class="font-medium mb-2">{{ section.settings.benefits_title }}</h4>
+      <ul class="text-sm text-gray-700 space-y-1">
+        <li class="flex items-start">
+          <svg class="benefit-icon checkmark w-4 h-4 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          <svg class="benefit-icon cross w-4 h-4 text-red-500 mr-2 mt-0.5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+          <span>{{ section.settings.benefit_1 }}</span>
+        </li>
+        <li class="flex items-start">
+          <svg class="benefit-icon checkmark w-4 h-4 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          <svg class="benefit-icon cross w-4 h-4 text-red-500 mr-2 mt-0.5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+          <span>{{ section.settings.benefit_2 }}</span>
+        </li>
+        <li class="flex items-start">
+          <svg class="benefit-icon checkmark w-4 h-4 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          <svg class="benefit-icon cross w-4 h-4 text-red-500 mr-2 mt-0.5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+          <span>{{ section.settings.benefit_3 }}</span>
+        </li>
+      </ul>
+    </div>
+    
+    
+    <div class="subscription-summary mt-6 p-4 bg-gray-50 rounded-lg hidden">
+      <div class="flex justify-between items-center">
+        <div>
+          <p class="font-medium">Your subscription:</p>
+          <p class="text-sm text-gray-600 subscription-details"></p>
+        </div>
+        <div class="text-right">
+          <p class="font-medium subscription-price"></p>
+          <p class="text-sm text-green-600 subscription-savings"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  class SubscriptionIntervalSelector {
+    constructor(container) {
+      this.container = container;
+      this.purchaseOptions = container.querySelectorAll('.purchase-option');
+      this.intervalOptions = container.querySelectorAll('.interval-option');
+      this.pricePerCanElements = container.querySelectorAll('.price-per-can');
+      this.subscriptionIntervals = container.querySelector('.subscription-intervals');
+      this.subscriptionSummary = container.querySelector('.subscription-summary');
+      this.subscriptionDetails = container.querySelector('.subscription-details');
+      this.subscriptionPrice = container.querySelector('.subscription-price');
+      this.subscriptionSavings = container.querySelector('.subscription-savings');
+      
+      this.selectedPurchaseType = 'one-time';
+      this.selectedInterval = 1;
+      this.productPrice = {{ section.settings.product_price | default: 2999 }} / 100;
+      this.discountPercentage = {{ section.settings.subscription_discount }};
+      this.currentVariantId = null;
+      
+      this.init();
+    }
+    
+    init() {
+      // Initialize purchase type buttons
+      this.purchaseOptions.forEach(option => {
+        option.addEventListener('click', () => {
+          this.selectPurchaseType(option.dataset.purchaseType);
+        });
+      });
+      
+      // Initialize interval options
+      this.intervalOptions.forEach(option => {
+        option.addEventListener('click', () => {
+          this.selectInterval(option.dataset.interval);
+        });
+      });
+      
+      // Listen for variant changes
+      document.addEventListener('variant:change', (event) => {
+        if (event.detail && event.detail.variant) {
+          this.updateProductPrice(event.detail.variant.price);
+        }
+      });
+      
+      // Set default state
+      this.selectPurchaseType('one-time');
+      this.updatePricePerCan();
+      
+      // Try to get initial variant price from the page
+      this.initializeVariantPrice();
+    }
+    
+    initializeVariantPrice() {
+      // Try to get the selected variant price from the page
+      const variantPriceElement = document.querySelector('[data-product-price]');
+      if (variantPriceElement) {
+        const price = parseFloat(variantPriceElement.getAttribute('data-product-price'));
+        if (!isNaN(price)) {
+          this.updateProductPrice(price);
+        }
+      }
+    }
+    
+    updateProductPrice(price) {
+      if (price) {
+        this.productPrice = price / 100; // Convert cents to dollars
+        this.updatePricePerCan();
+        if (this.selectedPurchaseType === 'subscription') {
+          this.updateSubscriptionSummary();
+        }
+      }
+    }
+    
+    selectPurchaseType(type) {
+      this.selectedPurchaseType = type;
+      
+      // Update UI for purchase options
+      this.purchaseOptions.forEach(option => {
+        if (option.dataset.purchaseType === type) {
+          option.classList.add('active', 'border-blue-500', 'bg-blue-50');
+          option.classList.remove('border-gray-200', 'bg-white');
+        } else {
+          option.classList.remove('active', 'border-blue-500', 'bg-blue-50');
+          option.classList.add('border-gray-200', 'bg-white');
+        }
+      });
+      
+      // Update subscription summary based on purchase type
+      if (type === 'subscription') {
+        this.selectInterval(this.selectedInterval);
+        // Show checkmarks for subscription benefits
+        this.updateBenefitIcons(true);
+      } else {
+        this.subscriptionSummary.classList.add('hidden');
+        this.updateRechargeOptions('one-time', null);
+        // Show cross icons for subscription benefits
+        this.updateBenefitIcons(false);
+      }
+    }
+    
+    updateBenefitIcons(isSubscription) {
+      const checkmarks = this.container.querySelectorAll('.benefit-icon.checkmark');
+      const crosses = this.container.querySelectorAll('.benefit-icon.cross');
+      
+      checkmarks.forEach(icon => {
+        icon.classList.toggle('hidden', !isSubscription);
+      });
+      
+      crosses.forEach(icon => {
+        icon.classList.toggle('hidden', isSubscription);
+      });
+    }
+    
+    selectInterval(interval) {
+      this.selectedInterval = parseInt(interval);
+      
+      // Update UI for interval options
+      this.intervalOptions.forEach(option => {
+        if (parseInt(option.dataset.interval) === this.selectedInterval) {
+          option.classList.add('active', 'border-blue-500', 'bg-blue-50');
+          option.classList.remove('border-gray-200', 'bg-white');
+        } else {
+          option.classList.remove('active', 'border-blue-500', 'bg-blue-50');
+          option.classList.add('border-gray-200', 'bg-white');
+        }
+      });
+      
+      this.updateSubscriptionSummary();
+      this.updateRechargeOptions('subscription', this.selectedInterval);
+    }
+    
+    formatMoney(amount) {
+      // Get the current currency format from the page if available
+      const moneyFormat = window.theme && window.theme.moneyFormat 
+        ? window.theme.moneyFormat 
+        : '{{ amount_with_comma_separator }}';
+      
+      // Basic implementation of money formatting
+      let formatted = '';
+      
+      if (moneyFormat.includes('with_comma_separator')) {
+        // Format with commas as thousand separators and periods as decimal
+        formatted = '$' + amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      } else {
+        // Format with periods as thousand separators and commas as decimal
+        formatted = '$' + amount.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      }
+      
+      return formatted;
+    }
+    
+    updatePricePerCan() {
+      this.pricePerCanElements.forEach(element => {
+        const interval = parseInt(element.dataset.interval);
+        const pricePerCan = this.calculatePricePerCan(interval);
+        element.textContent = `${this.formatMoney(pricePerCan)} per can`;
+      });
+    }
+    
+    calculatePricePerCan(interval) {
+      let price = this.productPrice;
+      
+      // Apply subscription discount if applicable
+      if (this.selectedPurchaseType === 'subscription') {
+        price = price * (1 - this.discountPercentage / 100);
+      }
+      
+      // Calculate price per can based on interval
+      return price / interval;
+    }
+    
+    updateSubscriptionSummary() {
+      const discountedPrice = this.productPrice * (1 - this.discountPercentage / 100);
+      const savings = this.productPrice - discountedPrice;
+      
+      this.subscriptionSummary.classList.remove('hidden');
+      this.subscriptionDetails.textContent = `Delivered every ${this.selectedInterval} month${this.selectedInterval > 1 ? 's' : ''}`;
+      this.subscriptionPrice.textContent = this.formatMoney(discountedPrice);
+      this.subscriptionSavings.textContent = `Save ${this.formatMoney(savings)} per delivery`;
+      
+      // Update price per can display
+      this.updatePricePerCan();
+    }
+    
+    updateRechargeOptions(purchaseType, interval) {
+      // This function would integrate with Recharge to update the product form
+      // For demonstration purposes, we'll log the selected options
+      console.log('Purchase Type:', purchaseType);
+      console.log('Subscription Interval:', interval);
+      
+      // In a real implementation, you would update hidden form fields or trigger
+      // Recharge's API to update the subscription options
+      
+      // Example of updating hidden fields (these would be added to your product form)
+      const purchaseTypeField = document.querySelector('input[name="purchase_type"]');
+      const intervalField = document.querySelector('input[name="subscription_interval"]');
+      
+      if (purchaseTypeField) {
+        purchaseTypeField.value = purchaseType;
+      }
+      
+      if (intervalField) {
+        intervalField.value = interval || '';
+      }
+    }
+  }
+  
+  // Initialize the subscription selector when the DOM is loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    const containers = document.querySelectorAll('.subscription-interval-selector');
+    containers.forEach(container => {
+      new SubscriptionIntervalSelector(container);
+    });
+  });
+</script>
+
+<style>
+  .shopdev-subscription-interval-selector .subscription-interval-selector .purchase-option.active,
+  .shopdev-subscription-interval-selector .subscription-interval-selector .interval-option.active {
+    border-color: #3b82f6;
+    background-color: #eff6ff;
+  }
+  
+  .shopdev-subscription-interval-selector .subscription-interval-selector .purchase-option:hover,
+  .shopdev-subscription-interval-selector .subscription-interval-selector .interval-option:hover {
+    border-color: #93c5fd;
+  }
+  
+  @media (max-width: 640px) {
+    .shopdev-subscription-interval-selector .subscription-interval-selector .interval-options {
+      flex-direction: row;
+    }
+    
+    .shopdev-subscription-interval-selector .subscription-interval-selector .interval-option {
+      flex: 1;
+      min-width: 80px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Subscription Interval Sel",
+  "class": "shopdev shopdev-subscription-interval-selector",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Subscription Options"
+    },
+    {
+      "type": "number",
+      "id": "subscription_discount",
+      "label": "Subscription Discount (%)",
+      "default": 15
+    },
+    {
+      "type": "text",
+      "id": "interval_label",
+      "label": "Delivery Interval Label",
+      "default": "Choose your delivery frequency:"
+    },
+    {
+      "type": "number",
+      "id": "product_price",
+      "label": "Product Price",
+      "default": 2999,
+      "info": "Default product price for demonstration purposes (in cents)"
+    },
+    {
+      "type": "header",
+      "content": "Subscription Benefits"
+    },
+    {
+      "type": "text",
+      "id": "benefits_title",
+      "label": "Benefits Title",
+      "default": "Subscription Benefits"
+    },
+    {
+      "type": "text",
+      "id": "benefit_1",
+      "label": "Benefit 1",
+      "default": "Save money with every delivery"
+    },
+    {
+      "type": "text",
+      "id": "benefit_2",
+      "label": "Benefit 2",
+      "default": "Cancel or pause anytime"
+    },
+    {
+      "type": "text",
+      "id": "benefit_3",
+      "label": "Benefit 3",
+      "default": "Free shipping on all subscription orders"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Subscription Selector",
+      "settings": {
+        "subscription_discount": 15,
+        "interval_label": "Choose your delivery frequency:",
+        "product_price": 49.99,
+        "benefits_title": "Subscription Benefits",
+        "benefit_1": "Save money with every delivery",
+        "benefit_2": "Cancel or pause anytime",
+        "benefit_3": "Free shipping on all subscription orders"
+      }
+    }
+  ]
+}
+{% endschema %}

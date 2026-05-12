@@ -1,0 +1,92 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "footer",
+  "name": "Footer",
+  "sections": {
+    "shopdev_currency_and_language_selector_RpxwGA": {
+      "type": "shopdev-currency-and-language-selector",
+      "name": "Currency & Language",
+      "settings": {
+        "background_color": "#0a2240",
+        "show_description": false,
+        "description": "<p>Select your preferred currency and language</p>"
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "footer-block-0": {
+          "type": "link",
+          "settings": {
+            "alignment": "text-left",
+            "menu": "main-menu",
+            "title": "Shop",
+            "column_width": "20"
+          }
+        },
+        "footer-block-1": {
+          "type": "link",
+          "settings": {
+            "alignment": "text-left",
+            "menu": "footer",
+            "title": "Helpful Links",
+            "column_width": "20"
+          }
+        },
+        "footer-block-2": {
+          "type": "text",
+          "settings": {
+            "alignment": "text-left",
+            "title": "Our Mission",
+            "footer_text": "<p>BKM develop supplements that blend natural ingredients, minerals, essential vitamins, mushrooms, and herbs, designed to deliver immediate benefits and support long-term health.</p>",
+            "column_width": "30"
+          }
+        },
+        "footer-block-3": {
+          "type": "newsletter",
+          "settings": {
+            "alignment": "text-left",
+            "title": "Newsletter",
+            "text": "<p>Stay up to date with the new collections, products and exclusive offers.</p>",
+            "column_width": "30"
+          }
+        }
+      },
+      "block_order": [
+        "footer-block-0",
+        "footer-block-1",
+        "footer-block-2",
+        "footer-block-3"
+      ],
+      "settings": {
+        "show_footer_wave": true,
+        "bottom_bar_alignment": "text-left",
+        "show_social_links": true,
+        "enable_follow_on_shop": false,
+        "show_payment_icons": true,
+        "bottom_menu": "",
+        "color_text": "#ffffff",
+        "color_bg": "#0a2240",
+        "color_border": "#ffffff",
+        "show_locale_selector": false,
+        "show_country_selector": false,
+        "show_country_flag": false,
+        "width": "wrapper",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "shopdev_currency_and_language_selector_RpxwGA",
+    "footer"
+  ]
+}

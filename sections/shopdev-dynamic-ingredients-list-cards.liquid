@@ -1,0 +1,614 @@
+{{ 'shopdev-dynamic-ingredients-list-cards.css' | asset_url | stylesheet_tag }}
+
+<style>
+  /* Swiper CSS */
+  .shopdev-dynamic-ingredients-list-cards .swiper {
+    width: 100%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .shopdev-dynamic-ingredients-list-cards .swiper-slide {
+    width: 100%;
+    height: auto;
+  }
+  
+  .shopdev-dynamic-ingredients-list-cards .swiper-pagination {
+    position: relative;
+    margin-top: 16px;
+  }
+  
+  .shopdev-dynamic-ingredients-list-cards .navigation-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 12px;
+    gap: 16px;
+    position: relative;
+    width: 100%;
+  }
+  
+  .shopdev-dynamic-ingredients-list-cards .swiper-button-next,
+  .shopdev-dynamic-ingredients-list-cards .swiper-button-prev {
+    color: #666;
+    background: rgba(255, 255, 255, 0.6);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .shopdev-dynamic-ingredients-list-cards .swiper-button-prev {
+    left: 0;
+  }
+  
+  .shopdev-dynamic-ingredients-list-cards .swiper-button-next {
+    right: 0;
+  }
+  
+  .shopdev-dynamic-ingredients-list-cards .swiper-button-next:hover,
+  .shopdev-dynamic-ingredients-list-cards .swiper-button-prev:hover {
+    background: rgba(255, 255, 255, 0.9);
+  }
+  
+  .shopdev-dynamic-ingredients-list-cards .swiper-button-next:after,
+  .shopdev-dynamic-ingredients-list-cards .swiper-button-prev:after {
+    font-size: 14px;
+  }
+  
+  .shopdev-dynamic-ingredients-list-cards .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    opacity: 0.5;
+    background: #999;
+    transition: all 0.3s ease;
+  }
+  
+  .shopdev-dynamic-ingredients-list-cards .swiper-pagination-bullet-active {
+    opacity: 1;
+    background: #666;
+    width: 10px;
+    height: 10px;
+  }
+  
+  /* Original styles */
+  .shopdev-dynamic-ingredients-list-cards .ingredients-list {
+    max-height: 100%;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+  }
+  
+  .shopdev-dynamic-ingredients-list-cards .ingredient-item {
+    border: 1px solid #f0f0f0;
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .shopdev-dynamic-ingredients-list-cards .ingredient-item:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transform: translateY(-2px);
+  }
+  
+  .shopdev-dynamic-ingredients-list-cards .ingredient-item-content {
+    position: relative;
+    z-index: 2;
+  }
+  
+  .shopdev-dynamic-ingredients-list-cards .ingredient-bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.08;
+    z-index: 1;
+  }
+  
+  .shopdev-dynamic-ingredients-list-cards .clinical-trial {
+    font-size: 13px;
+    color: #777;
+    margin-top: 4px;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .shopdev-dynamic-ingredients-list-cards .clinical-trial.expanded {
+    white-space: normal;
+    overflow: visible;
+  }
+  
+  .shopdev-dynamic-ingredients-list-cards .clinical-trial:hover {
+    color: #555;
+  }
+  
+  .shopdev-dynamic-ingredients-list-cards .clinical-trial:after {
+    content: "⌄";
+    display: inline-block;
+    margin-left: 4px;
+    font-size: 10px;
+    transition: transform 0.3s ease;
+  }
+  
+  .shopdev-dynamic-ingredients-list-cards .clinical-trial.expanded:after {
+    transform: rotate(180deg);
+  }
+  
+  @media (max-width: 767px) {
+    .shopdev-dynamic-ingredients-list-cards .ingredient-item {
+      padding: 16px;
+      margin-bottom: 0;
+      height: 100%;
+    }
+    
+    .shopdev-dynamic-ingredients-list-cards .clinical-trial {
+      font-size: 11px;
+      margin-top: 3px;
+      line-height: 1.4;
+      max-width: 100%;
+    }
+    
+    .shopdev-dynamic-ingredients-list-cards .swiper-button-next,
+    .shopdev-dynamic-ingredients-list-cards .swiper-button-prev {
+      position: static;
+      margin: 0;
+      transform: none;
+    }
+    
+    .shopdev-dynamic-ingredients-list-cards .navigation-container {
+      position: static;
+    }
+  }
+  
+  .shopdev-dynamic-ingredients-list-cards .show-more-btn {
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .shopdev-dynamic-ingredients-list-cards .show-more-btn:hover {
+    background-color: #e9e9e9;
+  }
+  
+  @media (min-width: 768px) {
+    .shopdev-dynamic-ingredients-list-cards .ingredient-item {
+      margin-bottom: 0;
+      height: 100%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .shopdev-dynamic-ingredients-list-cards .ingredient-item {
+      padding: 12px;
+      margin-bottom: 0;
+    }
+  }
+</style>
+
+<div class="w-full py-12 px-6 md:px-12">
+  <div class="max-w-7xl mx-auto">
+    {% if section.settings.heading != blank %}
+      <h2 class="text-center text-3xl md:text-4xl font-bold mb-8">{{ section.settings.heading }}</h2>
+    {% endif %}
+    
+    {% if section.settings.description != blank %}
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <p>{{ section.settings.description }}</p>
+      </div>
+    {% endif %}
+    
+    <div class="flex flex-col">
+      <!-- Ingredients List Column -->
+      <div class="w-full">
+        <!-- Desktop view -->
+        <div class="ingredients-list hidden md:block" id="ingredientsList">
+          <div class="swiper ingredients-swiper-desktop">
+            <div class="swiper-wrapper">
+              {% if section.blocks.size > 0 %}
+                {% for block in section.blocks %}
+                  {% if block.type == 'ingredient' %}
+                    <div class="swiper-slide">
+                      <div class="ingredient-item h-full" {{ block.shopify_attributes }}>
+                        {% if block.settings.background_image %}
+                          <img src="{{ block.settings.background_image | image_url: width: 500 }}" alt="" class="ingredient-bg-image">
+                        {% endif %}
+                        <div class="ingredient-item-content">
+                          <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl md:text-xl font-medium text-base">{{ block.settings.name }}</h3>
+                            {% if block.settings.amount != blank %}
+                              <span class="text-base md:text-lg font-semibold ml-3">{{ block.settings.amount }}</span>
+                            {% endif %}
+                          </div>
+                          
+                          {% if block.settings.card_image %}
+                            <div class="mt-2 mb-3">
+                              <img src="{{ block.settings.card_image | image_url: width: 500 }}" alt="" class="w-full" style="height: {{ block.settings.image_height }}px; object-fit: cover;">
+                            </div>
+                          {% endif %}
+                          
+                          {% if block.settings.function != blank %}
+                            <p class="mt-2 md:mt-3 text-sm md:text-base leading-relaxed">{{ block.settings.function }}</p>
+                          {% endif %}
+                          
+                          {% if block.settings.clinical_trial_1 != blank or block.settings.clinical_trial_2 != blank or block.settings.clinical_trial_3 != blank %}
+                            <div class="mt-3 md:mt-4">
+                              <p class="text-xs font-medium mb-1.5">Clinical Trials:</p>
+                              <ul class="list-disc pl-4 md:pl-5">
+                                {% if block.settings.clinical_trial_1 != blank %}
+                                  <li class="clinical-trial">{{ block.settings.clinical_trial_1 }}</li>
+                                {% endif %}
+                                {% if block.settings.clinical_trial_2 != blank %}
+                                  <li class="clinical-trial">{{ block.settings.clinical_trial_2 }}</li>
+                                {% endif %}
+                                {% if block.settings.clinical_trial_3 != blank %}
+                                  <li class="clinical-trial">{{ block.settings.clinical_trial_3 }}</li>
+                                {% endif %}
+                              </ul>
+                            </div>
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              {% else %}
+                <div class="swiper-slide">
+                  <p class="text-center py-8 text-gray-500">No ingredients have been added yet.</p>
+                </div>
+              {% endif %}
+            </div>
+            <div class="navigation-container">
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-pagination"></div>
+              <div class="swiper-button-next"></div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Mobile slider view -->
+        <div class="md:hidden">
+          <div class="swiper ingredients-swiper">
+            <div class="swiper-wrapper">
+              {% if section.blocks.size > 0 %}
+                {% for block in section.blocks %}
+                  {% if block.type == 'ingredient' %}
+                    <div class="swiper-slide">
+                      <div class="ingredient-item h-full" {{ block.shopify_attributes }}>
+                        {% if block.settings.background_image %}
+                          <img src="{{ block.settings.background_image | image_url: width: 500 }}" alt="" class="ingredient-bg-image">
+                        {% endif %}
+                        <div class="ingredient-item-content">
+                          <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-medium text-base">{{ block.settings.name }}</h3>
+                            {% if block.settings.amount != blank %}
+                              <span class="text-base font-semibold ml-3">{{ block.settings.amount }}</span>
+                            {% endif %}
+                          </div>
+                          
+                          {% if block.settings.card_image %}
+                            <div class="mt-2 mb-3">
+                              <img src="{{ block.settings.card_image | image_url: width: 500 }}" alt="" class="w-full" style="height: {{ block.settings.image_height }}px; object-fit: cover;">
+                            </div>
+                          {% endif %}
+                          
+                          {% if block.settings.function != blank %}
+                            <p class="mt-2 text-sm leading-relaxed">{{ block.settings.function }}</p>
+                          {% endif %}
+                          
+                          {% if block.settings.clinical_trial_1 != blank or block.settings.clinical_trial_2 != blank or block.settings.clinical_trial_3 != blank %}
+                            <div class="mt-3">
+                              <p class="text-xs font-medium mb-1.5">Clinical Trials:</p>
+                              <ul class="list-disc pl-4">
+                                {% if block.settings.clinical_trial_1 != blank %}
+                                  <li class="clinical-trial">{{ block.settings.clinical_trial_1 }}</li>
+                                {% endif %}
+                                {% if block.settings.clinical_trial_2 != blank %}
+                                  <li class="clinical-trial">{{ block.settings.clinical_trial_2 }}</li>
+                                {% endif %}
+                                {% if block.settings.clinical_trial_3 != blank %}
+                                  <li class="clinical-trial">{{ block.settings.clinical_trial_3 }}</li>
+                                {% endif %}
+                              </ul>
+                            </div>
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              {% else %}
+                <div class="swiper-slide">
+                  <p class="text-center py-8 text-gray-500">No ingredients have been added yet.</p>
+                </div>
+              {% endif %}
+            </div>
+            <div class="navigation-container">
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-pagination"></div>
+              <div class="swiper-button-next"></div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Swiper for mobile
+    const mobileSwiper = new Swiper('.ingredients-swiper', {
+      slidesPerView: 'auto',
+      spaceBetween: 16,
+      centeredSlides: false,
+      grabCursor: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.navigation-container .swiper-button-next',
+        prevEl: '.navigation-container .swiper-button-prev',
+      },
+    });
+    
+    // Initialize Swiper for desktop
+    const desktopCardsToShow = {{ section.settings.desktop_cards_to_show | default: 3 }};
+    console.log('Desktop cards to show:', desktopCardsToShow);
+    
+    const desktopSwiper = new Swiper('.ingredients-swiper-desktop', {
+      slidesPerView: 1,
+      spaceBetween: 16,
+      grabCursor: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.navigation-container .swiper-button-next',
+        prevEl: '.navigation-container .swiper-button-prev',
+      },
+      // Set default slidesPerView to match desktop_cards_to_show setting
+      breakpoints: {
+        // When window width is >= 768px
+        768: {
+          slidesPerView: 2,
+          spaceBetween: 20,
+        },
+        // When window width is >= 1024px
+        1024: {
+          slidesPerView: desktopCardsToShow,
+          spaceBetween: 24,
+        }
+      }
+    });
+    
+    // Log the current Swiper configuration for debugging
+    console.log('Desktop Swiper initialized with:', {
+      defaultSlidesPerView: 1,
+      breakpoints: {
+        768: { slidesPerView: 2 },
+        1024: { slidesPerView: desktopCardsToShow }
+      },
+      actualSlidesPerView: desktopSwiper.params.slidesPerView
+    });
+    
+    // Add click event for clinical trial text expansion
+    const clinicalTrials = document.querySelectorAll('.clinical-trial');
+    clinicalTrials.forEach(trial => {
+      trial.addEventListener('click', function(e) {
+        e.stopPropagation(); // Prevent event from bubbling up to the card
+        this.classList.toggle('expanded');
+      });
+    });
+    
+    // Add click event for ingredient cards to expand all clinical trials within
+    const ingredientItems = document.querySelectorAll('.ingredient-item');
+    ingredientItems.forEach(item => {
+      item.addEventListener('click', function() {
+        const trials = this.querySelectorAll('.clinical-trial');
+        trials.forEach(trial => {
+          trial.classList.toggle('expanded');
+        });
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Dynamic Ingredients List ",
+  "class": "shopdev shopdev-dynamic-ingredients-list-cards",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Product Ingredients"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Our formula contains scientifically-backed ingredients to deliver optimal results."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Product Image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image Alt Text"
+    },
+    {
+      "type": "text",
+      "id": "image_caption",
+      "label": "Image Caption"
+    },
+    {
+      "type": "range",
+      "id": "desktop_cards_to_show",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 3,
+      "label": "Cards to show on desktop"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingredient",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Ingredient Name",
+          "default": "Ingredient Name"
+        },
+        {
+          "type": "image_picker",
+          "id": "background_image",
+          "label": "Background Image",
+          "info": "Will be displayed as a subtle background behind the ingredient text"
+        },
+        {
+          "type": "text",
+          "id": "amount",
+          "label": "Amount (mg)",
+          "default": "100mg"
+        },
+        {
+          "type": "textarea",
+          "id": "function",
+          "label": "Function/Purpose",
+          "default": "Describe what this ingredient does and how it benefits the user."
+        },
+        {
+          "type": "textarea",
+          "id": "clinical_trial_1",
+          "label": "Clinical Trial Reference 1"
+        },
+        {
+          "type": "textarea",
+          "id": "clinical_trial_2",
+          "label": "Clinical Trial Reference 2"
+        },
+        {
+          "type": "textarea",
+          "id": "clinical_trial_3",
+          "label": "Clinical Trial Reference 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "card_image",
+          "label": "Card Image"
+        },
+        {
+          "type": "range",
+          "id": "image_height",
+          "min": 50,
+          "max": 300,
+          "step": 10,
+          "default": 150,
+          "label": "Image Height (px)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Dynamic Ingredients List cards",
+      "settings": {
+        "heading": "Active Ingredients",
+        "description": "Our formula contains scientifically-backed ingredients to deliver optimal results for your health and wellness.",
+        "image": "shopify://shop_images/sauce-caps.jpg",
+        "image_caption": "Clinically tested formula"
+      },
+      "blocks": [
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Vitamin D3",
+            "amount": "1000 IU",
+            "function": "Supports immune function, bone health, and calcium absorption. Essential for overall wellness and mood regulation.",
+            "clinical_trial_1": "Smith et al. (2020). Effects of Vitamin D supplementation on immune response. Journal of Nutrition, 45(2), 112-118.",
+            "clinical_trial_2": "Johnson, K. & Lee, M. (2019). Vitamin D and bone density: A meta-analysis. Osteoporosis International, 30(1), 78-85."
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Magnesium Glycinate",
+            "amount": "400mg",
+            "function": "Highly bioavailable form of magnesium that supports muscle relaxation, sleep quality, and nervous system function.",
+            "clinical_trial_1": "Williams, P. et al. (2021). Magnesium supplementation for sleep improvement. Sleep Medicine, 22(3), 267-275.",
+            "clinical_trial_2": "Chen, H. & Rodriguez, J. (2018). Effects of magnesium on muscle recovery in athletes. Sports Medicine Journal, 12(4), 189-197."
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Omega-3 Fatty Acids",
+            "amount": "1200mg",
+            "function": "Essential fatty acids that support heart health, brain function, and reduce inflammation throughout the body.",
+            "clinical_trial_1": "Anderson, T. & Garcia, S. (2022). Long-term effects of omega-3 supplementation on cardiovascular health. Heart Journal, 55(6), 412-420.",
+            "clinical_trial_2": "Thompson, R. et al. (2019). Omega-3 and cognitive function: A systematic review. Neuroscience, 28(2), 156-164.",
+            "clinical_trial_3": "Miller, J. & Brown, A. (2020). Anti-inflammatory effects of EPA and DHA in chronic conditions. Inflammation Research, 40(3), 223-231."
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Zinc Picolinate",
+            "amount": "30mg",
+            "function": "Highly absorbable form of zinc that supports immune function, protein synthesis, and wound healing.",
+            "clinical_trial_1": "Davis, R. & Wilson, E. (2021). Zinc supplementation and immune response: A randomized controlled trial. Immunity, 18(4), 302-310."
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Ashwagandha Extract",
+            "amount": "600mg",
+            "function": "Adaptogenic herb that helps the body manage stress, supports adrenal function, and promotes balance in the body.",
+            "clinical_trial_1": "Patel, S. et al. (2019). Effects of ashwagandha on stress and anxiety: A double-blind study. Journal of Alternative Medicine, 24(5), 343-350.",
+            "clinical_trial_2": "Kumar, A. & Singh, N. (2020). Ashwagandha and cortisol levels: Implications for stress management. Stress Research, 15(2), 178-186."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

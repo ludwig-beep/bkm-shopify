@@ -1,0 +1,340 @@
+{{ 'shopdev-variant-switcher-buttons.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .shopdev-variant-switcher-buttons .variant-button {
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+  
+  .shopdev-variant-switcher-buttons .variant-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .shopdev-variant-switcher-buttons .variant-button.active {
+    border-color: {{ section.settings.active_border_color }};
+    box-shadow: 0 0 0 1px {{ section.settings.active_border_color }};
+  }
+  
+  .shopdev-variant-switcher-buttons .variant-image {
+    transition: opacity 0.3s ease;
+  }
+  
+  @media (max-width: 768px) {
+    .shopdev-variant-switcher-buttons .variant-buttons {
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .shopdev-variant-switcher-buttons .variant-button {
+      width: 100%;
+    }
+  }
+</style>
+
+<div class="w-full py-8">
+  {% assign product = all_products[section.settings.product] %}
+  
+  {% if product != blank and product.variants.size > 1 %}
+    <div class="max-w-4xl mx-auto px-4">
+      <!-- Product Image -->
+      <div class="mb-8 text-center">
+        <div class="relative inline-block">
+          {% assign first_variant = product.variants[0] %}
+          {% if section.settings.variant_1 != blank %}
+            {% assign variant_1 = product.variants | where: 'id', section.settings.variant_1 | first %}
+            {% if variant_1 %}
+              {% assign first_variant = variant_1 %}
+            {% endif %}
+          {% endif %}
+          
+          <img id="variant-image" 
+               src="{{ first_variant.featured_image | default: product.featured_image | image_url: width: 600 }}" 
+               alt="{{ product.title }}"
+               class="variant-image w-full max-w-md h-auto rounded-lg shadow-lg mx-auto">
+        </div>
+      </div>
+
+      <!-- Product Title -->
+      {% if section.settings.show_product_title %}
+        <div class="text-center mb-6">
+          <h2 class="text-2xl md:text-3xl font-bold" style="color: {{ section.settings.title_color }}">
+            {{ product.title }}
+          </h2>
+        </div>
+      {% endif %}
+
+      <!-- Variant Buttons -->
+      <div class="variant-buttons flex flex-row justify-center gap-6 mb-8">
+        {% if section.settings.variant_1 != blank %}
+          {% assign variant_1 = product.variants | where: 'id', section.settings.variant_1 | first %}
+          {% if variant_1 %}
+            <button class="variant-button active px-8 py-4 rounded-lg font-semibold text-center min-w-[200px]"
+                    style="background-color: {{ section.settings.button_bg_color }}; color: {{ section.settings.button_text_color }}"
+                    data-variant-id="{{ variant_1.id }}"
+                    data-variant-image="{{ variant_1.featured_image | default: product.featured_image | image_url: width: 600 }}"
+                    data-variant-price="{{ variant_1.price | money }}">
+              <div class="font-bold text-lg mb-1">
+                {{ section.settings.button_1_label | default: variant_1.title }}
+              </div>
+              {% if section.settings.show_prices %}
+                <div class="text-sm opacity-90">
+                  {{ variant_1.price | money }}
+                </div>
+              {% endif %}
+            </button>
+          {% endif %}
+        {% endif %}
+
+        {% if section.settings.variant_2 != blank %}
+          {% assign variant_2 = product.variants | where: 'id', section.settings.variant_2 | first %}
+          {% if variant_2 %}
+            <button class="variant-button px-8 py-4 rounded-lg font-semibold text-center min-w-[200px]"
+                    style="background-color: {{ section.settings.button_bg_color }}; color: {{ section.settings.button_text_color }}"
+                    data-variant-id="{{ variant_2.id }}"
+                    data-variant-image="{{ variant_2.featured_image | default: product.featured_image | image_url: width: 600 }}"
+                    data-variant-price="{{ variant_2.price | money }}">
+              <div class="font-bold text-lg mb-1">
+                {{ section.settings.button_2_label | default: variant_2.title }}
+              </div>
+              {% if section.settings.show_prices %}
+                <div class="text-sm opacity-90">
+                  {{ variant_2.price | money }}
+                </div>
+              {% endif %}
+            </button>
+          {% endif %}
+        {% endif %}
+      </div>
+
+      <!-- Selected Variant Info -->
+      {% if section.settings.show_variant_info %}
+        <div class="text-center">
+          <div id="selected-variant-info" class="inline-block p-4 rounded-lg" style="background-color: {{ section.settings.info_bg_color }}">
+            <div class="text-sm uppercase tracking-wider mb-2" style="color: {{ section.settings.info_text_color }}">
+              Currently Selected
+            </div>
+            <div id="selected-variant-title" class="font-bold text-lg" style="color: {{ section.settings.info_text_color }}">
+              {% if section.settings.variant_1 != blank %}
+                {% assign variant_1 = product.variants | where: 'id', section.settings.variant_1 | first %}
+                {{ section.settings.button_1_label | default: variant_1.title }}
+              {% endif %}
+            </div>
+            {% if section.settings.show_prices %}
+              <div id="selected-variant-price" class="text-lg font-semibold mt-1" style="color: {{ section.settings.info_text_color }}">
+                {% if section.settings.variant_1 != blank %}
+                  {% assign variant_1 = product.variants | where: 'id', section.settings.variant_1 | first %}
+                  {{ variant_1.price | money }}
+                {% endif %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  {% else %}
+    <div class="max-w-4xl mx-auto px-4 py-12 text-center">
+      <div class="bg-gray-100 rounded-lg p-8">
+        <h3 class="text-xl font-semibold mb-4 text-gray-700">Variant Switcher</h3>
+        <p class="text-gray-600 mb-4">Please select a product with multiple variants to display the switcher.</p>
+        <p class="text-sm text-gray-500">Configure this section in the theme editor to get started.</p>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<script>
+  class VariantSwitcher {
+    constructor() {
+      this.buttons = document.querySelectorAll('.variant-button');
+      this.image = document.getElementById('variant-image');
+      this.variantInfo = document.getElementById('selected-variant-info');
+      this.variantTitle = document.getElementById('selected-variant-title');
+      this.variantPrice = document.getElementById('selected-variant-price');
+      
+      this.init();
+    }
+
+    init() {
+      this.buttons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          this.handleVariantSwitch(e.target.closest('.variant-button'));
+        });
+      });
+    }
+
+    handleVariantSwitch(clickedButton) {
+      // Remove active class from all buttons
+      this.buttons.forEach(button => {
+        button.classList.remove('active');
+      });
+
+      // Add active class to clicked button
+      clickedButton.classList.add('active');
+
+      // Update image
+      const newImageSrc = clickedButton.dataset.variantImage;
+      if (this.image && newImageSrc) {
+        this.image.style.opacity = '0';
+        setTimeout(() => {
+          this.image.src = newImageSrc;
+          this.image.style.opacity = '1';
+        }, 150);
+      }
+
+      // Update variant info
+      if (this.variantTitle) {
+        const buttonLabel = clickedButton.querySelector('.font-bold').textContent;
+        this.variantTitle.textContent = buttonLabel;
+      }
+
+      if (this.variantPrice) {
+        const variantPrice = clickedButton.dataset.variantPrice;
+        this.variantPrice.textContent = variantPrice;
+      }
+
+      // Trigger custom event for other scripts to listen to
+      const event = new CustomEvent('variantSwitched', {
+        detail: {
+          variantId: clickedButton.dataset.variantId,
+          variantImage: clickedButton.dataset.variantImage,
+          variantPrice: clickedButton.dataset.variantPrice
+        }
+      });
+      document.dispatchEvent(event);
+    }
+  }
+
+  // Initialize when DOM is loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    new VariantSwitcher();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Variant Switcher Buttons",
+  "class": "shopdev shopdev-variant-switcher-buttons",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Product Selection"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "variant_1",
+      "label": "First Variant ID",
+      "info": "Enter the variant ID for the first option"
+    },
+    {
+      "type": "text",
+      "id": "variant_2",
+      "label": "Second Variant ID",
+      "info": "Enter the variant ID for the second option"
+    },
+    {
+      "type": "header",
+      "content": "Button Labels"
+    },
+    {
+      "type": "text",
+      "id": "button_1_label",
+      "label": "First Button Label",
+      "info": "Leave blank to use variant title"
+    },
+    {
+      "type": "text",
+      "id": "button_2_label",
+      "label": "Second Button Label",
+      "info": "Leave blank to use variant title"
+    },
+    {
+      "type": "header",
+      "content": "Display Options"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_title",
+      "label": "Show product title",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_prices",
+      "label": "Show variant prices",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_variant_info",
+      "label": "Show selected variant info",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Styling"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Product title color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button background color",
+      "default": "#f8f9fa"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "active_border_color",
+      "label": "Active button border color",
+      "default": "#007bff"
+    },
+    {
+      "type": "color",
+      "id": "info_bg_color",
+      "label": "Variant info background color",
+      "default": "#f8f9fa"
+    },
+    {
+      "type": "color",
+      "id": "info_text_color",
+      "label": "Variant info text color",
+      "default": "#000000"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Variant Switcher Buttons",
+      "settings": {
+        "product": "tranquil",
+        "button_1_label": "Single Bottle",
+        "button_2_label": "Value Pack",
+        "show_product_title": true,
+        "show_prices": true,
+        "show_variant_info": true,
+        "title_color": "#1a1a1a",
+        "button_bg_color": "#ffffff",
+        "button_text_color": "#1a1a1a",
+        "active_border_color": "#4f46e5",
+        "info_bg_color": "#f3f4f6",
+        "info_text_color": "#374151"
+      }
+    }
+  ]
+}
+{% endschema %}

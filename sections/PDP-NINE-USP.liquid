@@ -1,0 +1,371 @@
+{% schema %}
+{
+  "name": "PDP-NINE-USP",
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section Width",
+      "options": [
+        {
+          "value": "full_width",
+          "label": "Full Width Padded"
+        },
+        {
+          "value": "page_width",
+          "label": "Page Width"
+        },
+        {
+          "value": "boxed",
+          "label": "Boxed Width"
+        }
+      ],
+      "default": "page_width"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "usp_box",
+      "name": "USP Box",
+      "limit": 9,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Add your text here"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color",
+          "default": "#000000"
+        },
+        {
+          "type": "header",
+          "content": "Size Settings"
+        },
+        {
+          "type": "select",
+          "id": "box_width",
+          "label": "Box Width",
+          "options": [
+            {
+              "value": "quarter",
+              "label": "Small (1/4)"
+            },
+            {
+              "value": "half",
+              "label": "Medium (2/4)"
+            },
+            {
+              "value": "three-quarters",
+              "label": "Large (3/4)"
+            }
+          ],
+          "default": "quarter"
+        },
+        {
+          "type": "select",
+          "id": "box_height",
+          "label": "Box Height",
+          "options": [
+            {
+              "value": "small",
+              "label": "Small"
+            },
+            {
+              "value": "medium",
+              "label": "Medium"
+            },
+            {
+              "value": "large",
+              "label": "Large"
+            }
+          ],
+          "default": "small"
+        },
+        {
+          "type": "select",
+          "id": "mobile_height",
+          "label": "Mobile Height",
+          "options": [
+            {
+              "value": "mobile-auto",
+              "label": "Auto"
+            },
+            {
+              "value": "mobile-small",
+              "label": "Small (160px)"
+            },
+            {
+              "value": "mobile-medium",
+              "label": "Medium (240px)"
+            },
+            {
+              "value": "mobile-large",
+              "label": "Large (320px)"
+            },
+            {
+              "value": "mobile-xlarge",
+              "label": "Extra Large (400px)"
+            }
+          ],
+          "default": "mobile-auto",
+          "info": "Choose the height of this box on mobile devices"
+        },
+        {
+          "type": "header",
+          "content": "Background Settings"
+        },
+        {
+          "type": "select",
+          "id": "background_type",
+          "label": "Background Type",
+          "options": [
+            {
+              "value": "color",
+              "label": "Color"
+            },
+            {
+              "value": "image",
+              "label": "Image"
+            }
+          ],
+          "default": "color"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background Color",
+          "default": "#f4f4f4"
+        },
+        {
+          "type": "image_picker",
+          "id": "background_image",
+          "label": "Background Image"
+        },
+        {
+          "type": "select",
+          "id": "background_position",
+          "label": "Background Position",
+          "options": [
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "top",
+              "label": "Top"
+            },
+            {
+              "value": "bottom",
+              "label": "Bottom"
+            }
+          ],
+          "default": "center",
+          "info": "Choose how the background image is positioned"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP-NINE-USP",
+      "blocks": [
+        {
+          "type": "usp_box"
+        },
+        {
+          "type": "usp_box"
+        },
+        {
+          "type": "usp_box"
+        },
+        {
+          "type": "usp_box"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+.pdp-nine-usp {
+  padding: 40px 0;
+}
+
+.pdp-nine-usp__container {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.pdp-nine-usp__container.full_width {
+  max-width: none;
+}
+
+.pdp-nine-usp__container.boxed {
+  max-width: 1000px;
+}
+
+.pdp-nine-usp__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-flow: dense;
+  gap: 20px;
+}
+
+.pdp-nine-usp__box {
+  padding: 30px;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* Width classes */
+.pdp-nine-usp__box.quarter {
+  grid-column: span 1;
+}
+
+.pdp-nine-usp__box.half {
+  grid-column: span 2;
+}
+
+.pdp-nine-usp__box.three-quarters {
+  grid-column: span 3;
+}
+
+/* Height classes */
+.pdp-nine-usp__box.small {
+  grid-row: span 1;
+  min-height: 200px;
+}
+
+.pdp-nine-usp__box.medium {
+  grid-row: span 2;
+  min-height: 300px;
+}
+
+.pdp-nine-usp__box.large {
+  grid-row: span 3;
+  min-height: 400px;
+}
+
+.pdp-nine-usp__title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  position: relative;
+  z-index: 1;
+}
+
+.pdp-nine-usp__text {
+  font-size: 16px;
+  line-height: 1.5;
+  position: relative;
+  z-index: 1;
+}
+
+/* Tablet view */
+@media screen and (max-width: 989px) {
+  .pdp-nine-usp__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .pdp-nine-usp__box.three-quarters {
+    grid-column: span 2;
+  }
+  
+  .pdp-nine-usp__box.half {
+    grid-column: span 2;
+  }
+  
+  .pdp-nine-usp__box.quarter {
+    grid-column: span 1;
+  }
+}
+
+/* Mobile view */
+@media screen and (max-width: 749px) {
+  .pdp-nine-usp__grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .pdp-nine-usp__box {
+    grid-column: span 1 !important;
+    padding: 20px;
+  }
+
+  /* Mobile height classes */
+  .pdp-nine-usp__box.mobile-auto {
+    min-height: auto;
+  }
+
+  .pdp-nine-usp__box.mobile-small {
+    min-height: 160px;
+  }
+
+  .pdp-nine-usp__box.mobile-medium {
+    min-height: 240px;
+  }
+
+  .pdp-nine-usp__box.mobile-large {
+    min-height: 320px;
+  }
+
+  .pdp-nine-usp__box.mobile-xlarge {
+    min-height: 400px;
+  }
+  
+  .pdp-nine-usp__title {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .pdp-nine-usp__text {
+    font-size: 14px;
+  }
+}
+</style>
+
+<section class="pdp-nine-usp">
+  <div class="pdp-nine-usp__container {{ section.settings.section_width }}">
+    <div class="pdp-nine-usp__grid">
+      {% for block in section.blocks %}
+        {% if block.type == 'usp_box' %}
+          <div class="pdp-nine-usp__box {{ block.settings.box_width }} {{ block.settings.box_height }} {{ block.settings.mobile_height }}"
+               style="{% if block.settings.background_type == 'color' %}
+                       background-color: {{ block.settings.background_color }};
+                     {% elsif block.settings.background_type == 'image' and block.settings.background_image != blank %}
+                       background-image: url({{ block.settings.background_image | image_url }});
+                       background-size: cover;
+                       background-position: {{ block.settings.background_position }};
+                       background-repeat: no-repeat;
+                     {% endif %}"
+               {{ block.shopify_attributes }}>
+            <h3 class="pdp-nine-usp__title" style="color: {{ block.settings.text_color }}">{{ block.settings.title }}</h3>
+            <div class="pdp-nine-usp__text" style="color: {{ block.settings.text_color }}">{{ block.settings.text }}</div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>

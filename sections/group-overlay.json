@@ -1,0 +1,51 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "aside",
+  "name": "Overlay",
+  "sections": {
+    "popup": {
+      "type": "popup",
+      "blocks": {
+        "popup-0": {
+          "type": "popup-with-image",
+          "disabled": true,
+          "settings": {
+            "position": "center-center",
+            "image": "shopify://shop_images/Newsletter-cropped-DSC01470.jpg",
+            "height": "three-fifty-height",
+            "title": "Win a Month's Supply!",
+            "text": "<p>Subscribe to our newsletter for a chance to win a month's supply of any BKM supplement for free!</p>",
+            "show_newsletter_form": true,
+            "extra_fields": "",
+            "button_text": "",
+            "trigger": "delayed_10",
+            "target_url_enabled": false,
+            "target_url": "shopify://collections/products",
+            "target_referrer_enabled": false,
+            "target_referrer": "",
+            "target_device_enabled": false,
+            "target_device": "mobile",
+            "bg_color": "#ffffff",
+            "text_color": "text-dark"
+          }
+        }
+      },
+      "block_order": [
+        "popup-0"
+      ],
+      "disabled": true,
+      "settings": {}
+    }
+  },
+  "order": [
+    "popup"
+  ]
+}

@@ -1,0 +1,522 @@
+
+{% liquid
+  assign section_width = section.settings.section_width
+  assign text_alignment = section.settings.text_alignment
+  assign image_position = section.settings.image_position
+  assign text_color = section.settings.text_color
+%}
+
+<section class="section-image-text-smaller {{ section_width }} {{ text_color }}"
+  style="
+    padding-top: {{ section.settings.padding_top }}px; 
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.bg_color }};
+    {%- if section.settings.gradient != blank -%}
+      background-image: {{ section.settings.gradient }};
+    {%- endif -%}
+  ">
+  <div class="image-text-smaller__container {% if image_position == 'right' %}image-text-smaller__container--reverse{% endif %}">
+    
+    <div class="image-text-smaller__image-wrapper">
+      <div class="image-text-smaller__image-container">
+        {% if section.settings.image %}
+          {{ section.settings.image | image_url: width: 2000 | image_tag:
+            loading: 'lazy',
+            width: section.settings.image.width,
+            height: section.settings.image.height,
+            class: 'image-text-smaller__image'
+          }}
+        {% else %}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg image-text-smaller__image' }}
+        {% endif %}
+
+        {% if section.settings.video_link != blank %}
+          <button type="button" class="video-popup__button" data-video-popup="{{ section.settings.video_link | escape }}">
+            {% render 'icon-play' %}
+          </button>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="image-text-smaller__content {{ text_alignment }}">
+      {% if section.settings.overline != blank %}
+        <p class="overline">{{ section.settings.overline }}</p>
+      {% endif %}
+
+      {% if section.settings.title != blank %}
+        <h2 class="h1">{{ section.settings.title }}</h2>
+      {% endif %}
+
+      {% if section.settings.text != blank %}
+        <div class="rte">{{ section.settings.text }}</div>
+      {% endif %}
+
+      {% if section.settings.button_link != blank and section.settings.button_label != blank %}
+        <a href="{{ section.settings.button_link }}" 
+           class="btn {{ section.settings.button_style }} {{ section.settings.button_size }}">
+          {{ section.settings.button_label }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% style %}
+.section-image-text-smaller {
+  position: relative;
+  width: 100%;
+}
+
+.image-text-smaller__container {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+@media screen and (max-width: 749px) {
+  .image-text-smaller__container {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+.image-text-smaller__container--reverse {
+  flex-direction: row-reverse;
+}
+
+@media screen and (max-width: 749px) {
+  .image-text-smaller__container--reverse {
+    flex-direction: column;
+  }
+}
+
+.image-text-smaller__image-wrapper,
+.image-text-smaller__content {
+  width: 100%;
+}
+
+@media screen and (min-width: 750px) {
+  .image-text-smaller__image-wrapper,
+  .image-text-smaller__content {
+    width: 50%;
+  }
+}
+
+.image-text-smaller__image-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+@media screen and (min-width: 750px) {
+  .image-text-smaller__image-container {
+    border-radius: {{ section.settings.desktop_image_radius }}px;
+    {% if section.settings.height_control_type == 'aspect-ratio' %}
+      aspect-ratio: {% case section.settings.desktop_aspect_ratio %}
+        {% when '16-9' %}16/9
+        {% when '4-3' %}4/3
+        {% when '3-2' %}3/2
+        {% when '1-1' %}1/1
+        {% when '2-3' %}2/3
+      {% endcase %};
+    {% else %}
+      height: {{ section.settings.desktop_height }}px;
+    {% endif %}
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .image-text-smaller__image-container {
+    border-radius: {{ section.settings.mobile_image_radius }}px;
+    {% if section.settings.height_control_type == 'aspect-ratio' %}
+      aspect-ratio: {% case section.settings.mobile_aspect_ratio %}
+        {% when '16-9' %}16/9
+        {% when '4-3' %}4/3
+        {% when '3-2' %}3/2
+        {% when '1-1' %}1/1
+        {% when '2-3' %}2/3
+      {% endcase %};
+    {% else %}
+      height: {{ section.settings.mobile_height }}px;
+    {% endif %}
+  }
+}
+
+.image-text-smaller__image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-text-smaller__content {
+  padding: 20px;
+}
+
+.image-text-smaller__content.text-left {
+  text-align: left;
+}
+
+.image-text-smaller__content.text-center {
+  text-align: center;
+}
+
+.image-text-smaller__content.text-right {
+  text-align: right;
+}
+
+.video-popup__button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.video-popup__button:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.text-light {
+  color: #ffffff;
+}
+
+.text-dark {
+  color: #000000;
+}
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Image Text Smaller",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Image Height Settings"
+    },
+    {
+      "type": "select",
+      "id": "height_control_type",
+      "label": "Height Control Type",
+      "default": "aspect-ratio",
+      "options": [
+        {
+          "value": "aspect-ratio",
+          "label": "Aspect Ratio"
+        },
+        {
+          "value": "fixed-height",
+          "label": "Fixed Height"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "desktop_aspect_ratio",
+      "label": "Desktop Aspect Ratio",
+      "default": "16-9",
+      "options": [
+        {
+          "value": "16-9",
+          "label": "16:9"
+        },
+        {
+          "value": "4-3",
+          "label": "4:3"
+        },
+        {
+          "value": "3-2",
+          "label": "3:2"
+        },
+        {
+          "value": "1-1",
+          "label": "1:1 (Square)"
+        },
+        {
+          "value": "2-3",
+          "label": "2:3"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "mobile_aspect_ratio",
+      "label": "Mobile Aspect Ratio",
+      "default": "1-1",
+      "options": [
+        {
+          "value": "16-9",
+          "label": "16:9"
+        },
+        {
+          "value": "4-3",
+          "label": "4:3"
+        },
+        {
+          "value": "3-2",
+          "label": "3:2"
+        },
+        {
+          "value": "1-1",
+          "label": "1:1 (Square)"
+        },
+        {
+          "value": "2-3",
+          "label": "2:3"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "min": 200,
+      "max": 1000,
+      "step": 10,
+      "unit": "px",
+      "label": "Desktop Fixed Height",
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "min": 200,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Mobile Fixed Height",
+      "default": 400
+    },
+    {
+      "type": "header",
+      "content": "Image Border Radius"
+    },
+    {
+      "type": "range",
+      "id": "desktop_image_radius",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Desktop Image Radius",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_radius",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile Image Radius",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "overline",
+      "label": "Overline"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "default": "text-left",
+      "options": [
+        {
+          "value": "text-left",
+          "label": "Left"
+        },
+        {
+          "value": "text-center",
+          "label": "Center"
+        },
+        {
+          "value": "text-right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "default": "btn--primary",
+      "options": [
+        {
+          "value": "btn--primary",
+          "label": "Primary"
+        },
+        {
+          "value": "btn--secondary",
+          "label": "Secondary"
+        },
+        {
+          "value": "btn--tertiary",
+          "label": "Tertiary"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "button_size",
+      "label": "Button size",
+      "default": "btn--small",
+      "options": [
+        {
+          "value": "btn--large",
+          "label": "Large"
+        },
+        {
+          "value": "btn--medium",
+          "label": "Medium"
+        },
+        {
+          "value": "btn--small",
+          "label": "Small"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "video_link",
+      "label": "Video button link",
+      "info": "Video links from YouTube, Vimeo or MP4 video link from [files](/admin/content/files?selectedView=all&media_type=VIDEO)"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "select",
+      "id": "text_color",
+      "label": "Text",
+      "default": "text-dark",
+      "options": [
+        {
+          "value": "text-light",
+          "label": "Light"
+        },
+        {
+          "value": "text-dark",
+          "label": "Dark"
+        }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background"
+    },
+    {
+      "type": "color_background",
+      "id": "gradient",
+      "label": "Overlay gradient"
+    },
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Width",
+      "default": "wrapper",
+      "options": [
+        {
+          "value": "wrapper--full",
+          "label": "Full width"
+        },
+        {
+          "value": "wrapper--full-padded",
+          "label": "Full width padded"
+        },
+        {
+          "value": "wrapper",
+          "label": "Page width"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image Text Smaller",
+      "category": "Image"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "aside", "footer"]
+  }
+}
+{% endschema %}

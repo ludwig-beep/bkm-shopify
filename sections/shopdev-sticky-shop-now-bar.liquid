@@ -1,0 +1,392 @@
+{{ 'shopdev-sticky-shop-now-bar.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .shopdev-sticky-shop-now-bar .sticky-shop-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+  }
+
+  .shopdev-sticky-shop-now-bar .sticky-shop-bar.hidden {
+    transform: translateY(100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .shopdev-sticky-shop-now-bar .sticky-shop-bar.visible {
+    transform: translateY(0);
+    transition: transform 0.3s ease-in-out;
+  }
+
+
+  .shopdev-sticky-shop-now-bar .trust-message {
+    font-size: 12px;
+    opacity: 0.8;
+  }
+
+  .shopdev-sticky-shop-now-bar .shop-now-btn {
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .shopdev-sticky-shop-now-bar .shop-now-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .shopdev-sticky-shop-now-bar .product-image {
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  @media (max-width: 768px) {
+    .shopdev-sticky-shop-now-bar .sticky-shop-bar {
+      padding: 12px 16px;
+    }
+    
+    .shopdev-sticky-shop-now-bar .shop-now-btn {
+      min-height: 40px;
+      padding: 8px 16px !important;
+      font-size: 14px !important;
+    }
+    
+    .shopdev-sticky-shop-now-bar .product-image {
+      width: 40px !important;
+      height: 40px !important;
+    }
+    
+    .shopdev-sticky-shop-now-bar .trust-message {
+      font-size: 11px;
+    }
+  }
+</style>
+
+<div class="sticky-shop-bar visible notranslate" style="background-color: {{ section.settings.background_color }}; border-top: 1px solid {{ section.settings.border_color }};">
+  <div class="max-w-7xl mx-auto px-4 py-3">
+    <div class="flex items-center justify-between">
+      <!-- Product Info Section -->
+      <div class="flex items-center gap-4 flex-1">
+        {% if section.settings.product != blank %}
+          <!-- Product Image -->
+          <div class="product-image w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
+            {% if section.settings.product.featured_image %}
+              {{ section.settings.product.featured_image | image_url: width: 80 | image_tag: 
+                class: 'w-full h-full object-cover',
+                loading: 'lazy'
+              }}
+            {% else %}
+              {{ 'product-1' | placeholder_svg_tag: 'w-full h-full bg-gray-200' }}
+            {% endif %}
+          </div>
+
+          <!-- Product Details -->
+          <div class="flex-1 min-w-0">
+            <h3 class="font-semibold text-sm md:text-base truncate" style="color: {{ section.settings.text_color }}; font-family: {{ section.settings.font_family }};">
+              {{ section.settings.product.title }}
+            </h3>
+            
+
+            <!-- Trust Message -->
+            {% if section.settings.trust_message != blank %}
+              <p class="trust-message mt-1" style="color: {{ section.settings.text_color }};">
+                {{ section.settings.trust_message }}
+              </p>
+            {% endif %}
+          </div>
+        {% else %}
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 md:w-16 md:h-16 bg-gray-200 rounded-md"></div>
+            <div>
+              <h3 class="font-semibold text-sm md:text-base" style="color: {{ section.settings.text_color }};">
+                Select a product
+              </h3>
+              <p class="text-xs" style="color: {{ section.settings.text_color }};">
+                Choose a product in the theme editor
+              </p>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- CTA Button -->
+      <div class="flex-shrink-0">
+        {% if section.settings.product != blank %}
+          <a href="{{ section.settings.product.url }}" 
+             class="shop-now-btn px-6 md:px-8 py-3 text-sm md:text-base text-center block"
+             style="background-color: {{ section.settings.button_bg_color }}; color: {{ section.settings.button_text_color }}; font-family: {{ section.settings.font_family }}; text-decoration: none;">
+            {{ section.settings.button_text | default: 'Shop Now' }}
+          </a>
+        {% else %}
+          <button disabled 
+                  class="shop-now-btn px-6 md:px-8 py-3 text-sm md:text-base opacity-50 cursor-not-allowed"
+                  style="background-color: {{ section.settings.button_bg_color }}; color: {{ section.settings.button_text_color }}; font-family: {{ section.settings.font_family }};">
+            Select Product
+          </button>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Trust Signals Row -->
+    {% if section.settings.show_trust_signals %}
+      <div class="flex items-center justify-center gap-2 md:gap-4 mt-3 pt-3 border-t border-opacity-20 flex-nowrap" style="border-color: {{ section.settings.text_color }};">
+        {% if section.settings.trust_signal_1 != blank %}
+          <div class="flex items-center gap-1 flex-shrink-0">
+            {% if section.settings.trust_signal_1_icon != blank %}
+              <img src="{{ section.settings.trust_signal_1_icon | image_url: width: 16 }}" 
+                   alt="{{ section.settings.trust_signal_1 }}" 
+                   class="w-4 h-4 object-contain flex-shrink-0"
+                   loading="lazy">
+            {% endif %}
+            <span class="text-xs whitespace-nowrap" style="color: {{ section.settings.text_color }};">{{ section.settings.trust_signal_1 }}</span>
+          </div>
+        {% endif %}
+        
+        {% if section.settings.trust_signal_2 != blank %}
+          <div class="flex items-center gap-1 flex-shrink-0">
+            {% if section.settings.trust_signal_2_icon != blank %}
+              <img src="{{ section.settings.trust_signal_2_icon | image_url: width: 16 }}" 
+                   alt="{{ section.settings.trust_signal_2 }}" 
+                   class="w-4 h-4 object-contain flex-shrink-0"
+                   loading="lazy">
+            {% endif %}
+            <span class="text-xs whitespace-nowrap" style="color: {{ section.settings.text_color }};">{{ section.settings.trust_signal_2 }}</span>
+          </div>
+        {% endif %}
+        
+        {% if section.settings.trust_signal_3 != blank %}
+          <div class="flex items-center gap-1 flex-shrink-0">
+            {% if section.settings.trust_signal_3_icon != blank %}
+              <img src="{{ section.settings.trust_signal_3_icon | image_url: width: 16 }}" 
+                   alt="{{ section.settings.trust_signal_3 }}" 
+                   class="w-4 h-4 object-contain flex-shrink-0"
+                   loading="lazy">
+            {% endif %}
+            <span class="text-xs whitespace-nowrap" style="color: {{ section.settings.text_color }};">{{ section.settings.trust_signal_3 }}</span>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web/src/regular/style.css" />
+
+<script>
+  class StickyShopBar {
+    constructor() {
+      this.bar = document.querySelector('.sticky-shop-bar');
+      this.init();
+    }
+
+    init() {
+      if (!this.bar) return;
+      
+      this.handleScrollBehavior();
+    }
+
+    handleScrollBehavior() {
+      let lastScrollY = window.scrollY;
+      let ticking = false;
+
+      const updateBarVisibility = () => {
+        const currentScrollY = window.scrollY;
+        
+        // Show/hide based on scroll direction
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          // Scrolling down
+          this.bar.classList.remove('visible');
+          this.bar.classList.add('hidden');
+        } else {
+          // Scrolling up or at top
+          this.bar.classList.remove('hidden');
+          this.bar.classList.add('visible');
+        }
+        
+        lastScrollY = currentScrollY;
+        ticking = false;
+      };
+
+      const requestTick = () => {
+        if (!ticking) {
+          requestAnimationFrame(updateBarVisibility);
+          ticking = true;
+        }
+      };
+
+      window.addEventListener('scroll', requestTick, { passive: true });
+    }
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new StickyShopBar());
+  } else {
+    new StickyShopBar();
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Sticky Shop Now Bar",
+  "class": "shopdev shopdev-sticky-shop-now-bar",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Product Selection"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "header",
+      "content": "Trust Messages"
+    },
+    {
+      "type": "text",
+      "id": "trust_message",
+      "label": "Product Trust Message",
+      "default": "Free shipping on orders over $50"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_signals",
+      "label": "Show trust signals",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "trust_signal_1",
+      "label": "Trust Signal 1",
+      "default": "Secure Checkout"
+    },
+    {
+      "type": "text",
+      "id": "trust_signal_2",
+      "label": "Trust Signal 2",
+      "default": "Free Shipping"
+    },
+    {
+      "type": "text",
+      "id": "trust_signal_3",
+      "label": "Trust Signal 3",
+      "default": "30-Day Returns"
+    },
+    {
+      "type": "image_picker",
+      "id": "trust_signal_1_icon",
+      "label": "Trust Signal 1 Icon",
+      "info": "Upload a custom icon image for the first trust signal"
+    },
+    {
+      "type": "image_picker",
+      "id": "trust_signal_2_icon",
+      "label": "Trust Signal 2 Icon",
+      "info": "Upload a custom icon image for the second trust signal"
+    },
+    {
+      "type": "image_picker",
+      "id": "trust_signal_3_icon",
+      "label": "Trust Signal 3 Icon",
+      "info": "Upload a custom icon image for the third trust signal"
+    },
+    {
+      "type": "header",
+      "content": "Design & Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default": "#0A2240"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#e5e5e5"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "select",
+      "id": "font_family",
+      "label": "Font Family",
+      "options": [
+        {
+          "value": "system-ui, -apple-system, sans-serif",
+          "label": "System Font"
+        },
+        {
+          "value": "Georgia, serif",
+          "label": "Georgia"
+        },
+        {
+          "value": "Arial, sans-serif",
+          "label": "Arial"
+        },
+        {
+          "value": "'Helvetica Neue', sans-serif",
+          "label": "Helvetica"
+        }
+      ],
+      "default": "system-ui, -apple-system, sans-serif"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sticky Shop Now Bar",
+      "settings": {
+        "product": "tranquil",
+        "button_text": "Shop Now",
+        "trust_message": "Clinically tested • 30-day money-back guarantee",
+        "show_trust_signals": true,
+        "trust_signal_1": "Secure Checkout",
+        "trust_signal_2": "Free Shipping $75+",
+        "trust_signal_3": "30-Day Returns",
+        "background_color": "#ffffff",
+        "text_color": "#2c3e50",
+        "button_bg_color": "#27ae60",
+        "button_text_color": "#ffffff",
+        "border_color": "#ecf0f1"
+      }
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,272 @@
+{{ 'shopdev-Tranquil-whoop-full-website-embed.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .shopdev-Tranquil-whoop-full-website-embed .full-page-iframe {
+    width: 100%;
+    height: var(--iframe-height, 100vh);
+    min-height: 600px;
+    border: none;
+    display: block;
+  }
+
+  .shopdev-Tranquil-whoop-full-website-embed .iframe-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .shopdev-Tranquil-whoop-full-website-embed .iframe-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+  }
+
+  .shopdev-Tranquil-whoop-full-website-embed .iframe-fallback {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+    background-color: #f8f9fa;
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+  }
+
+  .shopdev-Tranquil-whoop-full-website-embed .iframe-fallback.show {
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    .shopdev-Tranquil-whoop-full-website-embed .full-page-iframe {
+      height: var(--iframe-height, 100vh);
+      min-height: 500px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .shopdev-Tranquil-whoop-full-website-embed .full-page-iframe {
+      height: var(--iframe-height, 100vh);
+      min-height: 400px;
+    }
+  }
+</style>
+
+<div class="w-full" style="--iframe-height: {{ section.settings.iframe_height }}px;">
+  <div class="iframe-container">
+    <!-- Loading indicator -->
+    <div class="iframe-loading">
+      <div class="flex items-center justify-center">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+        <span class="ml-3 text-gray-600">Loading content...</span>
+      </div>
+    </div>
+
+    <!-- Main iframe -->
+    {% if section.settings.embed_url != blank %}
+      <iframe 
+        id="fullPageIframe"
+        class="full-page-iframe"
+        src="{{ section.settings.embed_url }}"
+        title="{{ section.settings.iframe_title | default: 'Embedded Content' }}"
+        loading="lazy"
+        allowfullscreen
+        {% if section.settings.allow_scripts %}allow="scripts"{% endif %}
+        {% if section.settings.allow_forms %}allow="forms"{% endif %}
+        onload="handleIframeLoad()"
+        onerror="handleIframeError()">
+      </iframe>
+    {% endif %}
+
+    <!-- Fallback content -->
+    <div id="iframeFallback" class="iframe-fallback {% unless section.settings.embed_url %}show{% endunless %}">
+      <div class="max-w-md mx-auto">
+        {% if section.settings.fallback_image != blank %}
+          {{ section.settings.fallback_image | image_url: width: 300 | image_tag: 
+            class: 'mx-auto mb-6 rounded-lg',
+            loading: 'lazy'
+          }}
+        {% endif %}
+
+        <h3 class="text-2xl font-bold mb-4 text-gray-800">
+          {{ section.settings.fallback_heading | default: 'Content Unavailable' }}
+        </h3>
+
+        {% if section.settings.fallback_text != blank %}
+          <p class="text-gray-600 mb-6">
+            {{ section.settings.fallback_text }}
+          </p>
+        {% endif %}
+
+        {% if section.settings.fallback_button_text != blank and section.settings.fallback_button_link != blank %}
+          <a href="{{ section.settings.fallback_button_link }}" 
+             class="inline-block px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300">
+            {{ section.settings.fallback_button_text }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function handleIframeLoad() {
+    // Hide loading indicator when iframe loads successfully
+    const loading = document.querySelector('.iframe-loading');
+    const fallback = document.getElementById('iframeFallback');
+    
+    if (loading) {
+      loading.style.display = 'none';
+    }
+    
+    if (fallback) {
+      fallback.classList.remove('show');
+    }
+  }
+
+  function handleIframeError() {
+    // Show fallback content if iframe fails to load
+    const loading = document.querySelector('.iframe-loading');
+    const fallback = document.getElementById('iframeFallback');
+    const iframe = document.getElementById('fullPageIframe');
+    
+    if (loading) {
+      loading.style.display = 'none';
+    }
+    
+    if (iframe) {
+      iframe.style.display = 'none';
+    }
+    
+    if (fallback) {
+      fallback.classList.add('show');
+    }
+  }
+
+  function updateIframeHeight(height) {
+    // Update CSS custom property for iframe height
+    const container = document.querySelector('.shopdev');
+    if (container) {
+      container.style.setProperty('--iframe-height', height + 'px');
+    }
+  }
+
+  // Initialize height on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    const heightSetting = {{ section.settings.iframe_height | default: 800 }};
+    updateIframeHeight(heightSetting);
+  });
+
+  // Fallback timeout - show fallback if iframe doesn't load within 10 seconds
+  setTimeout(() => {
+    const iframe = document.getElementById('fullPageIframe');
+    const loading = document.querySelector('.iframe-loading');
+    
+    if (iframe && loading && loading.style.display !== 'none') {
+      handleIframeError();
+    }
+  }, 10000);
+</script>
+
+{% schema %}
+{
+  "name": "Full Page Website Embed",
+  "class": "shopdev shopdev-Tranquil-whoop-full-website-embed",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Embed Settings"
+    },
+    {
+      "type": "url",
+      "id": "embed_url",
+      "label": "Website URL to Embed",
+      "info": "Enter the full URL of the website you want to embed"
+    },
+    {
+      "type": "text",
+      "id": "iframe_title",
+      "label": "Iframe Title",
+      "default": "Embedded Website Content",
+      "info": "Descriptive title for accessibility"
+    },
+    {
+      "type": "range",
+      "id": "iframe_height",
+      "label": "Iframe Height (px)",
+      "min": 300,
+      "max": 2000,
+      "step": 50,
+      "default": 800,
+      "info": "Set the height of the embedded content in pixels"
+    },
+    {
+      "type": "header",
+      "content": "Security Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "allow_scripts",
+      "label": "Allow Scripts",
+      "default": false,
+      "info": "Enable if the embedded site requires JavaScript functionality"
+    },
+    {
+      "type": "checkbox",
+      "id": "allow_forms",
+      "label": "Allow Forms",
+      "default": false,
+      "info": "Enable if the embedded site contains forms"
+    },
+    {
+      "type": "header",
+      "content": "Fallback Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "fallback_image",
+      "label": "Fallback Image"
+    },
+    {
+      "type": "text",
+      "id": "fallback_heading",
+      "label": "Fallback Heading",
+      "default": "Content Currently Unavailable"
+    },
+    {
+      "type": "textarea",
+      "id": "fallback_text",
+      "label": "Fallback Text",
+      "default": "We're experiencing technical difficulties loading this content. Please try again later or contact us for assistance."
+    },
+    {
+      "type": "text",
+      "id": "fallback_button_text",
+      "label": "Fallback Button Text",
+      "default": "Visit Our Store"
+    },
+    {
+      "type": "url",
+      "id": "fallback_button_link",
+      "label": "Fallback Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Full Page Website Embed",
+      "settings": {
+        "embed_url": "https://tranquil-sleep-score.lovable.app",
+        "iframe_title": "Tranquil Sleep Reveal Experience",
+        "iframe_height": 800,
+        "allow_scripts": true,
+        "allow_forms": true,
+        "fallback_image": "shopify://shop_images/relaxing-bath.jpg",
+        "fallback_heading": "Discover Tranquil Sleep",
+        "fallback_text": "Experience our interactive sleep wellness journey. If you're having trouble viewing the content, please ensure your browser supports modern web features or try refreshing the page.",
+        "fallback_button_text": "Shop Sleep Products",
+        "fallback_button_link": "/collections/sleep"
+      }
+    }
+  ]
+}
+{% endschema %}

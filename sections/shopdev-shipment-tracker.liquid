@@ -1,0 +1,128 @@
+{{ 'shopdev-shipment-tracker.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .shopdev-shipment-tracker .tracking-container {
+    background: linear-gradient(135deg, {{ section.settings.bg_color }} 0%, {{ section.settings.bg_color }}dd 100%);
+  }
+</style>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web/src/regular/style.css" />
+
+<div class="w-full tracking-container py-16 md:py-24">
+  <div class="max-w-4xl mx-auto px-4">
+    <!-- Header Section -->
+    <div class="text-center mb-12">
+      {% if section.settings.heading != blank %}
+        <h2 class="text-3xl md:text-4xl font-bold mb-4" style="color: {{ section.settings.heading_color }}">
+          {{ section.settings.heading }}
+        </h2>
+      {% endif %}
+      
+      {% if section.settings.description != blank %}
+        <p class="text-lg md:text-xl max-w-2xl mx-auto" style="color: {{ section.settings.text_color }}">
+          {{ section.settings.description }}
+        </p>
+      {% endif %}
+    </div>
+
+    <!-- ParcelPanel Embed -->
+    <div class="mb-12">
+      {% if section.settings.parcelpanel_embed != blank %}
+        {{ section.settings.parcelpanel_embed }}
+      {% else %}
+        <div class="bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+          <i class="ph ph-package text-4xl text-gray-400 mb-4"></i>
+          <p class="text-gray-600 mb-2">ParcelPanel tracking widget will appear here</p>
+          <p class="text-sm text-gray-500">Add your ParcelPanel embed code in the section settings</p>
+        </div>
+      {% endif %}
+    </div>
+
+
+    <!-- Additional Content -->
+    {% if section.settings.additional_content != blank %}
+      <div class="mt-12 text-center">
+        <div class="prose prose-lg mx-auto" style="color: {{ section.settings.text_color }}">
+          {{ section.settings.additional_content }}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Shipment Tracker",
+  "class": "shopdev shopdev-shipment-tracker",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Track Your Order"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Section Description",
+      "default": "Enter your tracking number below to get real-time updates on your shipment status and delivery information."
+    },
+    {
+      "type": "richtext",
+      "id": "additional_content",
+      "label": "Additional Content",
+      "info": "Optional content to display below the tracking section"
+    },
+    {
+      "type": "header",
+      "content": "ParcelPanel Integration"
+    },
+    {
+      "type": "html",
+      "id": "parcelpanel_embed",
+      "label": "ParcelPanel Embed Code",
+      "info": "Paste your ParcelPanel tracking widget embed code here"
+    },
+    {
+      "type": "header",
+      "content": "Color Settings"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#f8fafc"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#1a202c"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#4a5568"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shipment Tracker",
+      "settings": {
+        "heading": "Track Your Wellness Journey",
+        "description": "Stay updated on your supplement delivery with real-time tracking. Enter your tracking number below to see exactly where your wellness products are on their way to you.",
+        "additional_content": "<p><strong>Need help?</strong> Contact our customer support team at <a href=\"mailto:support@example.com\">support@example.com</a> or call 1-800-WELLNESS for assistance with your order.</p>",
+        "bg_color": "#f7fafc",
+        "heading_color": "#2d3748",
+        "text_color": "#4a5568"
+      }
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,255 @@
+{{ 'shopdev-Breathwork-BKM-embed.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .shopdev-Breathwork-BKM-embed .full-page-embed {
+    width: 100%;
+    border: none;
+    display: block;
+  }
+
+  .shopdev-Breathwork-BKM-embed .embed-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .shopdev-Breathwork-BKM-embed .loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: opacity 0.3s ease;
+  }
+
+  .shopdev-Breathwork-BKM-embed .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #e9ecef;
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    animation: shopdev-spin 1s linear infinite;
+  }
+
+  @keyframes shopdev-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .shopdev-Breathwork-BKM-embed .error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    margin: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .shopdev-Breathwork-BKM-embed .full-page-embed {
+      min-height: 400px;
+    }
+  }
+</style>
+
+<div class="w-full">
+  {% if section.settings.embed_url != blank %}
+    <div class="embed-container" 
+         style="height: {{ section.settings.embed_height }}{{ section.settings.height_unit }};">
+      
+      <!-- Loading overlay -->
+      <div class="loading-overlay" id="loading-{{ section.id }}">
+        <div class="flex flex-col items-center">
+          <div class="loading-spinner mb-4"></div>
+          <p class="text-gray-600 text-sm">Loading application...</p>
+        </div>
+      </div>
+
+      <!-- Main iframe -->
+      <iframe 
+        class="full-page-embed"
+        src="{{ section.settings.embed_url }}"
+        style="height: {{ section.settings.embed_height }}{{ section.settings.height_unit }};"
+        {% if section.settings.allow_fullscreen %}allowfullscreen{% endif %}
+        {% if section.settings.enable_sandbox %}sandbox="allow-scripts allow-same-origin allow-forms allow-popups"{% endif %}
+        loading="lazy"
+        onload="hideLoading('{{ section.id }}')"
+        onerror="showError('{{ section.id }}')">
+      </iframe>
+
+      <!-- Error message (hidden by default) -->
+      <div class="error-message hidden" id="error-{{ section.id }}">
+        <h3 class="font-semibold mb-2">Unable to load application</h3>
+        <p class="text-sm">Please check the URL or try refreshing the page.</p>
+        {% if section.settings.fallback_text != blank %}
+          <div class="mt-4 p-4 bg-white rounded border">
+            {{ section.settings.fallback_text }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  {% else %}
+    <!-- Placeholder when no URL is set -->
+    <div class="flex items-center justify-center bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg"
+         style="height: {{ section.settings.embed_height }}{{ section.settings.height_unit }};">
+      <div class="text-center p-8">
+        <div class="text-gray-400 mb-4">
+          <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+          </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-700 mb-2">Full Page Embed</h3>
+        <p class="text-gray-500 text-sm max-w-md">
+          Add a URL in the section settings to embed your external application or website.
+        </p>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<script>
+  // Hide loading overlay when iframe loads
+  function hideLoading(sectionId) {
+    const loadingOverlay = document.getElementById('loading-' + sectionId);
+    if (loadingOverlay) {
+      loadingOverlay.style.opacity = '0';
+      setTimeout(() => {
+        loadingOverlay.style.display = 'none';
+      }, 300);
+    }
+  }
+
+  // Show error message if iframe fails to load
+  function showError(sectionId) {
+    const loadingOverlay = document.getElementById('loading-' + sectionId);
+    const errorMessage = document.getElementById('error-' + sectionId);
+    
+    if (loadingOverlay) {
+      loadingOverlay.style.display = 'none';
+    }
+    
+    if (errorMessage) {
+      errorMessage.classList.remove('hidden');
+    }
+  }
+
+  // Handle responsive iframe resizing
+  function handleResponsiveEmbed() {
+    const embeds = document.querySelectorAll('.shopdev-Breathwork-BKM-embed .full-page-embed');
+    
+    embeds.forEach(embed => {
+      // Ensure iframe maintains proper dimensions on resize
+      const container = embed.parentElement;
+      if (container && container.classList.contains('embed-container')) {
+        embed.style.width = '100%';
+      }
+    });
+  }
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', handleResponsiveEmbed);
+  window.addEventListener('resize', handleResponsiveEmbed);
+
+  // Handle iframe communication (if needed)
+  window.addEventListener('message', function(event) {
+    // Add custom message handling here if your embedded app needs to communicate
+    // with the parent window
+    console.log('Message received from embedded app:', event.data);
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Breathwork-BKM-embed",
+  "class": "shopdev shopdev-Breathwork-BKM-embed",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Embed Settings"
+    },
+    {
+      "type": "url",
+      "id": "embed_url",
+      "label": "Embed URL",
+      "info": "Enter the full URL of the website or application you want to embed"
+    },
+    {
+      "type": "header",
+      "content": "Display Options"
+    },
+    {
+      "type": "range",
+      "id": "embed_height",
+      "min": 300,
+      "max": 1200,
+      "step": 50,
+      "label": "Height",
+      "default": 600
+    },
+    {
+      "type": "select",
+      "id": "height_unit",
+      "label": "Height Unit",
+      "options": [
+        {
+          "value": "px",
+          "label": "Pixels (px)"
+        },
+        {
+          "value": "vh",
+          "label": "Viewport Height (vh)"
+        }
+      ],
+      "default": "px",
+      "info": "Choose between fixed pixels or responsive viewport height"
+    },
+    {
+      "type": "header",
+      "content": "Security & Features"
+    },
+    {
+      "type": "checkbox",
+      "id": "allow_fullscreen",
+      "label": "Allow fullscreen",
+      "default": true,
+      "info": "Enables fullscreen capability for the embedded content"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sandbox",
+      "label": "Enable security sandbox",
+      "default": false,
+      "info": "Adds security restrictions to the embedded content"
+    },
+    {
+      "type": "header",
+      "content": "Fallback Content"
+    },
+    {
+      "type": "richtext",
+      "id": "fallback_text",
+      "label": "Fallback message",
+      "info": "This text will be shown if the embed fails to load"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Breathwork-BKM-embed",
+      "settings": {
+        "embed_url": "https://breathwork-app.example.com",
+        "embed_height": 600,
+        "height_unit": "px",
+        "allow_fullscreen": true,
+        "enable_sandbox": false,
+        "fallback_text": "<p>We're sorry, but the breathwork application is currently unavailable. Please try refreshing the page or contact our support team for assistance.</p>"
+      }
+    }
+  ]
+}
+{% endschema %}

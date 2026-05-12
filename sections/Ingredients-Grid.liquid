@@ -1,0 +1,658 @@
+
+{% schema %}
+{
+  "name": "Ingredients Grid",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Content"
+    },
+    {
+      "type": "text",
+      "id": "section_heading",
+      "label": "Section Heading",
+      "default": "Key Ingredients"
+    },
+    {
+      "type": "textarea",
+      "id": "section_text",
+      "label": "Section Description",
+      "default": "Each ingredient is carefully selected for optimal results"
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section Width",
+      "options": [
+        {
+          "value": "full-width",
+          "label": "Full Width Padded"
+        },
+        {
+          "value": "page-width",
+          "label": "Page Width"
+        },
+        {
+          "value": "boxed",
+          "label": "Boxed Width"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "ingredients_shown",
+      "label": "Number of ingredients shown initially",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 3
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingredient",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "ingredient_image",
+          "label": "Ingredient Image"
+        },
+        {
+          "type": "text",
+          "id": "ingredient_name",
+          "label": "Ingredient Name"
+        },
+        {
+          "type": "number",
+          "id": "ingredient_amount",
+          "label": "Amount (mg)",
+          "default": 0
+        },
+        {
+          "type": "textarea",
+          "id": "ingredient_description",
+          "label": "Ingredient Description"
+        },
+        {
+          "type": "text",
+          "id": "study_1",
+          "label": "Study 1"
+        },
+        {
+          "type": "text",
+          "id": "study_2",
+          "label": "Study 2"
+        },
+        {
+          "type": "text",
+          "id": "study_3",
+          "label": "Study 3"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ingredients Grid",
+      "blocks": [
+        {
+          "type": "ingredient"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<div class="ingredients-section {% if section.settings.section_width == 'full-width' %}container-fluid{% elsif section.settings.section_width == 'page-width' %}container{% else %}container-boxed{% endif %}">
+  {% if section.settings.section_heading != blank or section.settings.section_text != blank %}
+    <div class="ingredients-header">
+      {% if section.settings.section_heading != blank %}
+        <h2 class="section-heading">{{ section.settings.section_heading }}</h2>
+      {% endif %}
+      {% if section.settings.section_text != blank %}
+        <div class="section-text">{{ section.settings.section_text }}</div>
+      {% endif %}
+    </div>
+  {% endif %}
+  
+  <div class="ingredients-grid" data-shown="{{ section.settings.ingredients_shown }}">
+    {% for block in section.blocks %}
+      {% if block.type == 'ingredient' %}
+        <div class="ingredient-card {% if forloop.index > section.settings.ingredients_shown %}hidden{% endif %}" {{ block.shopify_attributes }}>
+          <div class="ingredient-content">
+            <div class="ingredient-header">
+              <div class="ingredient-title-group">
+                <h3>{{ block.settings.ingredient_name }}</h3>
+                {% if block.settings.ingredient_amount > 0 %}
+                  <span class="ingredient-amount">{{ block.settings.ingredient_amount }}mg</span>
+                {% endif %}
+              </div>
+              {% if block.settings.ingredient_image %}
+                <div class="ingredient-image">
+                  {{ block.settings.ingredient_image | img_url: '120x120', crop: 'center' | img_tag: block.settings.ingredient_name }}
+                </div>
+              {% endif %}
+            </div>
+            <p class="ingredient-description" data-full-text="{{ block.settings.ingredient_description }}">
+              {{ block.settings.ingredient_description }}
+            </p>
+            
+            {% if block.settings.study_1 != blank or block.settings.study_2 != blank or block.settings.study_3 != blank %}
+              <div class="ingredient-studies">
+                <div class="studies-header">
+                  <span class="studies-label">Third party studies:</span>
+                  <button class="info-button" aria-label="More information">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="studies-list">
+                  {% if block.settings.study_1 != blank %}
+                    <div class="study-item">
+                      <span class="study-text" data-full-text="{{ block.settings.study_1 }}">
+                        {{ block.settings.study_1 }}
+                      </span>
+                    </div>
+                  {% endif %}
+                  {% if block.settings.study_2 != blank %}
+                    <div class="study-item">
+                      <span class="study-text" data-full-text="{{ block.settings.study_2 }}">
+                        {{ block.settings.study_2 }}
+                      </span>
+                    </div>
+                  {% endif %}
+                  {% if block.settings.study_3 != blank %}
+                    <div class="study-item">
+                      <span class="study-text" data-full-text="{{ block.settings.study_3 }}">
+                        {{ block.settings.study_3 }}
+                      </span>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+  
+  {% if section.blocks.size > section.settings.ingredients_shown %}
+    <div class="show-more-container">
+      <button class="show-more-button">
+        <span class="show-more-text">Show All Ingredients</span>
+        <span class="show-less-text">Show Less</span>
+      </button>
+    </div>
+  {% endif %}
+</div>
+
+<style>
+.ingredients-section {
+  padding: 60px 0;
+  background: #fff;
+}
+
+.ingredients-header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 50px;
+  padding: 0 20px;
+}
+
+.section-heading {
+  font-size: 32px;
+  color: #1e1e1e;
+  margin-bottom: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.section-text {
+  font-size: 18px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.ingredients-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin: 0 auto;
+}
+
+.ingredient-card {
+  background: #f8f8f8;
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  cursor: pointer;
+}
+
+.ingredient-card:hover {
+  transform: translateY(-5px);
+}
+
+.ingredient-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+.ingredient-title-group {
+  flex: 1;
+}
+
+.ingredient-image {
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+}
+
+.ingredient-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.ingredient-content h3 {
+  font-size: 24px;
+  color: #1e1e1e;
+  margin: 0 0 8px 0;
+  font-weight: 600;
+}
+
+.ingredient-amount {
+  display: inline-block;
+  background: #e8e8e8;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+}
+
+.ingredient-description {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 20px;
+  line-height: 1.5;
+  transition: all 0.3s ease;
+}
+
+.ingredient-studies {
+  border-top: 1px solid #e0e0e0;
+  padding-top: 15px;
+}
+
+.studies-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.studies-label {
+  color: #666;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.studies-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.study-item {
+  font-size: 14px;
+  color: #888;
+  padding: 4px 0;
+}
+
+.study-text {
+  transition: all 0.3s ease;
+}
+
+.info-button {
+  background: none;
+  border: none;
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #666;
+  min-width: 24px;
+  min-height: 24px;
+}
+
+.info-button:hover {
+  background-color: #eee;
+}
+
+.info-button svg {
+  transition: transform 0.3s ease;
+  width: 24px;
+  height: 24px;
+}
+
+.expanded .info-button svg {
+  transform: rotate(45deg);
+}
+
+.hidden {
+  display: none;
+}
+
+.show-more-container {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.show-more-button {
+  background: #f8f8f8;
+  border: 1px solid #ddd;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.show-more-button:hover {
+  background: #f0f0f0;
+}
+
+.show-less-text {
+  display: none;
+}
+
+.show-all .show-more-text {
+  display: none;
+}
+
+.show-all .show-less-text {
+  display: inline;
+}
+
+.show-all .hidden {
+  display: block;
+}
+
+.container-fluid {
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.container-boxed {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .ingredients-section {
+    padding: 40px 0;
+  }
+
+  .ingredients-header {
+    margin-bottom: 24px;
+  }
+
+  .section-heading {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+
+  .section-text {
+    font-size: 14px;
+  }
+
+  .ingredients-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .ingredient-card {
+    padding: 16px;
+    border-radius: 8px;
+  }
+
+  .ingredient-header {
+    flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    gap: 12px;
+  }
+
+  .ingredient-image {
+    width: 48px;
+    height: 48px;
+  }
+
+  .ingredient-image img {
+    border-radius: 6px;
+  }
+
+  .ingredient-content h3 {
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+
+  .ingredient-amount {
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  .ingredient-description {
+    font-size: 14px;
+    margin-bottom: 12px;
+    line-height: 1.4;
+  }
+
+  .ingredient-studies {
+    padding-top: 12px;
+  }
+
+  .studies-header {
+    margin-bottom: 8px;
+    position: relative;
+    padding-right: 28px; /* Space for the button */
+  }
+
+  .studies-label {
+    font-size: 12px;
+  }
+
+  .studies-list {
+    gap: 4px;
+  }
+
+  .study-item {
+    font-size: 12px;
+    padding: 2px 0;
+  }
+
+  .info-button {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 2px;
+    min-width: 20px;
+    min-height: 20px;
+  }
+
+  .info-button svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .show-more-container {
+    margin-top: 20px;
+  }
+
+  .show-more-button {
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 4px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .ingredients-section {
+    padding: 32px 0;
+  }
+
+  .ingredient-card {
+    padding: 14px;
+  }
+
+  .ingredient-header {
+    gap: 10px;
+  }
+
+  .ingredient-image {
+    width: 40px;
+    height: 40px;
+  }
+
+  .container, .container-boxed {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const ingredientCards = document.querySelectorAll('.ingredient-card');
+  const showMoreButton = document.querySelector('.show-more-button');
+  const ingredientsGrid = document.querySelector('.ingredients-grid');
+  
+  // Function to truncate text to specific number of words
+  function truncateToWords(text, wordCount) {
+    const words = text.trim().split(/\s+/);
+    return words.slice(0, wordCount).join(' ') + (words.length > wordCount ? '...' : '');
+  }
+
+  // Function to update study texts for a card
+  function updateStudyTexts(card, expanded) {
+    const studyTexts = card.querySelectorAll('.study-text');
+    studyTexts.forEach(studyText => {
+      const fullText = studyText.getAttribute('data-full-text');
+      studyText.textContent = expanded 
+        ? fullText 
+        : truncateToWords(fullText, 4);
+    });
+  }
+
+  // Function to update description text for a card
+  function updateDescription(card, expanded) {
+    if (window.innerWidth <= 768) {
+      const description = card.querySelector('.ingredient-description');
+      const fullText = description.getAttribute('data-full-text');
+      description.textContent = expanded
+        ? fullText
+        : truncateToWords(fullText, 3);
+    }
+  }
+
+  // Initialize all texts
+  function initializeTexts() {
+    // Handle studies (4 words)
+    document.querySelectorAll('.study-text').forEach(studyText => {
+      const fullText = studyText.getAttribute('data-full-text');
+      if (!studyText.closest('.ingredient-card').classList.contains('expanded')) {
+        studyText.textContent = truncateToWords(fullText, 4);
+      }
+    });
+
+    // Handle descriptions on mobile (3 words)
+    if (window.innerWidth <= 768) {
+      document.querySelectorAll('.ingredient-description').forEach(description => {
+        const fullText = description.getAttribute('data-full-text');
+        if (!description.closest('.ingredient-card').classList.contains('expanded')) {
+          description.textContent = truncateToWords(fullText, 3);
+        }
+      });
+    }
+  }
+
+  // Initialize on load
+  initializeTexts();
+
+  // Handle window resize
+  let resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      document.querySelectorAll('.ingredient-card').forEach(card => {
+        const isExpanded = card.classList.contains('expanded');
+        updateDescription(card, isExpanded);
+      });
+    }, 250);
+  });
+
+  // Handle info button clicks
+  document.querySelectorAll('.info-button').forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.stopPropagation(); // Prevent card click
+      const card = this.closest('.ingredient-card');
+      const isExpanded = !card.classList.contains('expanded');
+      card.classList.toggle('expanded');
+      
+      updateStudyTexts(card, isExpanded);
+    });
+  });
+
+  // Handle card clicks
+  ingredientCards.forEach(card => {
+    card.addEventListener('click', function(e) {
+      // Don't toggle if clicking the info button
+      if (e.target.closest('.info-button')) return;
+      
+      const isExpanded = !this.classList.contains('expanded');
+      this.classList.toggle('expanded');
+      
+      // Update both studies and description
+      updateStudyTexts(this, isExpanded);
+      updateDescription(this, isExpanded);
+    });
+  });
+
+  // Handle show more/less
+  if (showMoreButton) {
+    showMoreButton.addEventListener('click', function() {
+      ingredientsGrid.classList.toggle('show-all');
+      this.classList.toggle('show-all');
+    });
+  }
+});
+</script>

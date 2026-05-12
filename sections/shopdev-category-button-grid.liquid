@@ -1,0 +1,122 @@
+{{ 'shopdev-category-button-grid.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .shopdev-category-button-grid .category-button {
+    transition: all 0.3s ease;
+    border: 1px solid #000000;
+  }
+  
+  .shopdev-category-button-grid .category-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .shopdev-category-button-grid .category-button:focus {
+    outline: 2px solid #000000;
+    outline-offset: 2px;
+  }
+  
+  .shopdev-category-button-grid .category-button:active {
+    transform: translateY(0);
+  }
+  
+  @media (max-width: 768px) {
+    .shopdev-category-button-grid .category-grid {
+      gap: 16px;
+      padding: 24px 16px;
+    }
+    
+    .shopdev-category-button-grid .category-button {
+      height: 120px;
+    }
+    
+    .shopdev-category-button-grid .category-button-text {
+      font-size: 18px;
+    }
+  }
+</style>
+
+<div class="w-full bg-white">
+  <div class="category-grid grid grid-cols-2 md:grid-cols-4 gap-[24px] px-[24px] md:px-[48px] py-[48px] md:py-[64px]">
+    {% for block in section.blocks %}
+      <a href="{{ block.settings.button_link | default: '#' }}" 
+         class="category-button flex items-center justify-center bg-white rounded-[20px] h-[160px] md:h-[200px] text-center hover:bg-gray-50 focus:bg-gray-50"
+         {{ block.shopify_attributes }}
+         {% if block.settings.button_link == blank %}tabindex="-1"{% endif %}
+         aria-label="{{ block.settings.button_text }}">
+        <span class="category-button-text text-black font-normal text-[20px] md:text-[24px] leading-none">
+          {{ block.settings.button_text }}
+        </span>
+      </a>
+    {% endfor %}
+  </div>
+  
+  {% if section.blocks.size == 0 %}
+    <div class="flex items-center justify-center py-[100px] text-gray-500">
+      <p>Add category buttons to get started</p>
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Category Button Grid",
+  "class": "shopdev shopdev-category-button-grid",
+  "tag": "section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "category_button",
+      "name": "Category Button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "Category"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category Button Grid",
+      "blocks": [
+        {
+          "type": "category_button",
+          "settings": {
+            "button_text": "Sleep",
+            "button_link": "/collections/sleep"
+          }
+        },
+        {
+          "type": "category_button",
+          "settings": {
+            "button_text": "Women",
+            "button_link": "/collections/products"
+          }
+        },
+        {
+          "type": "category_button",
+          "settings": {
+            "button_text": "Men",
+            "button_link": "/collections/products"
+          }
+        },
+        {
+          "type": "category_button",
+          "settings": {
+            "button_text": "Longevity",
+            "button_link": "/collections/longevity"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

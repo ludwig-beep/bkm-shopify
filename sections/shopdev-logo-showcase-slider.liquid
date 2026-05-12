@@ -1,0 +1,478 @@
+{{ 'shopdev-logo-showcase-slider.css' | asset_url | stylesheet_tag }}
+
+<style>
+  @keyframes shopdev-scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .shopdev-logo-showcase-slider .logo-scroll {
+    animation: shopdev-scroll var(--scroll-speed, 30s) linear infinite;
+    width: max-content;
+  }
+
+  .shopdev-logo-showcase-slider .logo-scroll:hover {
+    animation-play-state: paused;
+  }
+
+  .shopdev-logo-showcase-slider .logo-item {
+    transition: all 0.3s ease;
+    filter: grayscale(0%);
+    opacity: 0.7;
+    width: var(--logo-size, 200px);
+    height: var(--logo-size, 80px);
+  }
+
+  .shopdev-logo-showcase-slider .logo-item:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.05);
+  }
+
+  .shopdev-logo-showcase-slider .logo-container {
+    overflow-x: auto;
+    overflow-y: hidden;
+    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .shopdev-logo-showcase-slider .logo-container::-webkit-scrollbar {
+    display: none;
+  }
+<style>
+  @keyframes shopdev-scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .shopdev-logo-showcase-slider .logo-scroll {
+    animation: shopdev-scroll var(--scroll-speed, 30s) linear infinite;
+    width: max-content;
+  }
+
+  .shopdev-logo-showcase-slider .logo-scroll:hover {
+    animation-play-state: paused;
+  }
+
+  .shopdev-logo-showcase-slider .logo-item {
+    transition: all 0.3s ease;
+    filter: grayscale(0%);
+    opacity: 0.7;
+    width: var(--logo-size, 200px);
+    height: var(--logo-size, 80px);
+  }
+
+  .shopdev-logo-showcase-slider .logo-item:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.05);
+  }
+
+
+  .shopdev-logo-showcase-slider .logo-container.dragging .logo-scroll {
+    animation-play-state: paused !important;
+  }
+
+  .shopdev-logo-showcase-slider .logo-container.dragging {
+    cursor: grabbing;
+  }
+
+  .shopdev-logo-showcase-slider .logo-container.dragging .logo-scroll {
+    animation-play-state: paused !important;
+  }
+
+  @media (max-width: 768px) {
+    .shopdev-logo-showcase-slider .logo-scroll {
+      animation: shopdev-scroll var(--mobile-scroll-speed, 15s) linear infinite;
+      gap: var(--mobile-gap, 32px);
+      width: max-content;
+    }
+    
+    .shopdev-logo-showcase-slider .logo-item {
+      width: calc(var(--logo-size, 200px) * 0.6);
+      height: calc(var(--logo-size, 80px) * 0.75);
+      min-width: 120px;
+      min-height: 60px;
+    }
+  }
+</style>
+
+<div class="w-full py-12 md:py-16" style="background-color: {{ section.settings.background_color }}">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Header -->
+    {% if section.settings.heading != blank or section.settings.description != blank %}
+      <div class="text-center mb-8 md:mb-12">
+        {% if section.settings.heading != blank %}
+          <h2 class="text-2xl md:text-3xl font-bold mb-4" style="color: {{ section.settings.text_color }}">
+            {{ section.settings.heading }}
+          </h2>
+        {% endif %}
+        
+        {% if section.settings.description != blank %}
+          <p class="text-base md:text-lg max-w-2xl mx-auto" style="color: {{ section.settings.text_color }}; opacity: 0.8;">
+            {{ section.settings.description }}
+          </p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <!-- Logo Slider -->
+    {% if section.blocks.size > 0 %}
+      <div class="logo-container relative" id="logoContainer">
+        <div class="logo-scroll flex items-center gap-8 md:gap-12" 
+             id="logoScroll"
+             style="--scroll-speed: {{ section.settings.scroll_speed }}s; --mobile-scroll-speed: {{ section.settings.mobile_scroll_speed }}s; --mobile-gap: {{ section.settings.mobile_gap }}px;">
+          
+          <!-- First set of logos -->
+          {% for block in section.blocks %}
+            <div class="logo-item flex-shrink-0 flex items-center justify-center" 
+                 style="--logo-size: {{ block.settings.logo_size }}px;" 
+                 {{ block.shopify_attributes }}>
+              {% if block.settings.logo != blank %}
+                {% if block.settings.link != blank %}
+                  <a href="{{ block.settings.link }}" class="block w-full h-full">
+                {% endif %}
+                
+                {{ block.settings.logo | image_url: width: 300 | image_tag: 
+                  loading: 'lazy',
+                  class: 'w-full h-full object-contain',
+                  alt: block.settings.alt_text | default: 'Partner logo'
+                }}
+                
+                {% if block.settings.link != blank %}
+                  </a>
+                {% endif %}
+              {% else %}
+                <div class="w-full h-full bg-gray-200 rounded flex items-center justify-center">
+                  <span class="text-gray-500 text-sm">Logo</span>
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+
+          <!-- Duplicate set for seamless loop -->
+          {% for block in section.blocks %}
+            <div class="logo-item flex-shrink-0 flex items-center justify-center" 
+                 style="--logo-size: {{ block.settings.logo_size }}px;">
+              {% if block.settings.logo != blank %}
+                {% if block.settings.link != blank %}
+                  <a href="{{ block.settings.link }}" class="block w-full h-full">
+                {% endif %}
+                
+                {{ block.settings.logo | image_url: width: 300 | image_tag: 
+                  loading: 'lazy',
+                  class: 'w-full h-full object-contain',
+                  alt: block.settings.alt_text | default: 'Partner logo'
+                }}
+                
+                {% if block.settings.link != blank %}
+                  </a>
+                {% endif %}
+              {% else %}
+                <div class="w-full h-full bg-gray-200 rounded flex items-center justify-center">
+                  <span class="text-gray-500 text-sm">Logo</span>
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+
+        </div>
+      </div>
+    {% else %}
+      <div class="flex items-center justify-center h-32 bg-gray-100 rounded-lg">
+        <p class="text-gray-500">Add logo blocks to get started</p>
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const logoContainer = document.getElementById('logoContainer');
+  const logoScroll = document.getElementById('logoScroll');
+  
+  if (!logoContainer || !logoScroll) return;
+  
+  let isDragging = false;
+  let startX = 0;
+  let scrollLeft = 0;
+  let animationPaused = false;
+  
+  // Mouse events
+  logoContainer.addEventListener('mousedown', handleStart);
+  document.addEventListener('mousemove', handleMove);
+  document.addEventListener('mouseup', handleEnd);
+  
+  // Touch events
+  logoContainer.addEventListener('touchstart', handleStart, { passive: false });
+  document.addEventListener('touchmove', handleMove, { passive: false });
+  document.addEventListener('touchend', handleEnd);
+  
+  function handleStart(e) {
+    isDragging = true;
+    logoContainer.classList.add('dragging');
+    
+    // Pause animation
+    if (!animationPaused) {
+      logoScroll.style.animationPlayState = 'paused';
+      animationPaused = true;
+    }
+    
+    const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+    startX = clientX;
+    scrollLeft = logoContainer.scrollLeft;
+    
+    e.preventDefault();
+  }
+  
+  function handleMove(e) {
+    if (!isDragging) return;
+    
+    e.preventDefault();
+    
+    const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+    const walk = (startX - clientX) * 2; // Multiply by 2 for faster scrolling
+    
+    // Use scrollLeft for horizontal scrolling
+    logoContainer.scrollLeft = scrollLeft + walk;
+  }
+  
+  function handleEnd() {
+    if (!isDragging) return;
+    
+    isDragging = false;
+    logoContainer.classList.remove('dragging');
+    
+    // Resume animation after a short delay
+    setTimeout(() => {
+      if (animationPaused) {
+        logoScroll.style.animationPlayState = 'running';
+        animationPaused = false;
+      }
+    }, 1000);
+  }
+  
+  // Prevent context menu on long press
+  logoContainer.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+  });
+  
+  // Resume animation when hover ends
+  logoContainer.addEventListener('mouseleave', function() {
+    if (!isDragging && animationPaused) {
+      setTimeout(() => {
+        logoScroll.style.animationPlayState = 'running';
+        animationPaused = false;
+      }, 500);
+    }
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Logo Showcase Slider",
+  "class": "shopdev shopdev-logo-showcase-slider",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Trusted by Leading Brands"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Join thousands of satisfied customers who trust our products and services"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "min": 15,
+      "max": 60,
+      "step": 5,
+      "unit": "s",
+      "label": "Scroll Speed",
+      "default": 30,
+      "info": "Lower values = faster scrolling"
+    },
+    {
+      "type": "range",
+      "id": "mobile_scroll_speed",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "unit": "s",
+      "label": "Mobile Scroll Speed",
+      "default": 16,
+      "info": "Scroll speed on mobile devices. Lower values = faster scrolling"
+    },
+    {
+      "type": "range",
+      "id": "mobile_gap",
+      "min": 16,
+      "max": 64,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile Logo Spacing",
+      "default": 32,
+      "info": "Gap between logos on mobile devices"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo Image"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Alt Text",
+          "info": "Describe the logo for accessibility"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link (Optional)",
+          "info": "Make the logo clickable"
+        },
+        {
+          "type": "range",
+          "id": "logo_size",
+          "min": 100,
+          "max": 400,
+          "step": 10,
+          "unit": "px",
+          "label": "Logo Size",
+          "default": 200,
+          "info": "Control the width and height of this logo"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Logo Showcase Slider",
+      "settings": {
+        "heading": "Trusted by Leading Wellness Brands",
+        "description": "Join thousands of health-conscious customers who trust our premium supplements and wellness products",
+        "background_color": "#f8f9fa",
+        "text_color": "#2c3e50",
+        "scroll_speed": 25,
+        "mobile_scroll_speed": 16,
+        "mobile_gap": 32
+      },
+      "blocks": [
+        {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/man-samples-wellness-product.jpg",
+            "alt_text": "Premium Health Co.",
+            "link": "/",
+            "logo_size": 200
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/contact-us-lettering.jpg",
+            "alt_text": "Natural Vitality",
+            "link": "/",
+            "logo_size": 180
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/customer-examines-label-of-retail-product.jpg",
+            "alt_text": "Pure Organics",
+            "link": "/",
+            "logo_size": 220
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/fitness-workout.jpg",
+            "alt_text": "Elite Performance",
+            "link": "/",
+            "logo_size": 190
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/coffee-product-photo.jpg",
+            "alt_text": "Advanced Nutrition",
+            "link": "/",
+            "logo_size": 210
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/latte-with-leaf-design.jpg",
+            "alt_text": "Longevity Labs",
+            "link": "/",
+            "logo_size": 170
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/tattood-man-using-creative-technology.jpg",
+            "alt_text": "Wellness Tech Solutions",
+            "link": "/",
+            "logo_size": 240
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/web-design-blogpost-on-hackernoon.jpg",
+            "alt_text": "Biohacker's Choice",
+            "link": "/",
+            "logo_size": 160
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
