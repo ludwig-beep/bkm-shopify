@@ -1,0 +1,366 @@
+<div class="product-form__input product-form__input--variant">
+  {% unless product.has_only_default_variant %}
+    <div class="product-form__buttons">
+      <fieldset class="js product-form__input custom-variant-picker">
+        {% for variant in product.variants %}
+          <input type="radio" 
+                 id="template--{{ section.id }}--{{ variant.id }}" 
+                 name="id" 
+                 value="{{ variant.id }}" 
+                 form="product-form-{{ section.id }}" 
+                 class="variant-input" 
+                 data-variant-image="{% if variant.featured_image %}{{ variant.featured_image | img_url: 'master' }}{% endif %}" 
+                 {% if variant == product.selected_or_first_available_variant %}checked{% endif %} 
+                 {% if variant.available == false %}disabled{% endif %}>
+          <label for="template--{{ section.id }}--{{ variant.id }}" class="custom-variant-button">
+            {{ variant.title }}
+          </label>
+        {% endfor %}
+      </fieldset>
+    </div>
+  {% endunless %}
+</div>
+
+<style>
+.product-form__input.product-form__input--variant {
+  border: none !important;
+  padding: 0;
+  margin: 0;
+}
+
+.product-form__input fieldset.custom-variant-picker {
+  border: none !important;
+  padding: 0;
+  margin: 0;
+}
+
+.custom-variant-button {
+  display: inline-block;
+  padding: {{ block.settings.button_padding_vertical }}px {{ block.settings.button_padding_horizontal }}px;
+  margin: {{ block.settings.button_margin }}px;
+  border: {{ block.settings.button_border_width }}px solid {{ block.settings.button_border_color }};
+  border-radius: {{ block.settings.button_border_radius }}px;
+  background: {{ block.settings.button_background_color }};
+  color: {{ block.settings.button_text_color }};
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: {{ block.settings.button_font_weight }};
+  font-size: {{ block.settings.button_font_size }}px;
+}
+
+.custom-variant-button:hover {
+  background: {{ block.settings.button_hover_background_color }};
+  color: {{ block.settings.button_hover_text_color }};
+}
+
+input[type="radio"]:checked + .custom-variant-button {
+  background: {{ block.settings.button_active_background_color }};
+  color: {{ block.settings.button_active_text_color }};
+  border-color: {{ block.settings.button_active_border_color }};
+}
+
+fieldset.custom-variant-picker input[type="radio"] {
+  display: none;
+}
+
+input[type="radio"]:disabled + .custom-variant-button {
+  background: {{ block.settings.button_disabled_background_color }};
+  color: {{ block.settings.button_disabled_text_color }};
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const variantInputs = document.querySelectorAll('.variant-input');
+  
+  variantInputs.forEach(function(input) {
+    input.addEventListener('change', function() {
+      console.log('Variant changed to:', this.value);
+      
+      // Update the main product form with the selected variant
+      const mainForm = document.querySelector('form[action*="/cart/add"]');
+      if (mainForm) {
+        const mainVariantInput = mainForm.querySelector('input[name="id"]');
+        if (mainVariantInput) {
+          mainVariantInput.value = this.value;
+        }
+      }
+      
+      // Change the product image if enabled
+      {% if block.settings.enable_image_change %}
+      const variantImage = this.getAttribute('data-variant-image');
+      console.log('Variant image URL:', variantImage);
+      
+      if (variantImage) {
+        // Enhanced selectors for Palo Alto theme
+        const imageSelectors = [
+          '.product__media img',
+          '.product-single__photo img', 
+          '.product__image img',
+          '.featured-image img',
+          '.product-media img',
+          '.product__photo img',
+          '.product-gallery img',
+          '[data-product-image]',
+          '.main-product-image img',
+          '.product__media-item img',
+          '.product-media__image img',
+          '.media img',
+          '.product__media-wrapper img',
+          'img[src*="MG_4178"]',
+          'img[alt*="Ultra"]'
+        ];
+        
+        let productImage = null;
+        
+        // Try each selector until we find an image
+        for (let selector of imageSelectors) {
+          productImage = document.querySelector(selector);
+          if (productImage) {
+            console.log('Found image with selector:', selector);
+            break;
+          }
+        }
+        
+        // If still not found, try to find any image containing the current product image
+        if (!productImage) {
+          const allImages = document.querySelectorAll('img');
+          for (let img of allImages) {
+            if (img.src && img.src.includes('MG_4178')) {
+              productImage = img;
+              console.log('Found image by current src match');
+              break;
+            }
+          }
+        }
+        
+        if (productImage) {
+          console.log('Changing image from:', productImage.src, 'to:', variantImage);
+          
+          // Ensure the URL has the protocol
+          const fullImageUrl = variantImage.startsWith('//') ? 'https:' + variantImage : variantImage;
+          
+          productImage.src = fullImageUrl;
+          if (productImage.srcset) {
+            productImage.srcset = fullImageUrl;
+          }
+          
+          // Also update any parent picture elements
+          const parentPicture = productImage.closest('picture');
+          if (parentPicture) {
+            const sources = parentPicture.querySelectorAll('source');
+            sources.forEach(source => {
+              source.srcset = fullImageUrl;
+            });
+          }
+          
+          console.log('Image updated successfully');
+        } else {
+          console.log('No product image element found with any selector');
+        }
+      }
+      {% endif %}
+      
+      // Trigger variant change event for other scripts
+      const event = new CustomEvent('variant:change', {
+        detail: {
+          variant: {
+            id: this.value,
+            featured_image: variantImage
+          }
+        }
+      });
+      document.dispatchEvent(event);
+    });
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Variant Sub Picker",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Button Styling"
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical",
+      "min": 5,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Button vertical padding",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal",
+      "min": 10,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Button horizontal padding",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "button_margin",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Button margin",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Button border radius",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "button_border_width",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "label": "Button border width",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Button font size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "button_font_weight",
+      "label": "Button font weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi Bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "header",
+      "content": "Button Colors - Default State"
+    },
+    {
+      "type": "color",
+      "id": "button_background_color",
+      "label": "Button background color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Button border color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "header",
+      "content": "Button Colors - Hover State"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background_color",
+      "label": "Button hover background color",
+      "default": "#e8e8e8"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Button hover text color",
+      "default": "#333333"
+    },
+    {
+      "type": "header",
+      "content": "Button Colors - Active/Selected State"
+    },
+    {
+      "type": "color",
+      "id": "button_active_background_color",
+      "label": "Button active background color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "button_active_text_color",
+      "label": "Button active text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_active_border_color",
+      "label": "Button active border color",
+      "default": "#333333"
+    },
+    {
+      "type": "header",
+      "content": "Button Colors - Disabled State"
+    },
+    {
+      "type": "color",
+      "id": "button_disabled_background_color",
+      "label": "Button disabled background color",
+      "default": "#cccccc"
+    },
+    {
+      "type": "color",
+      "id": "button_disabled_text_color",
+      "label": "Button disabled text color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Functionality"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_image_change",
+      "label": "Enable variant image switching",
+      "default": true,
+      "info": "When enabled, the product image will change when a variant is selected"
+    }
+  ]
+}
+{% endschema %}

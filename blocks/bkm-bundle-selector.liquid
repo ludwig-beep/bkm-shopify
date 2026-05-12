@@ -1,0 +1,470 @@
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign base_price = current_variant.price
+
+  assign tag_gate_pass = true
+  if block.settings.show_only_for_tags != blank
+    assign wanted_tags = block.settings.show_only_for_tags | downcase | replace: ', ', ',' | split: ','
+    assign tag_gate_pass = false
+    for tag in product.tags
+      assign tag_l = tag | downcase
+      if wanted_tags contains tag_l
+        assign tag_gate_pass = true
+        break
+      endif
+    endfor
+  endif
+
+  assign metafield_gate_pass = true
+  if block.settings.metafield_gate_enable and block.settings.metafield_gate_bool == false
+    assign metafield_gate_pass = false
+  endif
+
+  assign should_render = false
+  if tag_gate_pass and metafield_gate_pass
+    assign should_render = true
+  endif
+  if request.design_mode
+    assign should_render = true
+  endif
+-%}
+
+{%- if should_render -%}
+<div id="BkmBundle-{{ block.id }}" class="bkm-bundle"
+     data-section-id="{{ section.id }}"
+     data-product-id="{{ product.id }}"
+     data-initial-variant-id="{{ current_variant.id }}"
+     data-initial-price="{{ base_price }}"
+     data-currency-symbol="{{ cart.currency.symbol }}"
+     data-currency-code="{{ cart.currency.iso_code }}"
+     data-discount-1="{{ block.settings.discount_1 }}"
+     data-discount-2="{{ block.settings.discount_2 }}"
+     data-discount-3="{{ block.settings.discount_3 }}"
+     data-show-original="{{ block.settings.show_original_price }}"
+     data-show-discounted="{{ block.settings.show_discounted_price }}"
+     data-show-savings="{{ block.settings.show_savings }}"
+     data-default-pack="{{ block.settings.default_pack | default: 1 }}"
+     data-preorder-enabled="{{ block.settings.show_preorder_message }}"
+     data-money-format="{{ shop.money_format | strip_html | escape }}">
+  {%- if block.settings.heading != blank -%}
+    <h3 class="bkm-bundle__heading">{{ block.settings.heading }}</h3>
+  {%- endif -%}
+  {%- if block.settings.subheading != blank -%}
+    <p class="bkm-bundle__subheading">{{ block.settings.subheading }}</p>
+  {%- endif -%}
+
+  <div class="bkm-bundle__options" role="radiogroup" aria-label="{{ block.settings.heading | default: 'Select pack' }}">
+    <button type="button" class="bkm-card" data-qty="1" aria-pressed="false" aria-label="{{ block.settings.label_1 | escape }}">
+      <span class="bkm-card__left">
+        <span class="bkm-card__title">{{ block.settings.label_1 }}</span>
+      </span>
+      {%- liquid
+        assign d1 = block.settings.discount_1 | times: 1
+      -%}
+      {%- if block.settings.show_savings and block.settings.show_savings_1 and d1 > 0 -%}
+        <span class="bkm-card__center">
+          <span class="bkm-card__discount">-{{ d1 }}%</span>
+        </span>
+      {%- endif -%}
+      <span class="bkm-card__right">
+        {%- if block.settings.show_original_price -%}
+          <span class="bkm-card__price bkm-card__price--original" data-price-original="1"></span>
+        {%- endif -%}
+        {%- if block.settings.show_discounted_price -%}
+          <span class="bkm-card__price bkm-card__price--final" data-price-final="1"></span>
+        {%- endif -%}
+      </span>
+    </button>
+
+    <button type="button" class="bkm-card" data-qty="2" aria-pressed="false" aria-label="{{ block.settings.label_2 | escape }}">
+      <span class="bkm-card__left">
+        <span class="bkm-card__title">{{ block.settings.label_2 }}</span>
+      </span>
+      {%- liquid
+        assign d2 = block.settings.discount_2 | times: 1
+      -%}
+      {%- if block.settings.show_savings and block.settings.show_savings_2 and d2 > 0 -%}
+        <span class="bkm-card__center">
+          <span class="bkm-card__discount">-{{ d2 }}%</span>
+        </span>
+      {%- endif -%}
+      <span class="bkm-card__right">
+        {%- if block.settings.show_original_price -%}
+          <span class="bkm-card__price bkm-card__price--original" data-price-original="2"></span>
+        {%- endif -%}
+        {%- if block.settings.show_discounted_price -%}
+          <span class="bkm-card__price bkm-card__price--final" data-price-final="2"></span>
+        {%- endif -%}
+      </span>
+    </button>
+
+    <button type="button" class="bkm-card" data-qty="3" aria-pressed="false" aria-label="{{ block.settings.label_3 | escape }}">
+      <span class="bkm-card__left">
+        <span class="bkm-card__title">{{ block.settings.label_3 }}</span>
+      </span>
+      {%- liquid
+        assign d3 = block.settings.discount_3 | times: 1
+      -%}
+      {%- if block.settings.show_savings and block.settings.show_savings_3 and d3 > 0 -%}
+        <span class="bkm-card__center">
+          <span class="bkm-card__discount">-{{ d3 }}%</span>
+        </span>
+      {%- endif -%}
+      <span class="bkm-card__right">
+        {%- if block.settings.show_original_price -%}
+          <span class="bkm-card__price bkm-card__price--original" data-price-original="3"></span>
+        {%- endif -%}
+        {%- if block.settings.show_discounted_price -%}
+          <span class="bkm-card__price bkm-card__price--final" data-price-final="3"></span>
+        {%- endif -%}
+      </span>
+    </button>
+  </div>
+
+  {%- if block.settings.show_preorder_message and block.settings.preorder_message != blank -%}
+    <p class="bkm-bundle__preorder">{{ block.settings.preorder_message }}</p>
+  {%- endif -%}
+
+  <script type="application/json" data-bkm-product="{{ product.id }}">
+    {{ product | json }}
+  </script>
+</div>
+
+<style>
+.bkm-bundle {
+  margin: 16px 0 24px 0;
+}
+.bkm-bundle__heading {
+  margin: 0 0 6px 0;
+  font-weight: 700;
+  font-size: 18px;
+}
+.bkm-bundle__subheading {
+  margin: 0 0 12px 0;
+  color: #4b5563;
+  font-size: 14px;
+}
+.bkm-bundle__options {
+  display: grid;
+  gap: 12px;
+}
+.bkm-card {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 2px solid #0b1f35;
+  background: #fff;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease;
+}
+.bkm-card[aria-pressed="true"] {
+  background: #0e2743;
+  color: #fff;
+}
+.bkm-card__title {
+  font-weight: 600;
+  font-size: 15px;
+}
+.bkm-card__center {
+  text-align: right;
+  margin-right: 12px;
+  color: inherit;
+}
+.bkm-card__discount {
+  color: inherit;
+  opacity: .9;
+  font-weight: 600;
+}
+.bkm-card__right {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  align-items: baseline;
+  white-space: nowrap;
+}
+.bkm-card__price {
+  font-weight: 600;
+  font-size: 14px;
+}
+.bkm-card__price--original {
+  opacity: .6;
+  text-decoration: line-through;
+}
+.bkm-bundle__preorder {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #374151;
+}
+@media (max-width: 480px) {
+  .bkm-card {
+    grid-template-columns: 1fr auto;
+    row-gap: 4px;
+  }
+  .bkm-card__right {
+    grid-column: 1 / -1;
+    justify-content: space-between;
+  }
+}
+</style>
+
+<script>
+  (function() {
+    var root = document.getElementById('BkmBundle-{{ block.id }}');
+    if (!root) return;
+
+    var productJSONScript = root.querySelector('script[type="application/json"][data-bkm-product="{{ product.id }}"]');
+    var productData = null;
+    try { productData = JSON.parse(productJSONScript?.textContent || '{}'); } catch(e) {}
+
+    var formRoot = root.closest('section, main, .product, .product__info, .product-single, body');
+    var productForm = formRoot ? formRoot.querySelector('form[action*="/cart/add"]') : document.querySelector('form[action*="/cart/add"]');
+    var qtyInput = productForm ? productForm.querySelector('input[name="quantity"]') : null;
+    if (!qtyInput && productForm) {
+      qtyInput = document.createElement('input');
+      qtyInput.type = 'hidden';
+      qtyInput.name = 'quantity';
+      qtyInput.value = '1';
+      productForm.appendChild(qtyInput);
+    }
+    var variantInput = productForm ? productForm.querySelector('input[name="id"]') : null;
+
+    var defaultPack = parseInt(root.getAttribute('data-default-pack') || '1', 10);
+    var buttons = Array.prototype.slice.call(root.querySelectorAll('.bkm-card'));
+    var showOriginal = root.getAttribute('data-show-original') === 'true';
+    var showDiscounted = root.getAttribute('data-show-discounted') === 'true';
+    var showSavings = root.getAttribute('data-show-savings') === 'true';
+    var discounts = {
+      1: parseFloat(root.getAttribute('data-discount-1') || '0'),
+      2: parseFloat(root.getAttribute('data-discount-2') || '0'),
+      3: parseFloat(root.getAttribute('data-discount-3') || '0')
+    };
+
+    function formatMoney(cents) {
+      // Reuse Shopify's formatting if available
+      if (window.Shopify && typeof Shopify.formatMoney === 'function') {
+        return Shopify.formatMoney(Math.round(cents), '{{ shop.money_format | strip_newlines | strip }}');
+      }
+      // Fallback basic formatter (stores cents)
+      var value = (Math.round(cents) / 100).toFixed(2);
+      return value;
+    }
+    function ensureCurrency(str) {
+      var out = String(str || '');
+      var sym = root.getAttribute('data-currency-symbol') || '';
+      var code = (root.getAttribute('data-currency-code') || '').toUpperCase();
+      if ((sym && out.indexOf(sym) !== -1) || (code && out.toUpperCase().indexOf(code) !== -1)) {
+        return out;
+      }
+      return (out + (sym ? ' ' + sym : (code ? ' ' + code : ''))).trim();
+    }
+
+    function getSelectedVariantPrice() {
+      var id = parseInt(variantInput?.value || root.getAttribute('data-initial-variant-id'), 10);
+      if (!productData || !productData.variants) return parseFloat(root.getAttribute('data-initial-price') || '0');
+      var v = productData.variants.find(function(x){ return x.id === id; });
+      return v ? v.price : parseFloat(root.getAttribute('data-initial-price') || '0');
+    }
+
+    function updateCardPrices() {
+      var basePrice = getSelectedVariantPrice();
+      [1,2,3].forEach(function(qty) {
+        var originalTotal = basePrice * qty;
+        var discountPct = discounts[qty] || 0;
+        var finalTotal = originalTotal * (1 - (discountPct / 100));
+
+        var originalLabel = root.querySelector('[data-price-original="'+qty+'"]');
+        var finalLabel = root.querySelector('[data-price-final="'+qty+'"]');
+        if (originalLabel) originalLabel.textContent = showOriginal ? ensureCurrency(formatMoney(originalTotal)) : '';
+        if (finalLabel) finalLabel.textContent = showDiscounted ? ensureCurrency(formatMoney(finalTotal)) : '';
+      });
+    }
+
+    function setActive(qty) {
+      buttons.forEach(function(btn) {
+        var isActive = parseInt(btn.getAttribute('data-qty'), 10) === qty;
+        btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      });
+      if (qtyInput) {
+        qtyInput.value = String(qty);
+        // Trigger change for any theme listeners
+        try {
+          qtyInput.dispatchEvent(new Event('change', { bubbles: true }));
+          if (productForm) productForm.dispatchEvent(new Event('change', { bubbles: true }));
+        } catch(e) {}
+      }
+    }
+
+    // Bind interactions
+    buttons.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var qty = parseInt(btn.getAttribute('data-qty'), 10);
+        setActive(qty);
+      });
+    });
+
+    // React to variant changes from other scripts
+    if (variantInput) {
+      variantInput.addEventListener('change', updateCardPrices);
+    }
+    document.addEventListener('variant:change', updateCardPrices, { passive: true });
+
+    // Init
+    setActive(defaultPack || 1);
+    updateCardPrices();
+  })();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "BKM Bundle Pack Selector",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Choose your pack"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Tiered discounts apply automatically at checkout"
+    },
+    {
+      "type": "text",
+      "id": "label_1",
+      "label": "Label for 1 pack",
+      "default": "1 pack (30 days)"
+    },
+    {
+      "type": "text",
+      "id": "label_2",
+      "label": "Label for 2 pack",
+      "default": "2 pack (60 days)"
+    },
+    {
+      "type": "text",
+      "id": "label_3",
+      "label": "Label for 3 pack",
+      "default": "3 pack (90 days)"
+    },
+    {
+      "type": "range",
+      "id": "discount_1",
+      "label": "Discount for 1 pack (%)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "discount_2",
+      "label": "Discount for 2 pack (%)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "discount_3",
+      "label": "Discount for 3 pack (%)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 30
+    },
+    {
+      "type": "checkbox",
+      "id": "show_original_price",
+      "label": "Show original (non-discounted) total",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_discounted_price",
+      "label": "Show discounted total (UI only)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_savings",
+      "label": "Show savings percentage text",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Per-option discount visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_savings_1",
+      "label": "Show discount for 1 pack",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_savings_2",
+      "label": "Show discount for 2 pack",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_savings_3",
+      "label": "Show discount for 3 pack",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "default_pack",
+      "label": "Default selected pack",
+      "default": "1",
+      "options": [
+        { "value": "1", "label": "1 pack" },
+        { "value": "2", "label": "2 pack" },
+        { "value": "3", "label": "3 pack" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_preorder_message",
+      "label": "Show pre-order message",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "preorder_message",
+      "label": "Pre-order message text",
+      "default": "Pre-order: ships as soon as it becomes available"
+    },
+    {
+      "type": "header",
+      "content": "Display conditions"
+    },
+    {
+      "type": "text",
+      "id": "show_only_for_tags",
+      "label": "Only show for products with ANY of these tags (comma-separated)"
+    },
+    {
+      "type": "checkbox",
+      "id": "metafield_gate_enable",
+      "label": "Also require a metafield boolean to be true",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "metafield_gate_bool",
+      "label": "Bind a product metafield boolean here (dynamic source)",
+      "default": true
+    }
+  ]
+}
+{% endschema %} 
+

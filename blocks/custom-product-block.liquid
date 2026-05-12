@@ -1,0 +1,31 @@
+<div style="background: lightblue; padding: 20px; margin: 20px 0; border: 2px solid blue;">
+  <h3>Debug Info:</h3>
+  <p>Product: {{ product.title }}</p>
+  <p>Total variants: {{ product.variants.size }}</p>
+  <p>Variants:</p>
+  <ul>
+    {% for variant in product.variants %}
+      <li>{{ variant.title }} - {{ variant.price | money }} - Available: {{ variant.available }}</li>
+    {% endfor %}
+  </ul>
+  
+  {% if product.variants.size > 1 %}
+    <p style="color: green;">✅ Product has multiple variants - picker should show</p>
+  {% else %}
+    <p style="color: red;">❌ Product has only {{ product.variants.size }} variant(s) - picker won't show</p>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Custom Variant Buttons",
+  "settings": [
+    {
+      "type": "text",
+      "id": "test_text",
+      "label": "Test Text",
+      "default": "Hello World"
+    }
+  ]
+}
+{% endschema %}
