@@ -490,56 +490,45 @@
       }
     },
     "how_to_use": {
-      "type": "section-icons-row",
+      "type": "shopdev-persona-grid",
       "blocks": {
-        "step_1": {
-          "type": "text",
+        "s1": {
+          "type": "persona",
           "settings": {
-            "icon_name": "none",
+            "icon": "🥄",
             "title": "1. Mix",
-            "text": "<p>Stir 1 scoop (5&nbsp;g) into 300–400&nbsp;ml of water.</p>"
+            "text": "Stir 1 scoop (5 g) into 300–400 ml of water."
           }
         },
-        "step_2": {
-          "type": "text",
+        "s2": {
+          "type": "persona",
           "settings": {
-            "icon_name": "none",
+            "icon": "💪",
             "title": "2. Scale",
-            "text": "<p>1 scoop for everyday, 2 when you train, up to 3 for the hardest sessions.</p>"
+            "text": "1 scoop for everyday, 2 when you train, up to 3 for the hardest sessions."
           }
         },
-        "step_3": {
-          "type": "text",
+        "s3": {
+          "type": "persona",
           "settings": {
-            "icon_name": "none",
+            "icon": "💧",
             "title": "3. Hydrate",
-            "text": "<p>Clean, balanced hydration — every day, not just on sweat days.</p>"
+            "text": "Clean, balanced hydration — every day, not just on sweat days."
           }
         }
       },
       "block_order": [
-        "step_1",
-        "step_2",
-        "step_3"
+        "s1",
+        "s2",
+        "s3"
       ],
       "settings": {
-        "alignment": "center",
-        "mobile_alignment": "center",
-        "columns": 3,
-        "icons_width": 40,
         "heading": "How to use",
-        "subheading": "",
+        "subheading": "<p>From scoop to sip — how to make BKM part of your day.</p>",
+        "accent_color": "#0A2240",
         "bg_color": "#f7f9fa",
-        "text_color": "#0A2240",
-        "box_color": "",
-        "button_text": "",
-        "button_link": "",
-        "button_color": "btn--black",
-        "button_style": "btn--solid",
-        "button_size": "btn--medium",
-        "enable_slider_mobile": false,
-        "padding_top": 60,
-        "padding_bottom": 60
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     },
     "reviews": {
