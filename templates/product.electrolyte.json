@@ -10,7 +10,7 @@
         "subtitle": {
           "type": "text",
           "settings": {
-            "title": "<p>{{ product.metafields.descriptors.subtitle.value }}</p>",
+            "title": "<p>No added sugar · Made in Sweden · A scalable daily electrolyte</p>",
             "text_alignment": "left",
             "padding_bottom": 0
           }
@@ -32,34 +32,6 @@
           "settings": {
             "title": "<ul><li><strong>Hydrate every day</strong> — Guérande sea salt + coconut water powder, with sodium calibrated lower so you can drink it daily without overloading</li><li><strong>Scales to you</strong> — 1 stick on a normal day, 2 when you train, up to 3 for the hardest sessions</li><li><strong>Supports & absorbs</strong> — NAC to support your liver and kidneys, plus a prebiotic + probiotic gut layer so you actually use what you take</li><li><strong>Clean</strong> — no added sugar, naturally sweetened with stevia</li></ul>",
             "text_alignment": "left",
-            "padding_bottom": 20
-          }
-        },
-        "bundle": {
-          "type": "bkm_bundle_selector",
-          "settings": {
-            "heading": "Stock up & save",
-            "subheading": "Tiered discounts apply automatically at checkout",
-            "label_1": "1 box · 30 sticks",
-            "label_2": "2 boxes",
-            "label_3": "3 boxes",
-            "discount_1": 10,
-            "discount_2": 20,
-            "discount_3": 30,
-            "show_original_price": true,
-            "show_discounted_price": true,
-            "show_savings": true,
-            "show_savings_1": true,
-            "show_savings_2": true,
-            "show_savings_3": true,
-            "default_pack": "1",
-            "show_preorder_message": false,
-            "preorder_message": "",
-            "show_only_for_tags": "",
-            "metafield_gate_enable": false,
-            "metafield_gate_bool": true,
-            "hide_variant_ids": "",
-            "hide_variant_titles": "",
             "padding_bottom": 20
           }
         },
@@ -188,7 +160,6 @@
         "title",
         "hook",
         "value_bullets",
-        "bundle",
         "flavor",
         "recharge_widget",
         "form",
@@ -208,9 +179,18 @@
       ],
       "custom_css": [
         ".product__accordion__title {font-size: 120%;}",
-        ".product__subheading {padding-bottom: 0px; margin-bottom: 0px;}",
+        ".product__subheading {padding-bottom: 6px; margin-bottom: 0px; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; opacity: .65; color: #0A2240;}",
         ".product__rating {display: none;}",
-        ".product__selectors {display: none !important;}"
+        ".product__selectors {display: none !important;}",
+        ".enhanced-variant-selector__title {font-size: 15px; font-weight: 700; color: #0A2240; margin-bottom: 10px;}",
+        ".enhanced-variant-selector__buttons {display: grid; grid-template-columns: 1fr 1fr; gap: 10px;}",
+        ".enhanced-variant-button {display: flex; align-items: center; gap: 10px; padding: 14px 16px; border: 1.5px solid #e3e6ea; border-radius: 14px; background: #fff; cursor: pointer; transition: border-color .18s ease, box-shadow .18s ease; text-align: left; width: 100%;}",
+        ".enhanced-variant-button::before {content: ''; width: 18px; height: 18px; border-radius: 50%; flex: 0 0 auto;}",
+        ".enhanced-variant-button:nth-child(1)::before {background: radial-gradient(circle at 30% 30%, #c1457f, #7d2b6b);}",
+        ".enhanced-variant-button:nth-child(2)::before {background: radial-gradient(circle at 30% 30%, #9ccb5a, #4f9d3a);}",
+        ".enhanced-variant-button:hover {border-color: #0A2240;}",
+        ".enhanced-variant-button--active {border-color: #0A2240; box-shadow: 0 0 0 2px #0A2240;}",
+        ".enhanced-variant-button__name {font-weight: 600; color: #0A2240; font-size: 15px;}"
       ],
       "settings": {
         "product_sticky_enable": true,
