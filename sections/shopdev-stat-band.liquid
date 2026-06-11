@@ -1,0 +1,88 @@
+{% comment %}
+  shopdev-stat-band
+  Big-number proof band for the BKM Electrolytes PDP.
+  Self-contained. Brand: BKM Blue (#0A2240), inherits theme body font (Avenir).
+  Each block = one stat: big value + label. Use TRUE, verifiable facts (no invented survey %).
+{% endcomment %}
+
+{%- liquid
+  assign accent = section.settings.accent_color | default: '#0A2240'
+  assign bg = section.settings.bg_color
+  assign uid = section.id
+-%}
+
+{%- style -%}
+  #ElyteStat--{{ uid }} {
+    --st-accent: {{ accent }};
+    {%- if bg != blank and bg != 'rgba(0,0,0,0)' -%}background: {{ bg }};{%- endif -%}
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  #ElyteStat--{{ uid }} .stat__inner { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+  #ElyteStat--{{ uid }} .stat__head { margin-bottom: 36px; max-width: 720px; }
+  #ElyteStat--{{ uid }} .stat__title { font-size: clamp(24px, 3.6vw, 36px); line-height: 1.12; margin: 0 0 12px; color: var(--st-accent); }
+  #ElyteStat--{{ uid }} .stat__sub { font-size: 16px; line-height: 1.55; margin: 0; opacity: .8; }
+  #ElyteStat--{{ uid }} .stat__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  #ElyteStat--{{ uid }} .stat__item { }
+  #ElyteStat--{{ uid }} .stat__value { font-size: clamp(40px, 6vw, 64px); font-weight: 800; line-height: 1; color: var(--st-accent); margin: 0 0 8px; letter-spacing: -.02em; }
+  #ElyteStat--{{ uid }} .stat__label { font-size: 15px; line-height: 1.45; margin: 0; opacity: .8; }
+  @media (max-width: 860px) { #ElyteStat--{{ uid }} .stat__grid { grid-template-columns: 1fr 1fr; gap: 28px; } }
+{%- endstyle -%}
+
+<section id="ElyteStat--{{ uid }}" class="shopdev shopdev-stat-band" data-section-id="{{ uid }}">
+  <div class="stat__inner">
+    {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="stat__head">
+        {%- if section.settings.heading != blank -%}<h2 class="stat__title">{{ section.settings.heading }}</h2>{%- endif -%}
+        {%- if section.settings.subheading != blank -%}<div class="stat__sub">{{ section.settings.subheading }}</div>{%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="stat__grid">
+      {%- for block in section.blocks -%}
+        <div class="stat__item" {{ block.shopify_attributes }}>
+          {%- if block.settings.value != blank -%}<p class="stat__value">{{ block.settings.value }}</p>{%- endif -%}
+          {%- if block.settings.label != blank -%}<p class="stat__label">{{ block.settings.label }}</p>{%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Stat Band",
+  "class": "shopdev shopdev-stat-band",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Built right, from the ground up." },
+    { "type": "richtext", "id": "subheading", "label": "Subheading", "default": "<p>No shortcuts, no fillers — just a formula developed to do more than hydrate.</p>" },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#0A2240" },
+    { "type": "color", "id": "bg_color", "label": "Section background" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding top", "default": 60 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding bottom", "default": 60 }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        { "type": "text", "id": "value", "label": "Value", "default": "0 g" },
+        { "type": "text", "id": "label", "label": "Label", "default": "added sugar" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Stat Band",
+      "blocks": [
+        { "type": "stat", "settings": { "value": "0 g", "label": "added sugar — naturally sweetened with stevia" } },
+        { "type": "stat", "settings": { "value": "16", "label": "active ingredients in every serving" } },
+        { "type": "stat", "settings": { "value": "1 yr", "label": "in development to get the balance right" } },
+        { "type": "stat", "settings": { "value": "🇸🇪", "label": "made in Sweden, Cologne List® tested" } }
+      ]
+    }
+  ],
+  "disabled_on": { "groups": ["header", "aside", "footer"] }
+}
+{% endschema %}

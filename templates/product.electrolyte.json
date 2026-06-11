@@ -9,7 +9,9 @@
       "blocks": {
         "klaviyo_rating": {
           "type": "shopify://apps/klaviyo-reviews/blocks/average-rating/db20e365-d984-4ac4-9655-e1588d951ca9",
-          "settings": { "product": "{{product}}" }
+          "settings": {
+            "product": "{{product}}"
+          }
         },
         "subtitle": {
           "type": "text",
@@ -21,7 +23,12 @@
         },
         "title": {
           "type": "title",
-          "settings": { "subheading": "none", "show_rating": true, "show_rating_count": false, "padding_bottom": 20 }
+          "settings": {
+            "subheading": "none",
+            "show_rating": true,
+            "show_rating_count": false,
+            "padding_bottom": 20
+          }
         },
         "hook": {
           "type": "text",
@@ -65,11 +72,22 @@
         },
         "payment_methods": {
           "type": "payment_methods",
-          "settings": { "heading": "", "alignment": "center", "size": 95, "padding_bottom": 16 }
+          "settings": {
+            "heading": "",
+            "alignment": "center",
+            "size": 95,
+            "padding_bottom": 16
+          }
         },
         "parcel_panel_edd": {
           "type": "shopify://apps/parcelwill-parcel-panel/blocks/edd/fc785c3f-90e0-4c98-a20c-7cde9ba5e4b5",
-          "settings": { "corner_radius": 4, "margin_top": 10, "margin_bottom": 10, "padding_x": 16, "padding_y": 16 }
+          "settings": {
+            "corner_radius": 4,
+            "margin_top": 10,
+            "margin_bottom": 10,
+            "padding_x": 16,
+            "padding_y": 16
+          }
         },
         "guarantee": {
           "type": "feature",
@@ -85,7 +103,11 @@
         },
         "shipped_from_sweden": {
           "type": "text",
-          "settings": { "title": "<p>Shipped from Sweden</p>", "text_alignment": "left", "padding_bottom": 20 }
+          "settings": {
+            "title": "<p>Shipped from Sweden</p>",
+            "text_alignment": "left",
+            "padding_bottom": 20
+          }
         },
         "acc_what_is": {
           "type": "product_accordion",
@@ -99,7 +121,10 @@
         },
         "divider_1": {
           "type": "divider",
-          "settings": { "show_line": true, "padding_bottom": 20 }
+          "settings": {
+            "show_line": true,
+            "padding_bottom": 20
+          }
         },
         "acc_how_to_use": {
           "type": "product_accordion",
@@ -113,7 +138,10 @@
         },
         "divider_2": {
           "type": "divider",
-          "settings": { "show_line": true, "padding_bottom": 20 }
+          "settings": {
+            "show_line": true,
+            "padding_bottom": 20
+          }
         },
         "acc_key_ingredients": {
           "type": "product_accordion",
@@ -127,7 +155,10 @@
         },
         "divider_3": {
           "type": "divider",
-          "settings": { "show_line": true, "padding_bottom": 20 }
+          "settings": {
+            "show_line": true,
+            "padding_bottom": 20
+          }
         },
         "subscribe_accordion": {
           "type": "subscribe_accordion",
@@ -145,7 +176,10 @@
         },
         "divider_4": {
           "type": "divider",
-          "settings": { "show_line": true, "padding_bottom": 20 }
+          "settings": {
+            "show_line": true,
+            "padding_bottom": 20
+          }
         },
         "acc_product_info": {
           "type": "product_accordion",
@@ -232,7 +266,11 @@
           }
         }
       },
-      "block_order": ["made_in_sweden", "gmp_haccp", "cologne_list"],
+      "block_order": [
+        "made_in_sweden",
+        "gmp_haccp",
+        "cologne_list"
+      ],
       "settings": {
         "alignment": "left",
         "mobile_alignment": "left",
@@ -256,11 +294,39 @@
     "dosing": {
       "type": "shopdev-electrolyte-dosing",
       "blocks": {
-        "dose_1": { "type": "dose", "settings": { "sticks": 1, "count_label": "1 stick / day", "label": "Everyday", "text": "A normal day, light sweat. Daily minerals and clean hydration without overloading your system." } },
-        "dose_2": { "type": "dose", "settings": { "sticks": 2, "count_label": "2 sticks / day", "label": "Training", "text": "Regular training, real sweat. Step up minerals to match the effort and recover faster." } },
-        "dose_3": { "type": "dose", "settings": { "sticks": 3, "count_label": "up to 3 / day", "label": "Hardest sessions", "text": "Long, hot, all-out — think Ironman. Maximum mineral replacement for the biggest days." } }
+        "dose_1": {
+          "type": "dose",
+          "settings": {
+            "sticks": 1,
+            "count_label": "1 stick / day",
+            "label": "Everyday",
+            "text": "A normal day, light sweat. Daily minerals and clean hydration without overloading your system."
+          }
+        },
+        "dose_2": {
+          "type": "dose",
+          "settings": {
+            "sticks": 2,
+            "count_label": "2 sticks / day",
+            "label": "Training",
+            "text": "Regular training, real sweat. Step up minerals to match the effort and recover faster."
+          }
+        },
+        "dose_3": {
+          "type": "dose",
+          "settings": {
+            "sticks": 3,
+            "count_label": "up to 3 / day",
+            "label": "Hardest sessions",
+            "text": "Long, hot, all-out — think Ironman. Maximum mineral replacement for the biggest days."
+          }
+        }
       },
-      "block_order": ["dose_1", "dose_2", "dose_3"],
+      "block_order": [
+        "dose_1",
+        "dose_2",
+        "dose_3"
+      ],
       "settings": {
         "eyebrow": "Scalable hydration",
         "heading": "Built for marathons. And Mondays.",
@@ -275,26 +341,118 @@
     "comparison": {
       "type": "shopdev-electrolyte-comparison",
       "blocks": {
-        "row_daily": { "type": "row", "settings": { "feature_label": "Calibrated for daily use", "feature_note": "lower sodium so you can drink it every day without overloading", "bkm_has": true, "other_has": false } },
-        "row_scale": { "type": "row", "settings": { "feature_label": "Scales with your effort", "feature_note": "1 stick everyday · 2 when you train · up to 3 for the hardest sessions", "bkm_has": true, "other_has": false } },
-        "row_nac": { "type": "row", "settings": { "feature_label": "NAC to support liver & kidneys", "feature_note": "rarely found in any electrolyte", "bkm_has": true, "other_has": false } },
-        "row_guerande": { "type": "row", "settings": { "feature_label": "Guérande sea salt + coconut water powder", "feature_note": "full trace-mineral profile, not refined salt", "bkm_has": true, "other_has": false } },
-        "row_gut": { "type": "row", "settings": { "feature_label": "Prebiotic + probiotic gut layer", "feature_note": "Inulin + LactoSpore® for real absorption", "bkm_has": true, "other_has": false } },
-        "row_micros": { "type": "row", "settings": { "feature_label": "Acerola Vitamin C, Vitamin D3 & selenium", "feature_note": "antioxidant, immune & thyroid support", "bkm_has": true, "other_has": false } },
-        "row_nosugar": { "type": "row", "settings": { "feature_label": "No added sugar", "feature_note": "naturally sweetened with stevia", "bkm_has": true, "other_has": false } },
-        "row_sweat": { "type": "row", "settings": { "feature_label": "Replaces minerals lost in sweat", "bkm_has": true, "other_has": true } }
+        "row_daily": {
+          "type": "row",
+          "settings": {
+            "feature_label": "Calibrated for daily use",
+            "feature_note": "lower sodium so you can drink it every day without overloading",
+            "bkm": "yes",
+            "col2": "no",
+            "col3": "no",
+            "col4": "no"
+          }
+        },
+        "row_scale": {
+          "type": "row",
+          "settings": {
+            "feature_label": "Scales with your effort",
+            "feature_note": "1 stick everyday · 2 when you train · up to 3 for the hardest sessions",
+            "bkm": "yes",
+            "col2": "no",
+            "col3": "partial",
+            "col4": "no"
+          }
+        },
+        "row_nac": {
+          "type": "row",
+          "settings": {
+            "feature_label": "NAC to support liver & kidneys",
+            "feature_note": "rarely found in any electrolyte",
+            "bkm": "yes",
+            "col2": "no",
+            "col3": "no",
+            "col4": "no"
+          }
+        },
+        "row_guerande": {
+          "type": "row",
+          "settings": {
+            "feature_label": "Guérande sea salt + coconut water powder",
+            "feature_note": "full trace-mineral profile, not refined salt",
+            "bkm": "yes",
+            "col2": "partial",
+            "col3": "no",
+            "col4": "no"
+          }
+        },
+        "row_gut": {
+          "type": "row",
+          "settings": {
+            "feature_label": "Prebiotic + probiotic gut layer",
+            "feature_note": "Inulin + LactoSpore® for real absorption",
+            "bkm": "yes",
+            "col2": "no",
+            "col3": "no",
+            "col4": "no"
+          }
+        },
+        "row_micros": {
+          "type": "row",
+          "settings": {
+            "feature_label": "Acerola Vitamin C, Vitamin D3 & selenium",
+            "feature_note": "antioxidant, immune & thyroid support",
+            "bkm": "yes",
+            "col2": "no",
+            "col3": "no",
+            "col4": "no"
+          }
+        },
+        "row_nosugar": {
+          "type": "row",
+          "settings": {
+            "feature_label": "No added sugar",
+            "feature_note": "naturally sweetened with stevia",
+            "bkm": "yes",
+            "col2": "yes",
+            "col3": "yes",
+            "col4": "no"
+          }
+        },
+        "row_sweat": {
+          "type": "row",
+          "settings": {
+            "feature_label": "Replaces minerals lost in sweat",
+            "bkm": "yes",
+            "col2": "yes",
+            "col3": "yes",
+            "col4": "partial"
+          }
+        }
       },
-      "block_order": ["row_daily", "row_scale", "row_nac", "row_guerande", "row_gut", "row_micros", "row_nosugar", "row_sweat"],
+      "block_order": [
+        "row_daily",
+        "row_scale",
+        "row_nac",
+        "row_guerande",
+        "row_gut",
+        "row_micros",
+        "row_nosugar",
+        "row_sweat"
+      ],
       "settings": {
-        "heading": "Not just a sports drink. An everyday electrolyte.",
+        "heading": "Us vs them. How we stack up.",
         "subheading": "<p>Most electrolytes are built for heavy sweating and overload you with sodium on an ordinary day. BKM is calibrated for daily use — and scales up when you train hard.</p>",
-        "feature_col_label": "",
-        "bkm_col_label": "BKM Electrolytes",
-        "other_col_label": "Ordinary electrolytes",
+        "feature_col_label": "What matters",
+        "bkm_col_label": "BKM",
         "accent_color": "#0A2240",
         "bg_color": "",
-        "padding_top": 60,
-        "padding_bottom": 60
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "col2_label": "Ordinary electrolytes",
+        "show_col3": true,
+        "col3_label": "Tablets / sticks",
+        "show_col4": true,
+        "col4_label": "Sports drinks"
       }
     },
     "ingredient_science": {
@@ -364,7 +522,15 @@
           }
         }
       },
-      "block_order": ["ing_guerande", "ing_coconut", "ing_magnesium", "ing_nac", "ing_vitc", "ing_gut", "ing_d3_selenium"],
+      "block_order": [
+        "ing_guerande",
+        "ing_coconut",
+        "ing_magnesium",
+        "ing_nac",
+        "ing_vitc",
+        "ing_gut",
+        "ing_d3_selenium"
+      ],
       "settings": {
         "heading": "A year in development. Every ingredient earns its place.",
         "description": "Full-spectrum minerals that hydrate, NAC that supports the systems processing them, a gut layer that absorbs, and micronutrients that protect — calibrated for every day, sourced in Sweden.",
@@ -376,18 +542,34 @@
       "blocks": {
         "step_1": {
           "type": "text",
-          "settings": { "icon_name": "none", "title": "1. Mix", "text": "<p>Stir 1 stick pack (5&nbsp;g) into 300–400&nbsp;ml of water.</p>" }
+          "settings": {
+            "icon_name": "none",
+            "title": "1. Mix",
+            "text": "<p>Stir 1 stick pack (5&nbsp;g) into 300–400&nbsp;ml of water.</p>"
+          }
         },
         "step_2": {
           "type": "text",
-          "settings": { "icon_name": "none", "title": "2. Scale", "text": "<p>1 stick for everyday, 2 when you train, up to 3 for the hardest sessions.</p>" }
+          "settings": {
+            "icon_name": "none",
+            "title": "2. Scale",
+            "text": "<p>1 stick for everyday, 2 when you train, up to 3 for the hardest sessions.</p>"
+          }
         },
         "step_3": {
           "type": "text",
-          "settings": { "icon_name": "none", "title": "3. Hydrate", "text": "<p>Clean, balanced hydration — every day, not just on sweat days.</p>" }
+          "settings": {
+            "icon_name": "none",
+            "title": "3. Hydrate",
+            "text": "<p>Clean, balanced hydration — every day, not just on sweat days.</p>"
+          }
         }
       },
-      "block_order": ["step_1", "step_2", "step_3"],
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3"
+      ],
       "settings": {
         "alignment": "center",
         "mobile_alignment": "center",
@@ -439,7 +621,11 @@
           }
         }
       },
-      "block_order": ["athlete_tara", "athlete_marcus", "athlete_daniel"],
+      "block_order": [
+        "athlete_tara",
+        "athlete_marcus",
+        "athlete_daniel"
+      ],
       "settings": {
         "heading": "Built for athletes. Made for everyone.",
         "subheading": "",
@@ -459,8 +645,15 @@
           "settings": {}
         }
       },
-      "block_order": ["klaviyo_reviews"],
-      "settings": { "bg_color": "", "width": "wrapper", "padding_top": 60, "padding_bottom": 60 }
+      "block_order": [
+        "klaviyo_reviews"
+      ],
+      "settings": {
+        "bg_color": "",
+        "width": "wrapper",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
     },
     "faq": {
       "type": "section-accordions",
@@ -495,7 +688,10 @@
         },
         "faq_sugar": {
           "type": "text",
-          "settings": { "title": "Does it contain sugar?", "text": "<p>No. BKM Electrolytes has no added sugar and is naturally sweetened with stevia.</p>" }
+          "settings": {
+            "title": "Does it contain sugar?",
+            "text": "<p>No. BKM Electrolytes has no added sugar and is naturally sweetened with stevia.</p>"
+          }
         },
         "faq_ingredient_list": {
           "type": "text",
@@ -505,7 +701,14 @@
           }
         }
       },
-      "block_order": ["faq_difference", "faq_daily", "faq_when", "faq_flavors", "faq_sugar", "faq_ingredient_list"],
+      "block_order": [
+        "faq_difference",
+        "faq_daily",
+        "faq_when",
+        "faq_flavors",
+        "faq_sugar",
+        "faq_ingredient_list"
+      ],
       "settings": {
         "layout": "one-column",
         "show_accordion_divider": false,
@@ -523,10 +726,24 @@
     "related": {
       "type": "related-products",
       "blocks": {
-        "related": { "type": "related", "settings": { "title": "You May Also Like", "product_recommendations_limit": 4 } }
+        "related": {
+          "type": "related",
+          "settings": {
+            "title": "You May Also Like",
+            "product_recommendations_limit": 4
+          }
+        }
       },
-      "block_order": ["related"],
-      "settings": { "enable_tabs": true, "bg_color": "", "width": "wrapper--full-padded", "padding_top": 60, "padding_bottom": 60 }
+      "block_order": [
+        "related"
+      ],
+      "settings": {
+        "enable_tabs": true,
+        "bg_color": "",
+        "width": "wrapper--full-padded",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
     },
     "guarantee_disclaimer": {
       "type": "section-text",
@@ -539,8 +756,12 @@
           }
         }
       },
-      "block_order": ["disclaimer"],
-      "custom_css": ["p {font-size: 10px;}"],
+      "block_order": [
+        "disclaimer"
+      ],
+      "custom_css": [
+        "p {font-size: 10px;}"
+      ],
       "settings": {
         "text_position": "left",
         "bg_color_secondary": false,
@@ -549,15 +770,204 @@
         "padding_top": 40,
         "padding_bottom": 40
       }
+    },
+    "benefit_pillars": {
+      "type": "shopdev-benefit-pillars",
+      "blocks": {
+        "p1": {
+          "type": "pillar",
+          "settings": {
+            "icon": "💧",
+            "title": "Advanced hydration",
+            "text": "Guérande sea salt, sodium citrate, potassium, magnesium and calcium — plus coconut water powder — help maintain fluid balance and replenish minerals lost through sweat."
+          }
+        },
+        "p2": {
+          "type": "pillar",
+          "settings": {
+            "icon": "⚡",
+            "title": "Energy & muscle",
+            "text": "Magnesium contributes to normal energy metabolism and helps reduce tiredness and fatigue. Potassium, calcium and magnesium support normal muscle function."
+          }
+        },
+        "p3": {
+          "type": "pillar",
+          "settings": {
+            "icon": "🛡️",
+            "title": "Immune & antioxidant",
+            "text": "Vitamin C from acerola, selenium and Vitamin D3 support normal immune function. NAC supports glutathione production; Vitamin C and selenium help protect cells from oxidative stress."
+          }
+        },
+        "p4": {
+          "type": "pillar",
+          "settings": {
+            "icon": "🌱",
+            "title": "Gut health",
+            "text": "Inulin from chicory root acts as a prebiotic fibre that nourishes beneficial gut bacteria, while the clinically studied LactoSpore® probiotic supports a healthy gut microbiome."
+          }
+        },
+        "p5": {
+          "type": "pillar",
+          "settings": {
+            "icon": "🍋",
+            "title": "Naturally flavoured, sugar-free",
+            "text": "Swedish-rooted flavours, naturally sweetened with stevia, with no added sugar — so it's something you'll actually want every day."
+          }
+        },
+        "p6": {
+          "type": "pillar",
+          "settings": {
+            "icon": "🇸🇪",
+            "title": "Made in Sweden",
+            "text": "Developed over a year by Swedish former top athletes, with carefully sourced ingredients and Cologne List® testing for banned substances."
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6"
+      ],
+      "settings": {
+        "eyebrow": "More than hydration",
+        "heading": "One serving. Five ways it works for you.",
+        "subheading": "<p>Where most electrolytes only chase hydration, BKM is built as a daily wellness formula — hydration, energy, immunity, antioxidant protection and gut health in one sugar-free serving.</p>",
+        "accent_color": "#0A2240",
+        "bg_color": "#f7f9fa",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "persona_grid": {
+      "type": "shopdev-persona-grid",
+      "blocks": {
+        "a": {
+          "type": "persona",
+          "settings": {
+            "icon": "🏃",
+            "title": "Athletes",
+            "text": "Two to three sticks around hard training and race day, to match what you sweat out."
+          }
+        },
+        "b": {
+          "type": "persona",
+          "settings": {
+            "icon": "💼",
+            "title": "Busy professionals",
+            "text": "One stick to stay sharp and hydrated through a long day at the desk."
+          }
+        },
+        "c": {
+          "type": "persona",
+          "settings": {
+            "icon": "📚",
+            "title": "Students",
+            "text": "Clean, focused hydration without the sugar of a sports drink."
+          }
+        },
+        "d": {
+          "type": "persona",
+          "settings": {
+            "icon": "🍷",
+            "title": "The night before",
+            "text": "A glass before a social occasion to help your body stay in balance."
+          }
+        },
+        "e": {
+          "type": "persona",
+          "settings": {
+            "icon": "☀️",
+            "title": "The morning after",
+            "text": "Replenish minerals and rehydrate when you need it most."
+          }
+        },
+        "f": {
+          "type": "persona",
+          "settings": {
+            "icon": "🔁",
+            "title": "Every single day",
+            "text": "Calibrated low-sodium means it's safe to drink daily — recovery is a 24/7 habit."
+          }
+        }
+      },
+      "block_order": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f"
+      ],
+      "settings": {
+        "heading": "Built for athletes. Made for everyone.",
+        "subheading": "<p>Recovery isn't just for race day — it's 24/7, no matter who you are. Scale your dose to your day, every day.</p>",
+        "accent_color": "#0A2240",
+        "bg_color": "",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "stat_band": {
+      "type": "shopdev-stat-band",
+      "blocks": {
+        "s1": {
+          "type": "stat",
+          "settings": {
+            "value": "0 g",
+            "label": "added sugar — naturally sweetened with stevia"
+          }
+        },
+        "s2": {
+          "type": "stat",
+          "settings": {
+            "value": "16",
+            "label": "active ingredients in every serving"
+          }
+        },
+        "s3": {
+          "type": "stat",
+          "settings": {
+            "value": "1 yr",
+            "label": "in development to get the balance right"
+          }
+        },
+        "s4": {
+          "type": "stat",
+          "settings": {
+            "value": "🇸🇪",
+            "label": "made in Sweden, Cologne List® tested"
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "settings": {
+        "heading": "Built right, from the ground up.",
+        "subheading": "<p>No shortcuts, no fillers — just a formula developed to do more than hydrate.</p>",
+        "accent_color": "#0A2240",
+        "bg_color": "",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
     }
   },
   "order": [
     "pdp_styles",
     "main",
     "cert_badges",
+    "benefit_pillars",
     "dosing",
     "comparison",
     "ingredient_science",
+    "persona_grid",
+    "stat_band",
     "how_to_use",
     "athlete_endorsements",
     "reviews",

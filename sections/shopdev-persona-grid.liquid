@@ -1,0 +1,105 @@
+{% comment %}
+  shopdev-persona-grid
+  "Built for athletes. Made for everyone." — who BKM Electrolytes is for / when to use it.
+  Self-contained. Brand: BKM Blue (#0A2240), inherits theme body font (Avenir).
+  Each block = persona/scenario: optional image + title + text. With image it renders as a
+  photo card (like a lifestyle grid); without image, a clean text card with optional icon.
+{% endcomment %}
+
+{%- liquid
+  assign accent = section.settings.accent_color | default: '#0A2240'
+  assign bg = section.settings.bg_color
+  assign uid = section.id
+-%}
+
+{%- style -%}
+  #ElytePersona--{{ uid }} {
+    --pg-accent: {{ accent }};
+    {%- if bg != blank and bg != 'rgba(0,0,0,0)' -%}background: {{ bg }};{%- endif -%}
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  #ElytePersona--{{ uid }} .pg__inner { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+  #ElytePersona--{{ uid }} .pg__head { margin-bottom: 32px; max-width: 720px; }
+  #ElytePersona--{{ uid }} .pg__title { font-size: clamp(28px, 4.4vw, 44px); line-height: 1.08; margin: 0 0 12px; color: var(--pg-accent); }
+  #ElytePersona--{{ uid }} .pg__sub { font-size: 17px; line-height: 1.6; margin: 0; opacity: .82; }
+  #ElytePersona--{{ uid }} .pg__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  #ElytePersona--{{ uid }} .pg__card {
+    background: #fff; border: 1px solid rgba(10,34,64,.1); border-radius: 16px; overflow: hidden;
+    box-shadow: 0 12px 40px -26px rgba(10,34,64,.4); display: flex; flex-direction: column;
+  }
+  #ElytePersona--{{ uid }} .pg__media { aspect-ratio: 4 / 3; overflow: hidden; background: rgba(10,34,64,.05); }
+  #ElytePersona--{{ uid }} .pg__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #ElytePersona--{{ uid }} .pg__body { padding: 20px 20px 22px; }
+  #ElytePersona--{{ uid }} .pg__icon { font-size: 24px; line-height: 1; display: block; margin-bottom: 10px; }
+  #ElytePersona--{{ uid }} .pg__cardtitle { font-size: 18px; font-weight: 700; margin: 0 0 6px; color: var(--pg-accent); }
+  #ElytePersona--{{ uid }} .pg__text { font-size: 14.5px; line-height: 1.5; margin: 0; opacity: .82; }
+  @media (max-width: 860px) { #ElytePersona--{{ uid }} .pg__grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { #ElytePersona--{{ uid }} .pg__grid { grid-template-columns: 1fr; } }
+{%- endstyle -%}
+
+<section id="ElytePersona--{{ uid }}" class="shopdev shopdev-persona-grid" data-section-id="{{ uid }}">
+  <div class="pg__inner">
+    <div class="pg__head">
+      {%- if section.settings.heading != blank -%}<h2 class="pg__title">{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.subheading != blank -%}<div class="pg__sub">{{ section.settings.subheading }}</div>{%- endif -%}
+    </div>
+    <div class="pg__grid">
+      {%- for block in section.blocks -%}
+        <div class="pg__card" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            <div class="pg__media">{{ block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: block.settings.title }}</div>
+          {%- endif -%}
+          <div class="pg__body">
+            {%- if block.settings.image == blank and block.settings.icon != blank -%}<span class="pg__icon">{{ block.settings.icon }}</span>{%- endif -%}
+            {%- if block.settings.title != blank -%}<h3 class="pg__cardtitle">{{ block.settings.title }}</h3>{%- endif -%}
+            {%- if block.settings.text != blank -%}<p class="pg__text">{{ block.settings.text }}</p>{%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Persona Grid",
+  "class": "shopdev shopdev-persona-grid",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Built for athletes. Made for everyone." },
+    { "type": "richtext", "id": "subheading", "label": "Subheading", "default": "<p>Recovery isn't just for race day — it's 24/7, no matter who you are. Scale your dose to your day, every day.</p>" },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#0A2240" },
+    { "type": "color", "id": "bg_color", "label": "Section background" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding top", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding bottom", "default": 64 }
+  ],
+  "blocks": [
+    {
+      "type": "persona",
+      "name": "Persona",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image (optional)" },
+        { "type": "text", "id": "icon", "label": "Icon (emoji, shown if no image)", "default": "🏃" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Athletes" },
+        { "type": "textarea", "id": "text", "label": "Description", "default": "Two to three sticks around hard training and race day, to match what you sweat out." }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Persona Grid",
+      "blocks": [
+        { "type": "persona", "settings": { "icon": "🏃", "title": "Athletes", "text": "Two to three sticks around hard training and race day, to match what you sweat out." } },
+        { "type": "persona", "settings": { "icon": "💼", "title": "Busy professionals", "text": "One stick to stay sharp and hydrated through a long day at the desk." } },
+        { "type": "persona", "settings": { "icon": "📚", "title": "Students", "text": "Clean, focused hydration without the sugar of a sports drink." } },
+        { "type": "persona", "settings": { "icon": "🍷", "title": "The night before", "text": "A glass before a social occasion to help your body stay in balance." } },
+        { "type": "persona", "settings": { "icon": "☀️", "title": "The morning after", "text": "Replenish minerals and rehydrate when you need it most." } },
+        { "type": "persona", "settings": { "icon": "🔁", "title": "Every single day", "text": "Calibrated low-sodium means it's safe to drink daily — recovery is a 24/7 habit." } }
+      ]
+    }
+  ],
+  "disabled_on": { "groups": ["header", "aside", "footer"] }
+}
+{% endschema %}
