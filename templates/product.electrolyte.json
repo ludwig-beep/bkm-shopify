@@ -552,53 +552,6 @@
         "padding_bottom": 60
       }
     },
-    "athlete_endorsements": {
-      "type": "shopdev-athlete-endorsements",
-      "blocks": {
-        "athlete_tara": {
-          "type": "athlete",
-          "settings": {
-            "image": "shopify://shop_images/DSC06462.jpg",
-            "name": "Tara Babulfath",
-            "title": "Swedish Olympic Judoka",
-            "quote": "I want to give myself the best possible chance to optimize my performance. If I can make myself 1% better, I'll do it. With BKM's help, I can enhance my sleep, focus, hormones, and more to become a better athlete. Dreams are free, so dream big!"
-          }
-        },
-        "athlete_marcus": {
-          "type": "athlete",
-          "settings": {
-            "image": "shopify://shop_images/image1-1.jpg",
-            "name": "Marcus Sörensen",
-            "title": "Hockey player, HC Fribourg-Gottéron & Swedish national team",
-            "quote": "To perform at my best on the ice, I feel that BKM gives me that extra edge — and the recovery and hydration I need around training."
-          }
-        },
-        "athlete_daniel": {
-          "type": "athlete",
-          "settings": {
-            "image": "shopify://shop_images/IMG_6332.jpg",
-            "name": "Daniel Windahl",
-            "title": "#1 padel, Northern Europe",
-            "quote": "For me, it's all about gaining the extra focus and rest between my practice and matches. If you have high goals, you need high quality help as BKM."
-          }
-        }
-      },
-      "block_order": [
-        "athlete_tara",
-        "athlete_marcus",
-        "athlete_daniel"
-      ],
-      "settings": {
-        "heading": "Built for athletes. Made for everyone.",
-        "subheading": "",
-        "slides_per_view": 1,
-        "enable_autoplay": true,
-        "autoplay_delay": 5000,
-        "enable_loop": true,
-        "show_navigation": true,
-        "show_pagination": true
-      }
-    },
     "reviews": {
       "type": "apps",
       "blocks": {
@@ -799,75 +752,6 @@
         "subheading": "<p>Where most electrolytes only chase hydration, BKM is built as a daily wellness formula — hydration, energy, immunity, antioxidant protection and gut health in one sugar-free serving.</p>",
         "accent_color": "#0A2240",
         "bg_color": "#f7f9fa",
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
-    },
-    "persona_grid": {
-      "type": "shopdev-persona-grid",
-      "blocks": {
-        "a": {
-          "type": "persona",
-          "settings": {
-            "icon": "🏃",
-            "title": "Athletes",
-            "text": "Two to three sticks around hard training and race day, to match what you sweat out."
-          }
-        },
-        "b": {
-          "type": "persona",
-          "settings": {
-            "icon": "💼",
-            "title": "Busy professionals",
-            "text": "One stick to stay sharp and hydrated through a long day at the desk."
-          }
-        },
-        "c": {
-          "type": "persona",
-          "settings": {
-            "icon": "📚",
-            "title": "Students",
-            "text": "Clean, focused hydration without the sugar of a sports drink."
-          }
-        },
-        "d": {
-          "type": "persona",
-          "settings": {
-            "icon": "🍷",
-            "title": "The night before",
-            "text": "A glass before a social occasion to help your body stay in balance."
-          }
-        },
-        "e": {
-          "type": "persona",
-          "settings": {
-            "icon": "☀️",
-            "title": "The morning after",
-            "text": "Replenish minerals and rehydrate when you need it most."
-          }
-        },
-        "f": {
-          "type": "persona",
-          "settings": {
-            "icon": "🔁",
-            "title": "Every single day",
-            "text": "Calibrated low-sodium means it's safe to drink daily — recovery is a 24/7 habit."
-          }
-        }
-      },
-      "block_order": [
-        "a",
-        "b",
-        "c",
-        "d",
-        "e",
-        "f"
-      ],
-      "settings": {
-        "heading": "Built for athletes. Made for everyone.",
-        "subheading": "<p>Recovery isn't just for race day — it's 24/7, no matter who you are. Scale your dose to your day, every day.</p>",
-        "accent_color": "#0A2240",
-        "bg_color": "",
         "padding_top": 64,
         "padding_bottom": 64
       }
