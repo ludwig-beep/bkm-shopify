@@ -25,17 +25,9 @@
         "hook": {
           "type": "text",
           "settings": {
-            "title": "<p>An everyday electrolyte built to scale with you — gentle enough to drink daily, ready to step up when you train hard. Made in Sweden, true to its roots.</p>",
+            "title": "<p>An everyday electrolyte that scales with you — calibrated for daily hydration, ready to step up when you train hard. Sugar-free, made in Sweden.</p>",
             "text_alignment": "left",
             "padding_bottom": 16
-          }
-        },
-        "value_bullets": {
-          "type": "text",
-          "settings": {
-            "title": "<ul><li><strong>Hydrate every day</strong> — Guérande sea salt + coconut water powder, with sodium calibrated lower so you can drink it daily without overloading</li><li><strong>Scales to you</strong> — 1 stick on a normal day, 2 when you train, up to 3 for the hardest sessions</li><li><strong>Supports & absorbs</strong> — NAC to support your liver and kidneys, plus a prebiotic + probiotic gut layer so you actually use what you take</li><li><strong>Clean</strong> — no added sugar, naturally sweetened with stevia</li></ul>",
-            "text_alignment": "left",
-            "padding_bottom": 20
           }
         },
         "flavor": {
@@ -194,7 +186,6 @@
         "klaviyo_rating",
         "title",
         "hook",
-        "value_bullets",
         "trust_pills",
         "flavor",
         "recharge_widget",
