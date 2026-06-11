@@ -13,14 +13,6 @@
             "product": "{{product}}"
           }
         },
-        "subtitle": {
-          "type": "text",
-          "settings": {
-            "title": "<p>No added sugar · Made in Sweden · A scalable daily electrolyte</p>",
-            "text_alignment": "left",
-            "padding_bottom": 0
-          }
-        },
         "title": {
           "type": "title",
           "settings": {
@@ -190,14 +182,20 @@
             "accordion_page": "",
             "padding_bottom": 20
           }
+        },
+        "trust_pills": {
+          "type": "custom_code",
+          "settings": {
+            "custom_code": "<div style=\"display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 4px;\"><span style=\"display:inline-flex;align-items:center;font-size:12px;font-weight:600;letter-spacing:.01em;color:#0A2240;background:rgba(10,34,64,.06);border-radius:999px;padding:7px 13px;line-height:1;\">No added sugar</span><span style=\"display:inline-flex;align-items:center;font-size:12px;font-weight:600;letter-spacing:.01em;color:#0A2240;background:rgba(10,34,64,.06);border-radius:999px;padding:7px 13px;line-height:1;\">Vegan</span><span style=\"display:inline-flex;align-items:center;font-size:12px;font-weight:600;letter-spacing:.01em;color:#0A2240;background:rgba(10,34,64,.06);border-radius:999px;padding:7px 13px;line-height:1;\">Made in Sweden</span><span style=\"display:inline-flex;align-items:center;font-size:12px;font-weight:600;letter-spacing:.01em;color:#0A2240;background:rgba(10,34,64,.06);border-radius:999px;padding:7px 13px;line-height:1;\">Gut-friendly</span><span style=\"display:inline-flex;align-items:center;font-size:12px;font-weight:600;letter-spacing:.01em;color:#0A2240;background:rgba(10,34,64,.06);border-radius:999px;padding:7px 13px;line-height:1;\">Cologne List&reg; tested</span></div>"
+          }
         }
       },
       "block_order": [
         "klaviyo_rating",
-        "subtitle",
         "title",
         "hook",
         "value_bullets",
+        "trust_pills",
         "flavor",
         "recharge_widget",
         "form",
@@ -217,7 +215,7 @@
       ],
       "custom_css": [
         ".product__accordion__title {font-size: 120%;}",
-        ".product__subheading {padding-bottom: 6px; margin-bottom: 0; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; opacity: .65; color: #0A2240;}",
+        ".product__subheading {padding-bottom: 6px; margin-bottom: 0; line-height: 1.55;}",
         ".product__rating {display: none;}",
         ".product__selectors {display: none !important;}"
       ],
