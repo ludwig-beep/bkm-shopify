@@ -809,36 +809,36 @@
         "v1": {
           "type": "clip",
           "settings": {
-            "caption": "“I drink it every single day.”",
-            "name": "Add ambassador"
+            "caption": "First sip of Swedish Berries 👀",
+            "name": "Add first-taste video"
           }
         },
         "v2": {
           "type": "clip",
           "settings": {
-            "caption": "“The morning after, this is what I reach for.”",
-            "name": "Add ambassador"
+            "caption": "My honest first reaction",
+            "name": "Add first-taste video"
           }
         },
         "v3": {
           "type": "clip",
           "settings": {
-            "caption": "“Finally an electrolyte I can take daily.”",
-            "name": "Add ambassador"
+            "caption": "Didn't think I'd like it…",
+            "name": "Add first-taste video"
           }
         },
         "v4": {
           "type": "clip",
           "settings": {
-            "caption": "“Race day essential.”",
-            "name": "Add ambassador"
+            "caption": "Wait — that's actually really good",
+            "name": "Add first-taste video"
           }
         },
         "v5": {
           "type": "clip",
           "settings": {
-            "caption": "“Sharp through a long work day.”",
-            "name": "Add ambassador"
+            "caption": "Trying Elderflower Lime for the first time",
+            "name": "Add first-taste video"
           }
         }
       },
@@ -850,8 +850,8 @@
         "v5"
       ],
       "settings": {
-        "heading": "Made by athletes. For everyone.",
-        "subheading": "<p>From race day to the morning after — real people on why BKM is part of their day.</p>",
+        "heading": "Scared the flavour's not for you? Don't take our word for it.",
+        "subheading": "<p>Real people tasting BKM for the first time — unscripted first reactions.</p>",
         "accent_color": "#0A2240",
         "bg_color": "",
         "padding_top": 64,
