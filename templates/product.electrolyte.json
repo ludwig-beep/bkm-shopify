@@ -278,7 +278,8 @@
         "enable_slider_mobile": false,
         "padding_top": 40,
         "padding_bottom": 40
-      }
+      },
+      "disabled": true
     },
     "dosing": {
       "type": "shopdev-electrolyte-dosing",
@@ -790,7 +791,8 @@
         "bg_color": "",
         "padding_top": 60,
         "padding_bottom": 60
-      }
+      },
+      "disabled": true
     },
     "video_grid": {
       "type": "shopdev-video-grid",
