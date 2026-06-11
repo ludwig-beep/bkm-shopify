@@ -35,6 +35,34 @@
             "padding_bottom": 20
           }
         },
+        "bundle": {
+          "type": "bkm_bundle_selector",
+          "settings": {
+            "heading": "Stock up & save",
+            "subheading": "Tiered discounts apply automatically at checkout",
+            "label_1": "1 box · 30 sticks",
+            "label_2": "2 boxes",
+            "label_3": "3 boxes",
+            "discount_1": 10,
+            "discount_2": 20,
+            "discount_3": 30,
+            "show_original_price": true,
+            "show_discounted_price": true,
+            "show_savings": true,
+            "show_savings_1": true,
+            "show_savings_2": true,
+            "show_savings_3": true,
+            "default_pack": "1",
+            "show_preorder_message": false,
+            "preorder_message": "",
+            "show_only_for_tags": "",
+            "metafield_gate_enable": false,
+            "metafield_gate_bool": true,
+            "hide_variant_ids": "",
+            "hide_variant_titles": "",
+            "padding_bottom": 20
+          }
+        },
         "flavor": {
           "type": "variant_selector_enhanced",
           "settings": {
@@ -160,6 +188,7 @@
         "title",
         "hook",
         "value_bullets",
+        "bundle",
         "flavor",
         "recharge_widget",
         "form",
@@ -247,6 +276,25 @@
         "enable_slider_mobile": false,
         "padding_top": 40,
         "padding_bottom": 40
+      }
+    },
+    "dosing": {
+      "type": "shopdev-electrolyte-dosing",
+      "blocks": {
+        "dose_1": { "type": "dose", "settings": { "sticks": 1, "count_label": "1 stick / day", "label": "Everyday", "text": "A normal day, light sweat. Daily minerals and clean hydration without overloading your system." } },
+        "dose_2": { "type": "dose", "settings": { "sticks": 2, "count_label": "2 sticks / day", "label": "Training", "text": "Regular training, real sweat. Step up minerals to match the effort and recover faster." } },
+        "dose_3": { "type": "dose", "settings": { "sticks": 3, "count_label": "up to 3 / day", "label": "Hardest sessions", "text": "Long, hot, all-out — think Ironman. Maximum mineral replacement for the biggest days." } }
+      },
+      "block_order": ["dose_1", "dose_2", "dose_3"],
+      "settings": {
+        "eyebrow": "Scalable hydration",
+        "heading": "Built for marathons. And Mondays.",
+        "subheading": "<p>Most electrolytes give you one heavy dose built for hard sweating. BKM scales to your day — so you get exactly what you need, and never more sodium than your body can use.</p>",
+        "footnote": "Body size and conditions vary — listen to your body and adjust.",
+        "accent_color": "#0A2240",
+        "bg_color": "",
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     },
     "comparison": {
@@ -531,6 +579,7 @@
   "order": [
     "main",
     "cert_badges",
+    "dosing",
     "comparison",
     "ingredient_science",
     "how_to_use",
