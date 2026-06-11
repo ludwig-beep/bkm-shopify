@@ -289,7 +289,7 @@
             "sticks": 1,
             "count_label": "1 scoop / day",
             "label": "Everyday",
-            "text": "A normal day, light sweat. Daily minerals and clean hydration without overloading your system."
+            "text": "A normal day, light sweat — daily minerals without overloading."
           }
         },
         "dose_2": {
@@ -298,7 +298,7 @@
             "sticks": 2,
             "count_label": "2 scoops / day",
             "label": "Training",
-            "text": "Regular training, real sweat. Step up minerals to match the effort and recover faster."
+            "text": "Real training, real sweat — step it up to match the effort."
           }
         },
         "dose_3": {
@@ -307,7 +307,7 @@
             "sticks": 3,
             "count_label": "up to 3 / day",
             "label": "Hardest sessions",
-            "text": "Long, hot, all-out — think Ironman. Maximum mineral replacement for the biggest days."
+            "text": "Long, hot, all-out — maximum replacement for the biggest days."
           }
         }
       },
@@ -683,7 +683,7 @@
           "settings": {
             "icon": "💧",
             "title": "Advanced hydration",
-            "text": "Guérande sea salt, sodium citrate, potassium, magnesium and calcium — plus coconut water powder — help maintain fluid balance and replenish minerals lost through sweat."
+            "text": "Guérande sea salt + coconut water powder replenish the minerals you lose through sweat."
           }
         },
         "p2": {
@@ -691,7 +691,7 @@
           "settings": {
             "icon": "⚡",
             "title": "Energy & muscle",
-            "text": "Magnesium contributes to normal energy metabolism and helps reduce tiredness and fatigue. Potassium, calcium and magnesium support normal muscle function."
+            "text": "Magnesium supports normal energy metabolism and muscle function, and helps reduce fatigue."
           }
         },
         "p3": {
@@ -699,7 +699,7 @@
           "settings": {
             "icon": "🛡️",
             "title": "Immune & antioxidant",
-            "text": "Vitamin C from acerola, selenium and Vitamin D3 support normal immune function. NAC supports glutathione production; Vitamin C and selenium help protect cells from oxidative stress."
+            "text": "Vitamin C, D3 and selenium support normal immune function; NAC fuels your glutathione."
           }
         },
         "p4": {
@@ -707,7 +707,7 @@
           "settings": {
             "icon": "🌱",
             "title": "Gut health",
-            "text": "Inulin from chicory root acts as a prebiotic fibre that nourishes beneficial gut bacteria, while the clinically studied LactoSpore® probiotic supports a healthy gut microbiome."
+            "text": "Inulin (prebiotic) + LactoSpore® (probiotic) support a healthy gut — so you absorb more."
           }
         },
         "p5": {
@@ -715,7 +715,7 @@
           "settings": {
             "icon": "🍋",
             "title": "Naturally flavoured, sugar-free",
-            "text": "Swedish-rooted flavours, naturally sweetened with stevia, with no added sugar — so it's something you'll actually want every day."
+            "text": "Swedish flavours, naturally sweetened with stevia. No added sugar."
           }
         },
         "p6": {
@@ -723,7 +723,7 @@
           "settings": {
             "icon": "🇸🇪",
             "title": "Made in Sweden",
-            "text": "Developed over a year by Swedish former top athletes, with carefully sourced ingredients and Cologne List® testing for banned substances."
+            "text": "A year in development by Swedish former athletes. Cologne List® tested."
           }
         }
       },
@@ -891,6 +891,23 @@
         "padding_top": 64,
         "padding_bottom": 64
       }
+    },
+    "sticky_bar": {
+      "type": "shopdev-sticky-shop-now-bar",
+      "settings": {
+        "product": "{{ product }}",
+        "button_text": "Add to cart",
+        "trust_message": "Made in Sweden · 30-day guarantee",
+        "show_trust_signals": true,
+        "trust_signal_1": "No added sugar",
+        "trust_signal_2": "Made in Sweden",
+        "trust_signal_3": "30-day guarantee",
+        "background_color": "#ffffff",
+        "text_color": "#0A2240",
+        "button_bg_color": "#0A2240",
+        "button_text_color": "#ffffff",
+        "border_color": "#e5e5e5"
+      }
     }
   },
   "order": [
@@ -908,6 +925,7 @@
     "reviews",
     "faq",
     "related",
-    "guarantee_disclaimer"
+    "guarantee_disclaimer",
+    "sticky_bar"
   ]
 }
