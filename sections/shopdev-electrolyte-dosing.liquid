@@ -1,101 +1,106 @@
 {% comment %}
   shopdev-electrolyte-dosing
   Signature "scales with your effort" module for the BKM Electrolytes PDP.
-  Self-contained (no external deps). Brand: BKM Blue (#0A2240), inherits theme body font (Avenir).
-  Each block is a dose level: N stick icons + label + description (1 = everyday, 2 = training, 3 = hardest).
+  Split layout: all copy on the left (dose levels stacked as a connected list),
+  one large image on the right (Puresport-style). Self-contained, no external deps.
+  Brand: BKM Blue (#0A2240), inherits theme body font (Avenir).
 {% endcomment %}
 
 {%- liquid
   assign accent = section.settings.accent_color | default: '#0A2240'
   assign bg = section.settings.bg_color
   assign uid = section.id
+  assign img_right = section.settings.image_position | default: 'right'
 -%}
 
 {%- style -%}
   #ElyteDose--{{ uid }} {
     --dose-accent: {{ accent }};
-    --dose-pt: {{ section.settings.padding_top }}px;
-    --dose-pb: {{ section.settings.padding_bottom }}px;
     {%- if bg != blank and bg != 'rgba(0,0,0,0)' -%}background: {{ bg }};{%- endif -%}
-    padding-top: var(--dose-pt);
-    padding-bottom: var(--dose-pb);
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
   }
-  #ElyteDose--{{ uid }} .elyte-dose__inner { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
-  #ElyteDose--{{ uid }} .elyte-dose__head { text-align: center; margin-bottom: 40px; }
-  #ElyteDose--{{ uid }} .elyte-dose__eyebrow { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; font-weight: 700; color: var(--dose-accent); opacity: .7; margin: 0 0 10px; }
-  #ElyteDose--{{ uid }} .elyte-dose__title { font-size: clamp(28px, 4.4vw, 44px); line-height: 1.08; margin: 0 0 14px; color: var(--dose-accent); }
-  #ElyteDose--{{ uid }} .elyte-dose__sub { font-size: 17px; line-height: 1.6; max-width: 660px; margin: 0 auto; opacity: .82; }
-  #ElyteDose--{{ uid }} .elyte-dose__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  #ElyteDose--{{ uid }} .elyte-dose__card {
-    position: relative;
-    border: 1px solid rgba(10,34,64,.12);
-    border-radius: 18px;
-    background: #fff;
-    padding: 30px 24px 28px;
-    text-align: center;
-    box-shadow: 0 14px 44px -22px rgba(10,34,64,.4);
-    transition: transform .25s ease;
+  #ElyteDose--{{ uid }} .elyte-dose__inner { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+  #ElyteDose--{{ uid }} .elyte-dose__split {
+    display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; gap: 0;
+    border-radius: 22px; overflow: hidden; background: #fff;
+    box-shadow: 0 24px 70px -34px rgba(10,34,64,.45);
   }
-  #ElyteDose--{{ uid }} .elyte-dose__card:hover { transform: translateY(-4px); }
-  #ElyteDose--{{ uid }} .elyte-dose__sticks { display: flex; align-items: flex-end; justify-content: center; gap: 6px; height: 56px; margin-bottom: 18px; }
-  #ElyteDose--{{ uid }} .elyte-dose__stick { width: 16px; border-radius: 6px; background: var(--dose-accent); }
-  #ElyteDose--{{ uid }} .elyte-dose__stick--ghost { background: rgba(10,34,64,.12); }
-  #ElyteDose--{{ uid }} .elyte-dose__count { font-size: 15px; font-weight: 700; color: var(--dose-accent); margin: 0 0 4px; }
-  #ElyteDose--{{ uid }} .elyte-dose__label { font-size: 20px; font-weight: 700; margin: 0 0 8px; color: var(--dose-accent); }
-  #ElyteDose--{{ uid }} .elyte-dose__text { font-size: 15px; line-height: 1.5; margin: 0; opacity: .8; }
-  #ElyteDose--{{ uid }} .elyte-dose__foot { text-align: center; margin-top: 28px; font-size: 14px; opacity: .7; }
-  @media (max-width: 720px) {
-    #ElyteDose--{{ uid }} .elyte-dose__grid { grid-template-columns: 1fr; gap: 14px; }
-    #ElyteDose--{{ uid }} .elyte-dose__card { padding: 24px 20px; }
-    #ElyteDose--{{ uid }} .elyte-dose__sticks { height: 44px; }
+  #ElyteDose--{{ uid }} .elyte-dose__copy { padding: clamp(28px, 4vw, 56px); display: flex; flex-direction: column; justify-content: center; {% if img_right == 'left' %}order: 2;{% endif %} }
+  #ElyteDose--{{ uid }} .elyte-dose__eyebrow { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; font-weight: 700; color: var(--dose-accent); opacity: .65; margin: 0 0 14px; }
+  #ElyteDose--{{ uid }} .elyte-dose__title { font-size: clamp(26px, 3.2vw, 40px); line-height: 1.08; margin: 0 0 14px; color: var(--dose-accent); }
+  #ElyteDose--{{ uid }} .elyte-dose__sub { font-size: 16px; line-height: 1.6; margin: 0 0 30px; opacity: .8; }
+  #ElyteDose--{{ uid }} .elyte-dose__list { position: relative; margin: 0; padding: 0; list-style: none; }
+  #ElyteDose--{{ uid }} .elyte-dose__list::before {
+    content: ''; position: absolute; left: 9px; top: 8px; bottom: 8px; width: 2px;
+    background: linear-gradient(var(--dose-accent), rgba(10,34,64,.12));
+  }
+  #ElyteDose--{{ uid }} .elyte-dose__item { position: relative; padding: 0 0 26px 42px; }
+  #ElyteDose--{{ uid }} .elyte-dose__item:last-child { padding-bottom: 0; }
+  #ElyteDose--{{ uid }} .elyte-dose__dot {
+    position: absolute; left: 0; top: 2px; width: 20px; height: 20px; border-radius: 50%;
+    background: #fff; border: 2px solid var(--dose-accent); display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 800; color: var(--dose-accent);
+  }
+  #ElyteDose--{{ uid }} .elyte-dose__count { font-size: 13px; font-weight: 700; letter-spacing: .03em; color: var(--dose-accent); opacity: .65; margin: 0 0 3px; text-transform: uppercase; }
+  #ElyteDose--{{ uid }} .elyte-dose__label { font-size: 19px; font-weight: 700; margin: 0 0 5px; color: var(--dose-accent); line-height: 1.2; }
+  #ElyteDose--{{ uid }} .elyte-dose__text { font-size: 15px; line-height: 1.55; margin: 0; opacity: .78; }
+  #ElyteDose--{{ uid }} .elyte-dose__foot { margin: 28px 0 0; font-size: 13px; opacity: .6; }
+  #ElyteDose--{{ uid }} .elyte-dose__media { position: relative; min-height: 100%; background: rgba(10,34,64,.06); {% if img_right == 'left' %}order: 1;{% endif %} }
+  #ElyteDose--{{ uid }} .elyte-dose__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #ElyteDose--{{ uid }} .elyte-dose__media-ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--dose-accent); opacity: .4; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+  @media (max-width: 820px) {
+    #ElyteDose--{{ uid }} .elyte-dose__split { grid-template-columns: 1fr; }
+    #ElyteDose--{{ uid }} .elyte-dose__copy { order: 2; }
+    #ElyteDose--{{ uid }} .elyte-dose__media { order: 1; min-height: 280px; }
   }
 {%- endstyle -%}
 
 <section id="ElyteDose--{{ uid }}" class="shopdev shopdev-electrolyte-dosing" data-section-id="{{ uid }}" data-section-type="electrolyte-dosing">
   <div class="elyte-dose__inner">
-    <div class="elyte-dose__head">
-      {%- if section.settings.eyebrow != blank -%}
-        <p class="elyte-dose__eyebrow">{{ section.settings.eyebrow }}</p>
-      {%- endif -%}
-      {%- if section.settings.heading != blank -%}
-        <h2 class="elyte-dose__title">{{ section.settings.heading }}</h2>
-      {%- endif -%}
-      {%- if section.settings.subheading != blank -%}
-        <div class="elyte-dose__sub">{{ section.settings.subheading }}</div>
-      {%- endif -%}
-    </div>
+    <div class="elyte-dose__split">
+      <div class="elyte-dose__copy">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="elyte-dose__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="elyte-dose__title">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <div class="elyte-dose__sub">{{ section.settings.subheading }}</div>
+        {%- endif -%}
 
-    <div class="elyte-dose__grid">
-      {%- for block in section.blocks -%}
-        {%- assign sticks = block.settings.sticks | default: 1 -%}
-        <div class="elyte-dose__card" {{ block.shopify_attributes }}>
-          <div class="elyte-dose__sticks" aria-hidden="true">
-            {%- for i in (1..3) -%}
-              {%- assign h = 0 -%}
-              {%- if i == 1 -%}{%- assign h = 34 -%}{%- elsif i == 2 -%}{%- assign h = 46 -%}{%- else -%}{%- assign h = 56 -%}{%- endif -%}
-              {%- if i <= sticks -%}
-                <span class="elyte-dose__stick" style="height: {{ h }}px;"></span>
-              {%- else -%}
-                <span class="elyte-dose__stick elyte-dose__stick--ghost" style="height: {{ h }}px;"></span>
+        <ul class="elyte-dose__list">
+          {%- for block in section.blocks -%}
+            {%- assign sticks = block.settings.sticks | default: 1 -%}
+            <li class="elyte-dose__item" {{ block.shopify_attributes }}>
+              <span class="elyte-dose__dot" aria-hidden="true">{{ sticks }}</span>
+              {%- if block.settings.count_label != blank -%}
+                <p class="elyte-dose__count">{{ block.settings.count_label }}</p>
               {%- endif -%}
-            {%- endfor -%}
-          </div>
-          {%- if block.settings.count_label != blank -%}
-            <p class="elyte-dose__count">{{ block.settings.count_label }}</p>
-          {%- endif -%}
-          {%- if block.settings.label != blank -%}
-            <p class="elyte-dose__label">{{ block.settings.label }}</p>
-          {%- endif -%}
-          {%- if block.settings.text != blank -%}
-            <p class="elyte-dose__text">{{ block.settings.text }}</p>
-          {%- endif -%}
-        </div>
-      {%- endfor -%}
-    </div>
+              {%- if block.settings.label != blank -%}
+                <p class="elyte-dose__label">{{ block.settings.label }}</p>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <p class="elyte-dose__text">{{ block.settings.text }}</p>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
 
-    {%- if section.settings.footnote != blank -%}
-      <p class="elyte-dose__foot">{{ section.settings.footnote }}</p>
-    {%- endif -%}
+        {%- if section.settings.footnote != blank -%}
+          <p class="elyte-dose__foot">{{ section.settings.footnote }}</p>
+        {%- endif -%}
+      </div>
+
+      <div class="elyte-dose__media">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', sizes: '(max-width: 820px) 100vw, 50vw', widths: '600, 900, 1200, 1400' }}
+        {%- else -%}
+          <div class="elyte-dose__media-ph">Add image →</div>
+        {%- endif -%}
+      </div>
+    </div>
   </div>
 </section>
 
@@ -110,6 +115,9 @@
     { "type": "text", "id": "heading", "label": "Heading", "default": "Built for marathons. And Mondays." },
     { "type": "richtext", "id": "subheading", "label": "Subheading", "default": "<p>Most electrolytes give you one heavy dose built for hard sweating. BKM scales to your day — so you get exactly what you need, and never more sodium than your body can use.</p>" },
     { "type": "text", "id": "footnote", "label": "Footnote", "default": "Body size and conditions vary — listen to your body and adjust." },
+    { "type": "header", "content": "Image" },
+    { "type": "image_picker", "id": "image", "label": "Image (right side)" },
+    { "type": "select", "id": "image_position", "label": "Image position", "options": [ { "value": "right", "label": "Right" }, { "value": "left", "label": "Left" } ], "default": "right" },
     { "type": "header", "content": "Style" },
     { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#0A2240" },
     { "type": "color", "id": "bg_color", "label": "Section background" },
@@ -122,10 +130,10 @@
       "type": "dose",
       "name": "Dose level",
       "settings": [
-        { "type": "range", "id": "sticks", "min": 1, "max": 3, "step": 1, "label": "Number of sticks", "default": 1 },
-        { "type": "text", "id": "count_label", "label": "Count label", "default": "1 stick / day" },
+        { "type": "range", "id": "sticks", "min": 1, "max": 3, "step": 1, "label": "Number of scoops", "default": 1 },
+        { "type": "text", "id": "count_label", "label": "Count label", "default": "1 scoop / day" },
         { "type": "text", "id": "label", "label": "Title", "default": "Everyday" },
-        { "type": "text", "id": "text", "label": "Description", "default": "A normal day, light sweat. Daily minerals and clean hydration without overloading your system." }
+        { "type": "text", "id": "text", "label": "Description", "default": "A normal day, light sweat — daily minerals without overloading." }
       ]
     }
   ],
@@ -134,9 +142,9 @@
     {
       "name": "Electrolyte Dosing",
       "blocks": [
-        { "type": "dose", "settings": { "sticks": 1, "count_label": "1 stick / day", "label": "Everyday", "text": "A normal day, light sweat. Daily minerals and clean hydration without overloading your system." } },
-        { "type": "dose", "settings": { "sticks": 2, "count_label": "2 sticks / day", "label": "Training", "text": "Regular training, real sweat. Step up minerals to match the effort and recover faster." } },
-        { "type": "dose", "settings": { "sticks": 3, "count_label": "up to 3 / day", "label": "Hardest sessions", "text": "Long, hot, all-out — think Ironman. Maximum mineral replacement for the biggest days." } }
+        { "type": "dose", "settings": { "sticks": 1, "count_label": "1 scoop / day", "label": "Everyday", "text": "A normal day, light sweat — daily minerals without overloading." } },
+        { "type": "dose", "settings": { "sticks": 2, "count_label": "2 scoops / day", "label": "Training", "text": "Real training, real sweat — step it up to match the effort." } },
+        { "type": "dose", "settings": { "sticks": 3, "count_label": "up to 3 / day", "label": "Hardest sessions", "text": "Long, hot, all-out — maximum replacement for the biggest days." } }
       ]
     }
   ],
