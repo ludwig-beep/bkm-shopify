@@ -341,32 +341,31 @@
     "comparison": {
       "type": "shopdev-electrolyte-comparison",
       "blocks": {
-        "row_daily": {
+        "r1": {
           "type": "row",
           "settings": {
             "feature_label": "Calibrated for daily use",
-            "feature_note": "lower sodium so you can drink it every day without overloading",
+            "feature_note": "lower sodium, drink it every day",
             "bkm": "yes",
             "col2": "no",
             "col3": "no",
             "col4": "no"
           }
         },
-        "row_scale": {
+        "r2": {
           "type": "row",
           "settings": {
-            "feature_label": "Scales with your effort",
-            "feature_note": "1 stick everyday · 2 when you train · up to 3 for the hardest sessions",
+            "feature_label": "Scales 1–3 sticks to your effort",
             "bkm": "yes",
             "col2": "no",
-            "col3": "partial",
+            "col3": "no",
             "col4": "no"
           }
         },
-        "row_nac": {
+        "r3": {
           "type": "row",
           "settings": {
-            "feature_label": "NAC to support liver & kidneys",
+            "feature_label": "NAC, gut layer & antioxidants",
             "feature_note": "rarely found in any electrolyte",
             "bkm": "yes",
             "col2": "no",
@@ -374,70 +373,33 @@
             "col4": "no"
           }
         },
-        "row_guerande": {
-          "type": "row",
-          "settings": {
-            "feature_label": "Guérande sea salt + coconut water powder",
-            "feature_note": "full trace-mineral profile, not refined salt",
-            "bkm": "yes",
-            "col2": "partial",
-            "col3": "no",
-            "col4": "no"
-          }
-        },
-        "row_gut": {
-          "type": "row",
-          "settings": {
-            "feature_label": "Prebiotic + probiotic gut layer",
-            "feature_note": "Inulin + LactoSpore® for real absorption",
-            "bkm": "yes",
-            "col2": "no",
-            "col3": "no",
-            "col4": "no"
-          }
-        },
-        "row_micros": {
-          "type": "row",
-          "settings": {
-            "feature_label": "Acerola Vitamin C, Vitamin D3 & selenium",
-            "feature_note": "antioxidant, immune & thyroid support",
-            "bkm": "yes",
-            "col2": "no",
-            "col3": "no",
-            "col4": "no"
-          }
-        },
-        "row_nosugar": {
+        "r4": {
           "type": "row",
           "settings": {
             "feature_label": "No added sugar",
-            "feature_note": "naturally sweetened with stevia",
             "bkm": "yes",
             "col2": "yes",
-            "col3": "yes",
+            "col3": "no",
             "col4": "no"
           }
         },
-        "row_sweat": {
+        "r5": {
           "type": "row",
           "settings": {
             "feature_label": "Replaces minerals lost in sweat",
             "bkm": "yes",
             "col2": "yes",
-            "col3": "yes",
+            "col3": "no",
             "col4": "partial"
           }
         }
       },
       "block_order": [
-        "row_daily",
-        "row_scale",
-        "row_nac",
-        "row_guerande",
-        "row_gut",
-        "row_micros",
-        "row_nosugar",
-        "row_sweat"
+        "r1",
+        "r2",
+        "r3",
+        "r4",
+        "r5"
       ],
       "settings": {
         "heading": "Us vs them. How we stack up.",
@@ -446,10 +408,10 @@
         "bkm_col_label": "BKM",
         "accent_color": "#0A2240",
         "bg_color": "",
-        "padding_top": 64,
-        "padding_bottom": 64,
-        "col2_label": "Ordinary electrolytes",
-        "show_col3": true,
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "col2_label": "Ordinary",
+        "show_col3": false,
         "col3_label": "Tablets / sticks",
         "show_col4": true,
         "col4_label": "Sports drinks"
@@ -956,6 +918,106 @@
         "padding_top": 60,
         "padding_bottom": 60
       }
+    },
+    "video_grid": {
+      "type": "shopdev-video-grid",
+      "blocks": {
+        "v1": {
+          "type": "clip",
+          "settings": {
+            "caption": "“I drink it every single day.”",
+            "name": "Add ambassador"
+          }
+        },
+        "v2": {
+          "type": "clip",
+          "settings": {
+            "caption": "“The morning after, this is what I reach for.”",
+            "name": "Add ambassador"
+          }
+        },
+        "v3": {
+          "type": "clip",
+          "settings": {
+            "caption": "“Finally an electrolyte I can take daily.”",
+            "name": "Add ambassador"
+          }
+        },
+        "v4": {
+          "type": "clip",
+          "settings": {
+            "caption": "“Race day essential.”",
+            "name": "Add ambassador"
+          }
+        },
+        "v5": {
+          "type": "clip",
+          "settings": {
+            "caption": "“Sharp through a long work day.”",
+            "name": "Add ambassador"
+          }
+        }
+      },
+      "block_order": [
+        "v1",
+        "v2",
+        "v3",
+        "v4",
+        "v5"
+      ],
+      "settings": {
+        "heading": "Made by athletes. For everyone.",
+        "subheading": "<p>From race day to the morning after — real people on why BKM is part of their day.</p>",
+        "accent_color": "#0A2240",
+        "bg_color": "",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "athlete_grid": {
+      "type": "shopdev-athlete-grid",
+      "blocks": {
+        "a1": {
+          "type": "athlete",
+          "settings": {
+            "image": "shopify://shop_images/DSC06462.jpg",
+            "sport": "Judo",
+            "name": "Tara Babulfath",
+            "creds": "Swedish Olympic judoka"
+          }
+        },
+        "a2": {
+          "type": "athlete",
+          "settings": {
+            "image": "shopify://shop_images/image1-1.jpg",
+            "sport": "Ice hockey",
+            "name": "Marcus Sörensen",
+            "creds": "HC Fribourg-Gottéron & Swedish national team"
+          }
+        },
+        "a3": {
+          "type": "athlete",
+          "settings": {
+            "image": "shopify://shop_images/IMG_6332.jpg",
+            "sport": "Padel",
+            "name": "Daniel Windahl",
+            "creds": "#1 padel, Northern Europe"
+          }
+        }
+      },
+      "block_order": [
+        "a1",
+        "a2",
+        "a3"
+      ],
+      "settings": {
+        "heading": "Made by athletes. Trusted by athletes.",
+        "subheading": "<p>Built by Swedish former top athletes — and used by the ones still competing.</p>",
+        "accent_color": "#0A2240",
+        "bg_color": "",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
@@ -966,10 +1028,10 @@
     "dosing",
     "comparison",
     "ingredient_science",
-    "persona_grid",
+    "video_grid",
     "stat_band",
     "how_to_use",
-    "athlete_endorsements",
+    "athlete_grid",
     "reviews",
     "faq",
     "related",

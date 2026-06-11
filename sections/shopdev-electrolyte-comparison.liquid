@@ -1,8 +1,8 @@
 {% comment %}
   shopdev-electrolyte-comparison
-  "Us vs Them" multi-column comparison for the BKM Electrolytes PDP.
+  "Us vs them" comparison for the BKM Electrolytes PDP.
   Self-contained. Brand: BKM Blue (#0A2240), inherits theme body font (Avenir).
-  Up to 4 columns: BKM + 3 alternatives (ordinary electrolytes / tablets / sports drinks).
+  Columns: BKM + Ordinary electrolytes (always) + optional Tablets/sticks + optional Sports drinks.
   Each row block sets a state per column: yes (filled) / partial (half) / no (empty).
 {% endcomment %}
 
@@ -12,7 +12,7 @@
   assign uid = section.id
   assign show3 = section.settings.show_col3
   assign show4 = section.settings.show_col4
-  assign cols = 1
+  assign cols = 2
   if show3
     assign cols = cols | plus: 1
   endif
@@ -24,77 +24,73 @@
 {%- style -%}
   #ElyteCompare--{{ uid }} {
     --elyte-accent: {{ accent }};
-    --elyte-pt: {{ section.settings.padding_top }}px;
-    --elyte-pb: {{ section.settings.padding_bottom }}px;
     {%- if bg != blank and bg != 'rgba(0,0,0,0)' -%}background: {{ bg }};{%- endif -%}
-    padding-top: var(--elyte-pt);
-    padding-bottom: var(--elyte-pb);
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
   }
-  #ElyteCompare--{{ uid }} .elyte-compare__inner { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
-  #ElyteCompare--{{ uid }} .elyte-compare__head { margin-bottom: 28px; }
-  #ElyteCompare--{{ uid }} .elyte-compare__title { font-size: clamp(26px, 4vw, 40px); line-height: 1.1; margin: 0 0 12px; color: var(--elyte-accent); }
-  #ElyteCompare--{{ uid }} .elyte-compare__sub { font-size: 16px; line-height: 1.55; max-width: 620px; margin: 0; opacity: .8; }
-  #ElyteCompare--{{ uid }} .elyte-compare__table { width: 100%; }
-  #ElyteCompare--{{ uid }} .elyte-compare__row {
+  #ElyteCompare--{{ uid }} .ec__inner { max-width: 880px; margin: 0 auto; padding: 0 20px; }
+  #ElyteCompare--{{ uid }} .ec__head { margin-bottom: 20px; }
+  #ElyteCompare--{{ uid }} .ec__title { font-size: clamp(24px, 3.6vw, 36px); line-height: 1.12; margin: 0 0 10px; color: var(--elyte-accent); }
+  #ElyteCompare--{{ uid }} .ec__sub { font-size: 15px; line-height: 1.5; max-width: 620px; margin: 0; opacity: .78; }
+  #ElyteCompare--{{ uid }} .ec__row {
     display: grid;
-    grid-template-columns: 1.7fr repeat({{ cols }}, 1fr);
+    grid-template-columns: 1.6fr repeat({{ cols }}, minmax(64px, .8fr));
     align-items: center;
-    border-top: 1px solid rgba(10,34,64,.12);
+    border-top: 1px solid rgba(10,34,64,.1);
   }
-  #ElyteCompare--{{ uid }} .elyte-compare__row:last-child { border-bottom: 1px solid rgba(10,34,64,.12); }
-  #ElyteCompare--{{ uid }} .elyte-compare__cell { padding: 18px 10px; font-size: 15px; line-height: 1.4; text-align: center; }
-  #ElyteCompare--{{ uid }} .elyte-compare__cell--feature { text-align: left; font-weight: 600; color: var(--elyte-accent); padding-left: 0; }
-  #ElyteCompare--{{ uid }} .elyte-compare__cell--bkm { background: rgba(10,34,64,.04); }
-  #ElyteCompare--{{ uid }} .elyte-compare__head-row { border-top: 0; }
-  #ElyteCompare--{{ uid }} .elyte-compare__head-row .elyte-compare__cell { font-weight: 700; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: var(--elyte-accent); }
-  #ElyteCompare--{{ uid }} .elyte-compare__head-row .elyte-compare__cell--bkm { border-radius: 12px 12px 0 0; }
-  #ElyteCompare--{{ uid }} .elyte-compare__row:last-child .elyte-compare__cell--bkm { border-radius: 0 0 12px 12px; }
-  #ElyteCompare--{{ uid }} .elyte-compare__dot { display: inline-block; width: 20px; height: 20px; border-radius: 50%; vertical-align: middle; }
-  #ElyteCompare--{{ uid }} .elyte-compare__dot--yes { background: var(--elyte-accent); }
-  #ElyteCompare--{{ uid }} .elyte-compare__dot--no { background: transparent; box-shadow: inset 0 0 0 1.5px rgba(10,34,64,.3); }
-  #ElyteCompare--{{ uid }} .elyte-compare__dot--partial { background: linear-gradient(90deg, var(--elyte-accent) 50%, transparent 50%); box-shadow: inset 0 0 0 1.5px rgba(10,34,64,.3); }
-  #ElyteCompare--{{ uid }} .elyte-compare__note { display: block; font-size: 12px; opacity: .6; margin-top: 4px; font-weight: 400; }
-  @media (max-width: 640px) {
-    #ElyteCompare--{{ uid }} .elyte-compare__cell { padding: 14px 4px; font-size: 12px; }
-    #ElyteCompare--{{ uid }} .elyte-compare__head-row .elyte-compare__cell { font-size: 10px; }
-    #ElyteCompare--{{ uid }} .elyte-compare__dot { width: 16px; height: 16px; }
+  #ElyteCompare--{{ uid }} .ec__row:last-child { border-bottom: 1px solid rgba(10,34,64,.1); }
+  #ElyteCompare--{{ uid }} .ec__cell { padding: 12px 6px; font-size: 14px; text-align: center; }
+  #ElyteCompare--{{ uid }} .ec__cell--feature { text-align: left; padding-left: 0; font-weight: 600; color: var(--elyte-accent); line-height: 1.3; }
+  #ElyteCompare--{{ uid }} .ec__cell--bkm { background: rgba(10,34,64,.04); }
+  #ElyteCompare--{{ uid }} .ec__headrow .ec__cell { font-weight: 700; font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--elyte-accent); padding-top: 0; padding-bottom: 14px; }
+  #ElyteCompare--{{ uid }} .ec__headrow { border-top: 0; }
+  #ElyteCompare--{{ uid }} .ec__headrow .ec__cell--bkm { border-radius: 10px 10px 0 0; }
+  #ElyteCompare--{{ uid }} .ec__row:last-child .ec__cell--bkm { border-radius: 0 0 10px 10px; }
+  #ElyteCompare--{{ uid }} .ec__note { display: block; font-size: 11.5px; opacity: .6; margin-top: 3px; font-weight: 400; }
+  #ElyteCompare--{{ uid }} .ec__dot { display: inline-block; width: 16px; height: 16px; border-radius: 50%; vertical-align: middle; }
+  #ElyteCompare--{{ uid }} .ec__dot--yes { background: var(--elyte-accent); }
+  #ElyteCompare--{{ uid }} .ec__dot--no { background: transparent; box-shadow: inset 0 0 0 1.5px rgba(10,34,64,.28); }
+  #ElyteCompare--{{ uid }} .ec__dot--partial { background: linear-gradient(90deg, var(--elyte-accent) 50%, transparent 50%); box-shadow: inset 0 0 0 1.5px rgba(10,34,64,.28); }
+  @media (max-width: 560px) {
+    #ElyteCompare--{{ uid }} .ec__cell { padding: 10px 3px; font-size: 12px; }
+    #ElyteCompare--{{ uid }} .ec__cell--feature { font-size: 12.5px; }
+    #ElyteCompare--{{ uid }} .ec__headrow .ec__cell { font-size: 9px; }
+    #ElyteCompare--{{ uid }} .ec__dot { width: 14px; height: 14px; }
   }
 {%- endstyle -%}
 
-{%- capture dot_yes -%}<span class="elyte-compare__dot elyte-compare__dot--yes" aria-label="Yes"></span>{%- endcapture -%}
-{%- capture dot_no -%}<span class="elyte-compare__dot elyte-compare__dot--no" aria-label="No"></span>{%- endcapture -%}
-{%- capture dot_partial -%}<span class="elyte-compare__dot elyte-compare__dot--partial" aria-label="Partial"></span>{%- endcapture -%}
+{%- capture dot_yes -%}<span class="ec__dot ec__dot--yes" title="Yes"></span>{%- endcapture -%}
+{%- capture dot_no -%}<span class="ec__dot ec__dot--no" title="No"></span>{%- endcapture -%}
+{%- capture dot_partial -%}<span class="ec__dot ec__dot--partial" title="Partial"></span>{%- endcapture -%}
 
 <section id="ElyteCompare--{{ uid }}" class="shopdev shopdev-electrolyte-comparison" data-section-id="{{ uid }}" data-section-type="electrolyte-comparison">
-  <div class="elyte-compare__inner">
+  <div class="ec__inner">
     {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
-      <div class="elyte-compare__head">
-        {%- if section.settings.heading != blank -%}<h2 class="elyte-compare__title">{{ section.settings.heading }}</h2>{%- endif -%}
-        {%- if section.settings.subheading != blank -%}<div class="elyte-compare__sub">{{ section.settings.subheading }}</div>{%- endif -%}
+      <div class="ec__head">
+        {%- if section.settings.heading != blank -%}<h2 class="ec__title">{{ section.settings.heading }}</h2>{%- endif -%}
+        {%- if section.settings.subheading != blank -%}<div class="ec__sub">{{ section.settings.subheading }}</div>{%- endif -%}
       </div>
     {%- endif -%}
 
-    <div class="elyte-compare__table" role="table">
-      <div class="elyte-compare__row elyte-compare__head-row" role="row">
-        <div class="elyte-compare__cell elyte-compare__cell--feature" role="columnheader">{{ section.settings.feature_col_label }}</div>
-        <div class="elyte-compare__cell elyte-compare__cell--bkm" role="columnheader">{{ section.settings.bkm_col_label }}</div>
-        {%- if show3 -%}<div class="elyte-compare__cell" role="columnheader">{{ section.settings.col3_label }}</div>{%- endif -%}
-        {%- if show4 -%}<div class="elyte-compare__cell" role="columnheader">{{ section.settings.col4_label }}</div>{%- endif -%}
-        <div class="elyte-compare__cell" role="columnheader">{{ section.settings.col2_label }}</div>
+    <div class="ec__table" role="table">
+      <div class="ec__row ec__headrow" role="row">
+        <div class="ec__cell ec__cell--feature" role="columnheader">{{ section.settings.feature_col_label }}</div>
+        <div class="ec__cell ec__cell--bkm" role="columnheader">{{ section.settings.bkm_col_label }}</div>
+        <div class="ec__cell" role="columnheader">{{ section.settings.col2_label }}</div>
+        {%- if show3 -%}<div class="ec__cell" role="columnheader">{{ section.settings.col3_label }}</div>{%- endif -%}
+        {%- if show4 -%}<div class="ec__cell" role="columnheader">{{ section.settings.col4_label }}</div>{%- endif -%}
       </div>
 
       {%- for block in section.blocks -%}
-        <div class="elyte-compare__row" role="row" {{ block.shopify_attributes }}>
-          <div class="elyte-compare__cell elyte-compare__cell--feature" role="cell">
+        <div class="ec__row" role="row" {{ block.shopify_attributes }}>
+          <div class="ec__cell ec__cell--feature" role="cell">
             {{ block.settings.feature_label }}
-            {%- if block.settings.feature_note != blank -%}<span class="elyte-compare__note">{{ block.settings.feature_note }}</span>{%- endif -%}
+            {%- if block.settings.feature_note != blank -%}<span class="ec__note">{{ block.settings.feature_note }}</span>{%- endif -%}
           </div>
-          <div class="elyte-compare__cell elyte-compare__cell--bkm" role="cell">
-            {%- case block.settings.bkm -%}{%- when 'yes' -%}{{ dot_yes }}{%- when 'partial' -%}{{ dot_partial }}{%- else -%}{{ dot_no }}{%- endcase -%}
-          </div>
-          {%- if show3 -%}<div class="elyte-compare__cell" role="cell">{%- case block.settings.col3 -%}{%- when 'yes' -%}{{ dot_yes }}{%- when 'partial' -%}{{ dot_partial }}{%- else -%}{{ dot_no }}{%- endcase -%}</div>{%- endif -%}
-          {%- if show4 -%}<div class="elyte-compare__cell" role="cell">{%- case block.settings.col4 -%}{%- when 'yes' -%}{{ dot_yes }}{%- when 'partial' -%}{{ dot_partial }}{%- else -%}{{ dot_no }}{%- endcase -%}</div>{%- endif -%}
-          <div class="elyte-compare__cell" role="cell">{%- case block.settings.col2 -%}{%- when 'yes' -%}{{ dot_yes }}{%- when 'partial' -%}{{ dot_partial }}{%- else -%}{{ dot_no }}{%- endcase -%}</div>
+          <div class="ec__cell ec__cell--bkm" role="cell">{%- case block.settings.bkm -%}{%- when 'yes' -%}{{ dot_yes }}{%- when 'partial' -%}{{ dot_partial }}{%- else -%}{{ dot_no }}{%- endcase -%}</div>
+          <div class="ec__cell" role="cell">{%- case block.settings.col2 -%}{%- when 'yes' -%}{{ dot_yes }}{%- when 'partial' -%}{{ dot_partial }}{%- else -%}{{ dot_no }}{%- endcase -%}</div>
+          {%- if show3 -%}<div class="ec__cell" role="cell">{%- case block.settings.col3 -%}{%- when 'yes' -%}{{ dot_yes }}{%- when 'partial' -%}{{ dot_partial }}{%- else -%}{{ dot_no }}{%- endcase -%}</div>{%- endif -%}
+          {%- if show4 -%}<div class="ec__cell" role="cell">{%- case block.settings.col4 -%}{%- when 'yes' -%}{{ dot_yes }}{%- when 'partial' -%}{{ dot_partial }}{%- else -%}{{ dot_no }}{%- endcase -%}</div>{%- endif -%}
         </div>
       {%- endfor -%}
     </div>
@@ -113,8 +109,8 @@
     { "type": "header", "content": "Column labels" },
     { "type": "text", "id": "feature_col_label", "label": "Feature column label", "default": "What matters" },
     { "type": "text", "id": "bkm_col_label", "label": "BKM column label", "default": "BKM" },
-    { "type": "text", "id": "col2_label", "label": "Column 2 label", "default": "Ordinary electrolytes" },
-    { "type": "checkbox", "id": "show_col3", "label": "Show column 3", "default": true },
+    { "type": "text", "id": "col2_label", "label": "Column 2 label", "default": "Ordinary" },
+    { "type": "checkbox", "id": "show_col3", "label": "Show column 3", "default": false },
     { "type": "text", "id": "col3_label", "label": "Column 3 label", "default": "Tablets / sticks" },
     { "type": "checkbox", "id": "show_col4", "label": "Show column 4", "default": true },
     { "type": "text", "id": "col4_label", "label": "Column 4 label", "default": "Sports drinks" },
@@ -122,8 +118,8 @@
     { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#0A2240" },
     { "type": "color", "id": "bg_color", "label": "Section background" },
     { "type": "header", "content": "Section spacing" },
-    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding top", "default": 64 },
-    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding bottom", "default": 64 }
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding top", "default": 56 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding bottom", "default": 56 }
   ],
   "blocks": [
     {
@@ -133,7 +129,7 @@
         { "type": "text", "id": "feature_label", "label": "Feature", "default": "Feature" },
         { "type": "text", "id": "feature_note", "label": "Feature note (optional)" },
         { "type": "select", "id": "bkm", "label": "BKM", "default": "yes", "options": [ {"value":"yes","label":"Yes"}, {"value":"partial","label":"Partial"}, {"value":"no","label":"No"} ] },
-        { "type": "select", "id": "col2", "label": "Ordinary electrolytes", "default": "no", "options": [ {"value":"yes","label":"Yes"}, {"value":"partial","label":"Partial"}, {"value":"no","label":"No"} ] },
+        { "type": "select", "id": "col2", "label": "Ordinary", "default": "no", "options": [ {"value":"yes","label":"Yes"}, {"value":"partial","label":"Partial"}, {"value":"no","label":"No"} ] },
         { "type": "select", "id": "col3", "label": "Tablets / sticks", "default": "no", "options": [ {"value":"yes","label":"Yes"}, {"value":"partial","label":"Partial"}, {"value":"no","label":"No"} ] },
         { "type": "select", "id": "col4", "label": "Sports drinks", "default": "no", "options": [ {"value":"yes","label":"Yes"}, {"value":"partial","label":"Partial"}, {"value":"no","label":"No"} ] }
       ]
@@ -144,13 +140,11 @@
     {
       "name": "Electrolyte Comparison",
       "blocks": [
-        { "type": "row", "settings": { "feature_label": "Calibrated for daily use", "feature_note": "lower sodium, drink it every day", "bkm": "yes", "col2": "no", "col3": "no", "col4": "no" } },
-        { "type": "row", "settings": { "feature_label": "Scales with your effort (1–3 sticks)", "bkm": "yes", "col2": "no", "col3": "partial", "col4": "no" } },
-        { "type": "row", "settings": { "feature_label": "NAC to support liver & kidneys", "bkm": "yes", "col2": "no", "col3": "no", "col4": "no" } },
-        { "type": "row", "settings": { "feature_label": "Prebiotic + probiotic gut layer", "bkm": "yes", "col2": "no", "col3": "no", "col4": "no" } },
-        { "type": "row", "settings": { "feature_label": "Full-spectrum minerals (Guérande + coconut)", "bkm": "yes", "col2": "partial", "col3": "no", "col4": "no" } },
-        { "type": "row", "settings": { "feature_label": "No added sugar", "bkm": "yes", "col2": "yes", "col3": "yes", "col4": "no" } },
-        { "type": "row", "settings": { "feature_label": "Replaces minerals lost in sweat", "bkm": "yes", "col2": "yes", "col3": "yes", "col4": "partial" } }
+        { "type": "row", "settings": { "feature_label": "Calibrated for daily use", "bkm": "yes", "col2": "no", "col4": "no" } },
+        { "type": "row", "settings": { "feature_label": "Scales 1–3 sticks to your effort", "bkm": "yes", "col2": "no", "col4": "no" } },
+        { "type": "row", "settings": { "feature_label": "NAC, gut layer & antioxidants", "bkm": "yes", "col2": "no", "col4": "no" } },
+        { "type": "row", "settings": { "feature_label": "No added sugar", "bkm": "yes", "col2": "yes", "col4": "no" } },
+        { "type": "row", "settings": { "feature_label": "Replaces minerals lost in sweat", "bkm": "yes", "col2": "yes", "col4": "partial" } }
       ]
     }
   ],

@@ -1,0 +1,87 @@
+{% comment %}
+  shopdev-athlete-grid
+  "Trusted by the best" athlete grid for the BKM Electrolytes PDP (Puresport credentials-grid style).
+  Self-contained. Brand: BKM Blue (#0A2240), inherits theme body font (Avenir).
+  Each block = athlete: image + sport (eyebrow) + name + credentials.
+{% endcomment %}
+
+{%- liquid
+  assign accent = section.settings.accent_color | default: '#0A2240'
+  assign bg = section.settings.bg_color
+  assign uid = section.id
+-%}
+
+{%- style -%}
+  #ElyteAth--{{ uid }} {
+    --ath-accent: {{ accent }};
+    {%- if bg != blank and bg != 'rgba(0,0,0,0)' -%}background: {{ bg }};{%- endif -%}
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  #ElyteAth--{{ uid }} .ath__inner { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+  #ElyteAth--{{ uid }} .ath__head { margin-bottom: 28px; max-width: 760px; }
+  #ElyteAth--{{ uid }} .ath__title { font-size: clamp(28px, 4.4vw, 44px); line-height: 1.08; margin: 0 0 12px; color: var(--ath-accent); }
+  #ElyteAth--{{ uid }} .ath__sub { font-size: 17px; line-height: 1.6; margin: 0; opacity: .82; }
+  #ElyteAth--{{ uid }} .ath__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  #ElyteAth--{{ uid }} .ath__media { aspect-ratio: 3 / 4; border-radius: 14px; overflow: hidden; background: rgba(10,34,64,.06); }
+  #ElyteAth--{{ uid }} .ath__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #ElyteAth--{{ uid }} .ath__sport { margin: 14px 0 4px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; font-weight: 700; opacity: .6; color: var(--ath-accent); }
+  #ElyteAth--{{ uid }} .ath__name { margin: 0 0 6px; font-size: 18px; font-weight: 700; color: var(--ath-accent); }
+  #ElyteAth--{{ uid }} .ath__creds { margin: 0; font-size: 14px; line-height: 1.45; opacity: .82; }
+  @media (max-width: 900px) { #ElyteAth--{{ uid }} .ath__grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px) { #ElyteAth--{{ uid }} .ath__grid { grid-template-columns: 1fr 1fr; gap: 12px; } }
+{%- endstyle -%}
+
+<section id="ElyteAth--{{ uid }}" class="shopdev shopdev-athlete-grid" data-section-id="{{ uid }}">
+  <div class="ath__inner">
+    <div class="ath__head">
+      {%- if section.settings.heading != blank -%}<h2 class="ath__title">{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.subheading != blank -%}<div class="ath__sub">{{ section.settings.subheading }}</div>{%- endif -%}
+    </div>
+    <div class="ath__grid">
+      {%- for block in section.blocks -%}
+        <div class="ath__card" {{ block.shopify_attributes }}>
+          <div class="ath__media">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: block.settings.name }}
+            {%- endif -%}
+          </div>
+          {%- if block.settings.sport != blank -%}<p class="ath__sport">{{ block.settings.sport }}</p>{%- endif -%}
+          {%- if block.settings.name != blank -%}<h3 class="ath__name">{{ block.settings.name }}</h3>{%- endif -%}
+          {%- if block.settings.creds != blank -%}<p class="ath__creds">{{ block.settings.creds }}</p>{%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Athlete Grid",
+  "class": "shopdev shopdev-athlete-grid",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Made by athletes. Trusted by athletes." },
+    { "type": "richtext", "id": "subheading", "label": "Subheading", "default": "<p>Built by Swedish former top athletes — and used by the ones still competing.</p>" },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#0A2240" },
+    { "type": "color", "id": "bg_color", "label": "Section background" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding top", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding bottom", "default": 64 }
+  ],
+  "blocks": [
+    {
+      "type": "athlete",
+      "name": "Athlete",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "text", "id": "sport", "label": "Sport (eyebrow)", "default": "Sport" },
+        { "type": "text", "id": "name", "label": "Name", "default": "Athlete name" },
+        { "type": "textarea", "id": "creds", "label": "Credentials", "default": "Titles and achievements" }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [ { "name": "Athlete Grid" } ],
+  "disabled_on": { "groups": ["header", "aside", "footer"] }
+}
+{% endschema %}
