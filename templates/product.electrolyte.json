@@ -22,7 +22,7 @@
         "hook": {
           "type": "text",
           "settings": {
-            "title": "<p>A precision mineral formula that protects the systems that make hydration actually work — not just another sports drink.</p>",
+            "title": "<p>An everyday electrolyte built to scale with you — gentle enough to drink daily, ready to step up when you train hard. Made in Sweden, true to its roots.</p>",
             "text_alignment": "left",
             "padding_bottom": 16
           }
@@ -30,7 +30,7 @@
         "value_bullets": {
           "type": "text",
           "settings": {
-            "title": "<ul><li><strong>Hydrate</strong> — sodium:potassium balanced near 1:1, for true cellular fluid balance</li><li><strong>Detox</strong> — NAC rebuilds glutathione, your body's master antioxidant</li><li><strong>Absorb</strong> — a prebiotic + probiotic gut layer so you actually use what you take</li></ul>",
+            "title": "<ul><li><strong>Hydrate every day</strong> — Guérande sea salt + coconut water powder, with sodium calibrated lower so you can drink it daily without overloading</li><li><strong>Scales to you</strong> — 1 stick on a normal day, 2 when you train, up to 3 for the hardest sessions</li><li><strong>Supports & absorbs</strong> — NAC to support your liver and kidneys, plus a prebiotic + probiotic gut layer so you actually use what you take</li><li><strong>Clean</strong> — no added sugar, naturally sweetened with stevia</li></ul>",
             "text_alignment": "left",
             "padding_bottom": 20
           }
@@ -38,7 +38,7 @@
         "flavor": {
           "type": "variant_selector_enhanced",
           "settings": {
-            "variant_title": "Choose your flavor",
+            "variant_title": "Choose your flavour",
             "out_of_stock_indicator": "(Out of Stock)",
             "padding_top": 20,
             "padding_bottom": 20,
@@ -88,7 +88,7 @@
           "settings": {
             "accordion_heading": "What is BKM Electrolytes?",
             "heading_style": "font-heading",
-            "accordion_text": "<p>BKM Electrolytes is a precision mineral formula built on a principle most electrolyte products ignore: hydration is only as good as the systems that process it. Where standard electrolytes simply replace what sweat loses, this formula protects and supports the cellular machinery that makes hydration work — minerals that hydrate, an antioxidant system that detoxes, a gut layer that absorbs, and micronutrients that protect.</p><p><em>[PLACEHOLDER: 1 burk = X portioner / Y dagar — Ludwig fyller i]</em></p>",
+            "accordion_text": "<p>BKM Electrolytes was created to close a gap the founders — Swedish former top athletes — kept running into. Most electrolytes are built for heavy sweating and pack in far more sodium than your body needs on an ordinary day. When you haven't earned it through sweat, that extra salt is simply a load for your liver and kidneys to process.</p><p>So we built an electrolyte you can genuinely drink every day. Guérande sea salt and coconut water powder deliver full-spectrum minerals, the sodium is calibrated lower for daily use, and it scales with your effort: 1 stick on a normal day, 2 when you train, up to 3 for the hardest sessions. NAC helps support your liver and kidneys, a prebiotic + probiotic gut layer helps you absorb what you take, and acerola Vitamin C, Vitamin D3 and selenium round out the formula. Naturally sweetened with stevia, no added sugar.</p><p>30 stick packs per box (150&nbsp;g — 30&nbsp;&times;&nbsp;5&nbsp;g), roughly 15–30 days depending on your daily dose. <em>[PLACEHOLDER: pris (SEK) — Ludwig]</em></p>",
             "accordion_page": "",
             "padding_bottom": 10
           }
@@ -102,7 +102,7 @@
           "settings": {
             "accordion_heading": "How to use",
             "heading_style": "font-heading",
-            "accordion_text": "<p>Dissolve 1 scoop (5&nbsp;g) in 300–400&nbsp;ml of water. Drink 1–2 times daily — morning and afternoon work well, or whenever you need clean, sustained hydration.</p>",
+            "accordion_text": "<p>Mix 1 stick pack (5&nbsp;g) in 300–400&nbsp;ml of water.</p><p>Scale to your day: <strong>1 stick</strong> for everyday hydration, <strong>2 sticks</strong> when you train, <strong>up to 3</strong> for the hardest sessions or heavy sweating. Many also take a glass before and the day after a social occasion.</p>",
             "accordion_page": "",
             "padding_bottom": 20
           }
@@ -116,7 +116,7 @@
           "settings": {
             "accordion_heading": "Key Ingredients",
             "heading_style": "font-heading",
-            "accordion_text": "<p><strong>Guérande Sea Salt:</strong> Hand-harvested on the Atlantic coast of France with its full trace-mineral profile intact — magnesium, calcium, potassium, iodine — for whole-cell hydration.</p><p><strong>Magnesium Citrate:</strong> The superior bioavailable form of magnesium, essential to 300+ enzymatic processes including energy, muscle recovery and electrolyte balance.</p><p><strong>NAC (N-Acetyl Cysteine):</strong> A direct precursor to glutathione, the body's master antioxidant — supports detoxification and longevity. Rarely found in an electrolyte formula.</p><p><strong>Inulin (Chicory Root):</strong> The gold-standard prebiotic fibre, feeding the gut bacteria that govern mineral absorption.</p><p><strong>LactoSpore® Probiotic:</strong> A patented, clinically validated strain that restores gut integrity and works in synergy with inulin.</p><p><strong>Sodium Citrate + Potassium Chloride:</strong> Balanced at a near 1:1 physiological ratio for genuine cellular fluid balance, gentler on the stomach than sodium chloride.</p><p><strong>Vitamin D3 + Selenium:</strong> Two micronutrients deficient in most adults — supporting immune defence and thyroid function. Selenium also recycles glutathione, working with NAC.</p>",
+            "accordion_text": "<p><strong>Guérande Sea Salt (extra fine):</strong> Hand-harvested on the French Atlantic coast and measured for its mineral level, with its full trace-mineral profile intact — the mineral complexity refined sodium chloride strips away.</p><p><strong>Coconut Water Powder:</strong> A natural source of potassium and minerals for everyday hydration.</p><p><strong>Magnesium (citrate):</strong> A well-absorbed form of magnesium, involved in 300+ processes including energy, muscle recovery and electrolyte balance.</p><p><strong>NAC (N-Acetyl-L-Cysteine):</strong> Rarely found in an electrolyte. A precursor to glutathione that helps support the liver and kidneys — part of why the sodium can stay calibrated for daily use.</p><p><strong>Acerola Vitamin C:</strong> A naturally derived source of Vitamin C for antioxidant support.</p><p><strong>Inulin (chicory root) + LactoSpore® probiotic:</strong> A prebiotic + probiotic gut layer that works together so your body actually absorbs the minerals you take.</p><p><strong>Vitamin D3 + Selenium:</strong> Two micronutrients many adults fall short on, supporting immune defence and thyroid function. Selenium also works in synergy with NAC.</p>",
             "accordion_page": "",
             "padding_bottom": 20
           }
@@ -148,7 +148,7 @@
           "settings": {
             "accordion_heading": "Product Information & Supplement Facts",
             "heading_style": "font-heading",
-            "accordion_text": "<p><strong>How to use</strong><br/>Dissolve 1 scoop (5&nbsp;g) in 300–400&nbsp;ml of water. Drink 1–2 times daily.</p><p><strong>Food Supplement / Kosttillskott</strong></p><p><em>[PLACEHOLDER: Supplement Facts-tabell — doser per portion + allergener. Ludwig fyller i.]</em></p><p>Produkten bör inte användas som ersättning för en varierad kost. Den rekommenderade dagliga dosen bör inte överskridas. Förvaras oåtkomligt för små barn.</p>",
+            "accordion_text": "<p><strong>Food supplement / Kosttillskott.</strong> 30 stick packs per box · 150&nbsp;g (30&nbsp;&times;&nbsp;5&nbsp;g). Daily serving: 1–2 stick packs per day. Contains sweetener.</p><p><strong>Suggested use:</strong> Mix 1 stick pack (5&nbsp;g) in 300–400&nbsp;ml of water.</p><p><strong>Supplement Facts — Swedish Berries</strong> <span style=\"opacity:.7\">(per serving, approx. 5&nbsp;g)</span></p><table style=\"width:100%;border-collapse:collapse;font-size:14px;margin:8px 0\"><thead><tr style=\"border-bottom:1px solid rgba(0,0,0,.2)\"><th style=\"text-align:left;padding:6px 0\">Active ingredient</th><th style=\"text-align:right;padding:6px 0\">Per serving</th><th style=\"text-align:right;padding:6px 0\">% RI*</th></tr></thead><tbody><tr><td style=\"padding:4px 0\">Chloride</td><td style=\"text-align:right\">727.68&nbsp;mg</td><td style=\"text-align:right\">91%</td></tr><tr><td style=\"padding:4px 0\">Sodium</td><td style=\"text-align:right\">484.4&nbsp;mg</td><td style=\"text-align:right\">&ndash;</td></tr><tr><td style=\"padding:4px 0\">Potassium</td><td style=\"text-align:right\">251.8&nbsp;mg</td><td style=\"text-align:right\">13%</td></tr><tr><td style=\"padding:4px 0\">Magnesium</td><td style=\"text-align:right\">108.46&nbsp;mg</td><td style=\"text-align:right\">29%</td></tr><tr><td style=\"padding:4px 0\">Vitamin C</td><td style=\"text-align:right\">62.5&nbsp;mg</td><td style=\"text-align:right\">78%</td></tr><tr><td style=\"padding:4px 0\">Phosphorus</td><td style=\"text-align:right\">12.2&nbsp;mg</td><td style=\"text-align:right\">2%</td></tr><tr><td style=\"padding:4px 0\">Calcium</td><td style=\"text-align:right\">11.15&nbsp;mg</td><td style=\"text-align:right\">1%</td></tr><tr><td style=\"padding:4px 0\">Selenium</td><td style=\"text-align:right\">10&nbsp;&micro;g</td><td style=\"text-align:right\">18%</td></tr><tr><td style=\"padding:4px 0\">Vitamin D</td><td style=\"text-align:right\">5&nbsp;&micro;g</td><td style=\"text-align:right\">100%</td></tr></tbody></table><p><strong>Supplement Facts — Elderflower Lime</strong> <span style=\"opacity:.7\">(per serving, approx. 5&nbsp;g)</span></p><table style=\"width:100%;border-collapse:collapse;font-size:14px;margin:8px 0\"><thead><tr style=\"border-bottom:1px solid rgba(0,0,0,.2)\"><th style=\"text-align:left;padding:6px 0\">Active ingredient</th><th style=\"text-align:right;padding:6px 0\">Per serving</th><th style=\"text-align:right;padding:6px 0\">% RI*</th></tr></thead><tbody><tr><td style=\"padding:4px 0\">Chloride</td><td style=\"text-align:right\">691.73&nbsp;mg</td><td style=\"text-align:right\">86%</td></tr><tr><td style=\"padding:4px 0\">Sodium</td><td style=\"text-align:right\">460.47&nbsp;mg</td><td style=\"text-align:right\">&ndash;</td></tr><tr><td style=\"padding:4px 0\">Potassium</td><td style=\"text-align:right\">239.36&nbsp;mg</td><td style=\"text-align:right\">12%</td></tr><tr><td style=\"padding:4px 0\">Magnesium</td><td style=\"text-align:right\">103.1&nbsp;mg</td><td style=\"text-align:right\">27%</td></tr><tr><td style=\"padding:4px 0\">Vitamin C</td><td style=\"text-align:right\">59.41&nbsp;mg</td><td style=\"text-align:right\">74%</td></tr><tr><td style=\"padding:4px 0\">Phosphorus</td><td style=\"text-align:right\">11.6&nbsp;mg</td><td style=\"text-align:right\">2%</td></tr><tr><td style=\"padding:4px 0\">Calcium</td><td style=\"text-align:right\">10.6&nbsp;mg</td><td style=\"text-align:right\">1%</td></tr><tr><td style=\"padding:4px 0\">Selenium</td><td style=\"text-align:right\">9.51&nbsp;&micro;g</td><td style=\"text-align:right\">17%</td></tr><tr><td style=\"padding:4px 0\">Vitamin D</td><td style=\"text-align:right\">4.75&nbsp;&micro;g</td><td style=\"text-align:right\">95%</td></tr></tbody></table><p style=\"font-size:12px;opacity:.7\">*RI = Reference Intake / Dagligt referensintag.</p><p><strong>Ingredients:</strong> Inulin (chicory root fibre), Guérande sea salt (extra fine), Magnesium (magnesium citrate), Sodium citrate, Potassium chloride, Acidity regulator: malic acid, Acerola extract (Vitamin C), N-Acetyl-L-Cysteine (NAC), Coconut water powder, Sweetener: steviol glycosides, Natural flavouring (Swedish berries / elderflower &amp; lime), Anti-caking agent: calcium phosphates, Calcium (calcium citrate), LactoSpore®, Vitamin D3, Selenium (L-selenomethionine).</p><p style=\"font-size:12px\"><strong>Allergens:</strong> May contain traces of egg, soy and oat.</p><p style=\"font-size:12px;opacity:.8\">For adults only. Use as part of a varied diet and healthy lifestyle. Do not exceed the recommended dose. Do not use during pregnancy or breastfeeding. Consult a healthcare professional if you take medication or have a health condition. Store cool and dry, out of reach of children. Made in Sweden by BKM Health AB.</p>",
             "accordion_page": "",
             "padding_bottom": 20
           }
@@ -252,19 +252,19 @@
     "comparison": {
       "type": "shopdev-electrolyte-comparison",
       "blocks": {
-        "row_ratio": { "type": "row", "settings": { "feature_label": "Sodium : potassium balanced near 1:1", "feature_note": "the ratio your cells are built for", "bkm_has": true, "other_has": false } },
-        "row_guerande": { "type": "row", "settings": { "feature_label": "Guérande sea salt — full trace-mineral profile", "feature_note": "magnesium, calcium, potassium, iodine", "bkm_has": true, "other_has": false } },
-        "row_nac": { "type": "row", "settings": { "feature_label": "NAC — glutathione precursor for detox & longevity", "bkm_has": true, "other_has": false } },
+        "row_daily": { "type": "row", "settings": { "feature_label": "Calibrated for daily use", "feature_note": "lower sodium so you can drink it every day without overloading", "bkm_has": true, "other_has": false } },
+        "row_scale": { "type": "row", "settings": { "feature_label": "Scales with your effort", "feature_note": "1 stick everyday · 2 when you train · up to 3 for the hardest sessions", "bkm_has": true, "other_has": false } },
+        "row_nac": { "type": "row", "settings": { "feature_label": "NAC to support liver & kidneys", "feature_note": "rarely found in any electrolyte", "bkm_has": true, "other_has": false } },
+        "row_guerande": { "type": "row", "settings": { "feature_label": "Guérande sea salt + coconut water powder", "feature_note": "full trace-mineral profile, not refined salt", "bkm_has": true, "other_has": false } },
         "row_gut": { "type": "row", "settings": { "feature_label": "Prebiotic + probiotic gut layer", "feature_note": "Inulin + LactoSpore® for real absorption", "bkm_has": true, "other_has": false } },
-        "row_micros": { "type": "row", "settings": { "feature_label": "Vitamin D3 + selenium", "feature_note": "immune & thyroid support", "bkm_has": true, "other_has": false } },
-        "row_mag": { "type": "row", "settings": { "feature_label": "Bioavailable magnesium citrate", "bkm_has": true, "other_has": false } },
-        "row_nosugar": { "type": "row", "settings": { "feature_label": "No sugar", "bkm_has": true, "other_has": false } },
-        "row_sweat": { "type": "row", "settings": { "feature_label": "Replaces sodium lost in sweat", "bkm_has": true, "other_has": true } }
+        "row_micros": { "type": "row", "settings": { "feature_label": "Acerola Vitamin C, Vitamin D3 & selenium", "feature_note": "antioxidant, immune & thyroid support", "bkm_has": true, "other_has": false } },
+        "row_nosugar": { "type": "row", "settings": { "feature_label": "No added sugar", "feature_note": "naturally sweetened with stevia", "bkm_has": true, "other_has": false } },
+        "row_sweat": { "type": "row", "settings": { "feature_label": "Replaces minerals lost in sweat", "bkm_has": true, "other_has": true } }
       },
-      "block_order": ["row_ratio", "row_guerande", "row_nac", "row_gut", "row_micros", "row_mag", "row_nosugar", "row_sweat"],
+      "block_order": ["row_daily", "row_scale", "row_nac", "row_guerande", "row_gut", "row_micros", "row_nosugar", "row_sweat"],
       "settings": {
-        "heading": "Not a sports drink. A cellular protection stack.",
-        "subheading": "<p>Most electrolytes just replace what sweat loses. BKM protects and supports the systems that make hydration actually work.</p>",
+        "heading": "Not just a sports drink. An everyday electrolyte.",
+        "subheading": "<p>Most electrolytes are built for heavy sweating and overload you with sodium on an ordinary day. BKM is calibrated for daily use — and scales up when you train hard.</p>",
         "feature_col_label": "",
         "bkm_col_label": "BKM Electrolytes",
         "other_col_label": "Ordinary electrolytes",
@@ -282,7 +282,16 @@
           "settings": {
             "name": "Guérande Sea Salt",
             "amount": "",
-            "function": "Hand-harvested on the Atlantic coast of France with its full trace-mineral profile intact — magnesium, calcium, potassium and iodine — providing the mineral complexity refined sodium chloride strips away. Supports whole-cell hydration.",
+            "function": "Hand-harvested on the French Atlantic coast and measured for its mineral level, with its full trace-mineral profile intact — the mineral complexity refined sodium chloride strips away. The base of whole-cell hydration.",
+            "image_height": 150
+          }
+        },
+        "ing_coconut": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Coconut Water Powder",
+            "amount": "",
+            "function": "A natural source of potassium and minerals, prized for everyday hydration. Works alongside Guérande salt to replace what your body loses through the day — not just through sweat.",
             "image_height": 150
           }
         },
@@ -291,43 +300,34 @@
           "settings": {
             "name": "Magnesium Citrate",
             "amount": "",
-            "function": "The superior bioavailable form of magnesium, absorbed more efficiently than malate or oxide. Essential to 300+ enzymatic processes including ATP energy production, muscle recovery and electrolyte balance.",
+            "function": "A well-absorbed form of magnesium, involved in 300+ processes including energy production, muscle recovery and electrolyte balance.",
             "image_height": 150
           }
         },
         "ing_nac": {
           "type": "ingredient",
           "settings": {
-            "name": "NAC (N-Acetyl Cysteine)",
+            "name": "NAC (N-Acetyl-L-Cysteine)",
             "amount": "",
-            "function": "A direct precursor to glutathione, the body's master cellular detoxifier. Neutralises oxidative stress, supports liver detox pathways and protects cells from daily environmental load. A longevity ingredient in an electrolyte formula.",
+            "function": "Rarely found in an electrolyte, and the hardest part of the formula to get right. A precursor to glutathione that helps support the liver and kidneys — part of why the sodium can stay calibrated low enough for daily use.",
             "image_height": 150
           }
         },
-        "ing_inulin": {
+        "ing_vitc": {
           "type": "ingredient",
           "settings": {
-            "name": "Inulin (Chicory Root)",
+            "name": "Acerola Vitamin C",
             "amount": "",
-            "function": "The gold-standard prebiotic fibre, feeding the beneficial gut bacteria that govern mineral absorption. Without prebiotic support, even the best mineral formula is partially wasted.",
+            "function": "A naturally derived source of Vitamin C from acerola cherry, delivering antioxidant support to complement the mineral base.",
             "image_height": 150
           }
         },
-        "ing_lactospore": {
+        "ing_gut": {
           "type": "ingredient",
           "settings": {
-            "name": "LactoSpore® Probiotic",
+            "name": "Inulin + LactoSpore® Probiotic",
             "amount": "",
-            "function": "A patented, clinically validated strain with demonstrated stability through digestion. Works synergistically with inulin to restore gut integrity where long-term absorption happens.",
-            "image_height": 150
-          }
-        },
-        "ing_sodium_potassium": {
-          "type": "ingredient",
-          "settings": {
-            "name": "Sodium Citrate + Potassium Chloride",
-            "amount": "",
-            "function": "Balanced at a near 1:1 physiological ratio for genuine cellular fluid balance. Sodium citrate is gentler than sodium chloride, reducing osmotic stress and improving absorption under strain.",
+            "function": "A prebiotic fibre from chicory root paired with a patented, clinically validated probiotic strain. Together they form a gut layer that helps your body actually absorb the minerals you take.",
             "image_height": 150
           }
         },
@@ -336,15 +336,15 @@
           "settings": {
             "name": "Vitamin D3 + Selenium",
             "amount": "",
-            "function": "Two micronutrients deficient in the majority of adults, both essential to immune function, thyroid regulation and cellular resilience. Selenium also recycles glutathione, in direct synergy with NAC.",
+            "function": "Two micronutrients many adults fall short on, both supporting immune function and thyroid regulation. Selenium also works in synergy with NAC.",
             "image_height": 150
           }
         }
       },
-      "block_order": ["ing_guerande", "ing_magnesium", "ing_nac", "ing_inulin", "ing_lactospore", "ing_sodium_potassium", "ing_d3_selenium"],
+      "block_order": ["ing_guerande", "ing_coconut", "ing_magnesium", "ing_nac", "ing_vitc", "ing_gut", "ing_d3_selenium"],
       "settings": {
-        "heading": "Every ingredient amplifies the others",
-        "description": "Minerals that hydrate, an antioxidant system that detoxes, a gut layer that absorbs, and micronutrients that protect — a daily mineral and cellular protection stack.",
+        "heading": "A year in development. Every ingredient earns its place.",
+        "description": "Full-spectrum minerals that hydrate, NAC that supports the systems processing them, a gut layer that absorbs, and micronutrients that protect — calibrated for every day, sourced in Sweden.",
         "desktop_cards_to_show": 3
       }
     },
@@ -353,15 +353,15 @@
       "blocks": {
         "step_1": {
           "type": "text",
-          "settings": { "icon_name": "none", "title": "1. Mix", "text": "<p>Dissolve 1 scoop (5&nbsp;g) in 300–400&nbsp;ml of water.</p>" }
+          "settings": { "icon_name": "none", "title": "1. Mix", "text": "<p>Stir 1 stick pack (5&nbsp;g) into 300–400&nbsp;ml of water.</p>" }
         },
         "step_2": {
           "type": "text",
-          "settings": { "icon_name": "none", "title": "2. Drink", "text": "<p>1–2 times daily — morning and afternoon work well.</p>" }
+          "settings": { "icon_name": "none", "title": "2. Scale", "text": "<p>1 stick for everyday, 2 when you train, up to 3 for the hardest sessions.</p>" }
         },
         "step_3": {
           "type": "text",
-          "settings": { "icon_name": "none", "title": "3. Hydrate", "text": "<p>Clean, sustained hydration whenever you need it.</p>" }
+          "settings": { "icon_name": "none", "title": "3. Hydrate", "text": "<p>Clean, balanced hydration — every day, not just on sweat days.</p>" }
         }
       },
       "block_order": ["step_1", "step_2", "step_3"],
@@ -418,7 +418,7 @@
       },
       "block_order": ["athlete_tara", "athlete_marcus", "athlete_daniel"],
       "settings": {
-        "heading": "Trusted by Professional Athletes",
+        "heading": "Built for athletes. Made for everyone.",
         "subheading": "",
         "slides_per_view": 1,
         "enable_autoplay": true,
@@ -446,43 +446,43 @@
           "type": "text",
           "settings": {
             "title": "How is this different from a regular electrolyte drink?",
-            "text": "<p>Standard electrolytes just replace what sweat loses. BKM Electrolytes also protects and supports the systems that make hydration work — a balanced 1:1 sodium:potassium ratio, full-spectrum Guérande minerals, NAC for cellular detox, and a prebiotic + probiotic gut layer for real absorption.</p>"
+            "text": "<p>Most electrolytes are built for heavy sweating and pack in more sodium than your body needs on an ordinary day. BKM is calibrated lower so you can drink it daily, then scales up when you train. It also goes further than salt and sugar: full-spectrum Guérande minerals and coconut water powder, NAC to support your liver and kidneys, and a prebiotic + probiotic gut layer for real absorption.</p>"
+          }
+        },
+        "faq_daily": {
+          "type": "text",
+          "settings": {
+            "title": "Can I take it every day?",
+            "text": "<p>Yes — that's exactly what it's built for. The sodium is calibrated for daily use, so it's a daily mineral routine for everyone, not just athletes. Take 1 stick on a normal day, 2 when you train, up to 3 for the hardest sessions or heavy sweating.</p>"
           }
         },
         "faq_when": {
           "type": "text",
           "settings": {
             "title": "When should I drink it?",
-            "text": "<p>1–2 times daily. Morning and afternoon work well, or whenever you need clean, sustained hydration — including around training.</p>"
-          }
-        },
-        "faq_sugar": {
-          "type": "text",
-          "settings": { "title": "Does it contain sugar?", "text": "<p>No. BKM Electrolytes is sugar-free.</p>" }
-        },
-        "faq_daily": {
-          "type": "text",
-          "settings": {
-            "title": "Can I take it every day?",
-            "text": "<p>Yes — it's designed as a daily mineral and cellular-protection stack for everyone, not just athletes.</p>"
+            "text": "<p>Whenever you need clean, balanced hydration — morning, around training, or through a warm day. Many also take a glass before and the day after a social occasion, to help the body rebalance.</p>"
           }
         },
         "faq_flavors": {
           "type": "text",
           "settings": {
-            "title": "What's the difference between Orange and Citron?",
-            "text": "<p><em>[PLACEHOLDER: smak-profiler — hur Orange vs Citron smakar/skiljer sig. Ludwig fyller i.]</em></p>"
+            "title": "What's the difference between Swedish Berries and Elderflower Lime?",
+            "text": "<p><strong>Swedish Berries</strong> is the sweeter of the two — built around Swedish berries with notes of blueberry, strawberry and raspberry. Rounder and fuller, for those who like a little more sweetness.</p><p><strong>Elderflower Lime</strong> is fresher and crisper — Swedish elderflower lifted with lime for a light, slightly tart finish. Both are naturally sweetened with stevia and contain no added sugar.</p>"
           }
+        },
+        "faq_sugar": {
+          "type": "text",
+          "settings": { "title": "Does it contain sugar?", "text": "<p>No. BKM Electrolytes has no added sugar and is naturally sweetened with stevia.</p>" }
         },
         "faq_ingredient_list": {
           "type": "text",
           "settings": {
             "title": "Ingredient List",
-            "text": "<p>{{ product.metafields.custom.ingredients | metafield_tag }}</p><p><em>[PLACEHOLDER: full ingrediensförteckning sätts i produktens metafält custom.ingredients.]</em></p>"
+            "text": "<p>Inulin (chicory root fibre), Guérande sea salt (extra fine), Magnesium (magnesium citrate), Sodium citrate, Potassium chloride, Acidity regulator: malic acid, Acerola extract (Vitamin C), N-Acetyl-L-Cysteine (NAC), Coconut water powder, Sweetener: steviol glycosides, Natural flavouring (Swedish berries / elderflower &amp; lime), Anti-caking agent: calcium phosphates, Calcium (calcium citrate), LactoSpore®, Vitamin D3, Selenium (L-selenomethionine).</p><p style=\"font-size:12px\">May contain traces of egg, soy and oat.</p>"
           }
         }
       },
-      "block_order": ["faq_difference", "faq_when", "faq_sugar", "faq_daily", "faq_flavors", "faq_ingredient_list"],
+      "block_order": ["faq_difference", "faq_daily", "faq_when", "faq_flavors", "faq_sugar", "faq_ingredient_list"],
       "settings": {
         "layout": "one-column",
         "show_accordion_divider": false,
