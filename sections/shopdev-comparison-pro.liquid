@@ -1,0 +1,208 @@
+{% comment %}
+  shopdev-comparison-pro
+  Premium "Us vs Them" comparison (Hears-style). Heading + copy on the left, comparison on the
+  right with a highlighted BKM column (BKM-blue→pink gradient) and up to 3 competitor columns
+  whose headers can be product thumbnails. Each row block sets a state per column.
+  Self-contained. Brand: BKM Blue (#0A2240), inherits Avenir.
+  NOTE: kept separate from shopdev-electrolyte-comparison so the Electrolytes PDP is unaffected.
+{% endcomment %}
+
+{%- liquid
+  assign accent = section.settings.accent_color | default: '#0A2240'
+  assign grad_to = section.settings.gradient_to | default: '#c1457f'
+  assign bg = section.settings.bg_color
+  assign uid = section.id
+  assign c2 = section.settings.comp2_label
+  assign c3 = section.settings.comp3_label
+  assign ncomp = 1
+  if c2 != blank
+    assign ncomp = ncomp | plus: 1
+  endif
+  if c3 != blank
+    assign ncomp = ncomp | plus: 1
+  endif
+  assign total_cols = ncomp | plus: 1
+-%}
+
+{%- style -%}
+  #ElyteCmp--{{ uid }} {
+    --cmp-accent: {{ accent }};
+    --cmp-grad-to: {{ grad_to }};
+    {%- if bg != blank and bg != 'rgba(0,0,0,0)' -%}background: {{ bg }};{%- endif -%}
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  #ElyteCmp--{{ uid }} .cmp__inner { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 48px; align-items: center; }
+  #ElyteCmp--{{ uid }} .cmp__title { font-size: clamp(30px, 3.4vw, 46px); line-height: 1.08; margin: 0 0 16px; color: var(--cmp-accent); }
+  #ElyteCmp--{{ uid }} .cmp__title em { font-style: normal; color: var(--cmp-grad-to); }
+  #ElyteCmp--{{ uid }} .cmp__sub { font-size: 17px; line-height: 1.6; margin: 0; opacity: .82; }
+  #ElyteCmp--{{ uid }} .cmp__table {
+    position: relative; display: grid;
+    grid-template-columns: 1.5fr 1fr repeat({{ ncomp }}, 0.8fr);
+    row-gap: 0; column-gap: 0;
+  }
+  /* Gradient backdrop spanning the whole BKM column (column 2), all rows */
+  #ElyteCmp--{{ uid }} .cmp__bkmcol {
+    grid-column: 2; grid-row: 1 / -1; z-index: 0;
+    background: linear-gradient(170deg, var(--cmp-accent), var(--cmp-grad-to));
+    border-radius: 18px; box-shadow: 0 22px 50px -26px rgba(10,34,64,.55);
+  }
+  #ElyteCmp--{{ uid }} .cmp__cell { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; padding: 15px 8px; min-height: 30px; }
+  #ElyteCmp--{{ uid }} .cmp__cell--feature { justify-content: flex-start; text-align: left; font-size: 14.5px; font-weight: 600; color: var(--cmp-accent); line-height: 1.3; padding-left: 0; padding-right: 16px; }
+  #ElyteCmp--{{ uid }} .cmp__row + .cmp__row .cmp__cell--feature,
+  #ElyteCmp--{{ uid }} .cmp__cell--comp { border-top: 1px solid rgba(10,34,64,.08); }
+  /* Headers */
+  #ElyteCmp--{{ uid }} .cmp__head { padding-top: 18px; padding-bottom: 18px; }
+  #ElyteCmp--{{ uid }} .cmp__head--bkm { flex-direction: column; gap: 6px; color: #fff; font-weight: 800; font-size: 17px; letter-spacing: .02em; }
+  #ElyteCmp--{{ uid }} .cmp__head--bkm img { max-width: 96px; max-height: 30px; object-fit: contain; }
+  #ElyteCmp--{{ uid }} .cmp__head--comp { flex-direction: column; gap: 8px; color: var(--cmp-accent); font-weight: 600; font-size: 12.5px; opacity: .8; text-align: center; }
+  #ElyteCmp--{{ uid }} .cmp__head--comp img { width: 46px; height: 46px; object-fit: contain; border-radius: 8px; filter: grayscale(1); opacity: .8; }
+  /* BKM cells get a touch of inset so checks read on the gradient */
+  #ElyteCmp--{{ uid }} .cmp__cell--bkm { color: #fff; }
+  /* Marks */
+  #ElyteCmp--{{ uid }} .cmp__mark { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; }
+  #ElyteCmp--{{ uid }} .cmp__mark svg { width: 16px; height: 16px; display: block; }
+  #ElyteCmp--{{ uid }} .cmp__mark--bkm { background: #fff; }
+  #ElyteCmp--{{ uid }} .cmp__mark--bkm svg { stroke: var(--cmp-accent); }
+  #ElyteCmp--{{ uid }} .cmp__mark--yes { background: rgba(193,69,127,.14); }
+  #ElyteCmp--{{ uid }} .cmp__mark--yes svg { stroke: var(--cmp-grad-to); }
+  #ElyteCmp--{{ uid }} .cmp__mark--no svg { stroke: rgba(10,34,64,.32); width: 15px; height: 15px; }
+  #ElyteCmp--{{ uid }} .cmp__mark--partial { background: rgba(10,34,64,.07); }
+  #ElyteCmp--{{ uid }} .cmp__mark--partial svg { stroke: rgba(10,34,64,.5); }
+  @media (max-width: 880px) {
+    #ElyteCmp--{{ uid }} .cmp__inner { grid-template-columns: 1fr; gap: 24px; }
+  }
+  @media (max-width: 560px) {
+    #ElyteCmp--{{ uid }} .cmp__table { grid-template-columns: 1.4fr 0.9fr repeat({{ ncomp }}, 0.7fr); }
+    #ElyteCmp--{{ uid }} .cmp__cell { padding: 12px 4px; }
+    #ElyteCmp--{{ uid }} .cmp__cell--feature { font-size: 12.5px; padding-right: 8px; }
+    #ElyteCmp--{{ uid }} .cmp__head--bkm { font-size: 14px; }
+    #ElyteCmp--{{ uid }} .cmp__head--comp { font-size: 10.5px; }
+    #ElyteCmp--{{ uid }} .cmp__head--comp img { width: 34px; height: 34px; }
+    #ElyteCmp--{{ uid }} .cmp__mark { width: 22px; height: 22px; }
+  }
+{%- endstyle -%}
+
+{%- capture m_check -%}<svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>{%- endcapture -%}
+{%- capture m_cross -%}<svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>{%- endcapture -%}
+
+{%- comment -%} Renders one competitor mark from a state string {%- endcomment -%}
+
+<section id="ElyteCmp--{{ uid }}" class="shopdev shopdev-comparison-pro" data-section-id="{{ uid }}">
+  <div class="cmp__inner">
+    <div class="cmp__copy">
+      {%- if section.settings.heading != blank -%}<h2 class="cmp__title">{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.subheading != blank -%}<div class="cmp__sub">{{ section.settings.subheading }}</div>{%- endif -%}
+    </div>
+
+    <div class="cmp__table" role="table">
+      <div class="cmp__bkmcol" aria-hidden="true"></div>
+
+      {%- comment -%} Header row {%- endcomment -%}
+      <div class="cmp__row" role="row" style="display: contents;">
+        <div class="cmp__cell cmp__cell--feature cmp__head" role="columnheader">{{ section.settings.feature_col_label }}</div>
+        <div class="cmp__cell cmp__cell--bkm cmp__head cmp__head--bkm" role="columnheader">
+          {%- if section.settings.bkm_logo != blank -%}{{ section.settings.bkm_logo | image_url: width: 200 | image_tag: alt: section.settings.bkm_label }}{%- else -%}{{ section.settings.bkm_label | default: 'BKM' }}{%- endif -%}
+        </div>
+        <div class="cmp__cell cmp__cell--comp cmp__head cmp__head--comp" role="columnheader">
+          {%- if section.settings.comp1_image != blank -%}{{ section.settings.comp1_image | image_url: width: 120 | image_tag: alt: section.settings.comp1_label }}{%- endif -%}
+          <span>{{ section.settings.comp1_label }}</span>
+        </div>
+        {%- if ncomp >= 2 -%}
+          <div class="cmp__cell cmp__cell--comp cmp__head cmp__head--comp" role="columnheader">
+            {%- if section.settings.comp2_image != blank -%}{{ section.settings.comp2_image | image_url: width: 120 | image_tag: alt: section.settings.comp2_label }}{%- endif -%}
+            <span>{{ section.settings.comp2_label }}</span>
+          </div>
+        {%- endif -%}
+        {%- if ncomp >= 3 -%}
+          <div class="cmp__cell cmp__cell--comp cmp__head cmp__head--comp" role="columnheader">
+            {%- if section.settings.comp3_image != blank -%}{{ section.settings.comp3_image | image_url: width: 120 | image_tag: alt: section.settings.comp3_label }}{%- endif -%}
+            <span>{{ section.settings.comp3_label }}</span>
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Feature rows {%- endcomment -%}
+      {%- for block in section.blocks -%}
+        <div class="cmp__row" role="row" style="display: contents;" {{ block.shopify_attributes }}>
+          <div class="cmp__cell cmp__cell--feature" role="cell">{{ block.settings.feature_label }}</div>
+
+          <div class="cmp__cell cmp__cell--bkm" role="cell">
+            <span class="cmp__mark cmp__mark--bkm">{{ m_check }}</span>
+          </div>
+
+          {%- for n in (1..ncomp) -%}
+            {%- liquid
+              assign key = 'comp' | append: n
+              assign state = block.settings[key]
+            -%}
+            <div class="cmp__cell cmp__cell--comp" role="cell">
+              {%- case state -%}
+                {%- when 'yes' -%}<span class="cmp__mark cmp__mark--yes">{{ m_check }}</span>
+                {%- when 'partial' -%}<span class="cmp__mark cmp__mark--partial">{{ m_check }}</span>
+                {%- else -%}<span class="cmp__mark cmp__mark--no">{{ m_cross }}</span>
+              {%- endcase -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Comparison Pro",
+  "class": "shopdev shopdev-comparison-pro",
+  "tag": "section",
+  "settings": [
+    { "type": "header", "content": "Heading" },
+    { "type": "text", "id": "heading", "label": "Heading", "info": "Wrap a word in <em> for the accent colour.", "default": "Why Tranquil is the <em>perfect choice.</em>" },
+    { "type": "richtext", "id": "subheading", "label": "Subheading", "default": "<p>The sleep supplement built for deep, restorative rest — not just knocking you out.</p>" },
+    { "type": "header", "content": "Columns" },
+    { "type": "text", "id": "feature_col_label", "label": "Feature column label", "default": "What matters" },
+    { "type": "text", "id": "bkm_label", "label": "BKM column label", "default": "Tranquil" },
+    { "type": "image_picker", "id": "bkm_logo", "label": "BKM column logo (optional, overrides label)" },
+    { "type": "text", "id": "comp1_label", "label": "Competitor 1 label", "default": "Melatonin" },
+    { "type": "image_picker", "id": "comp1_image", "label": "Competitor 1 image" },
+    { "type": "text", "id": "comp2_label", "label": "Competitor 2 label (leave blank to hide)", "default": "Typical sleep aids" },
+    { "type": "image_picker", "id": "comp2_image", "label": "Competitor 2 image" },
+    { "type": "text", "id": "comp3_label", "label": "Competitor 3 label (leave blank to hide)", "default": "Sleeping pills" },
+    { "type": "image_picker", "id": "comp3_image", "label": "Competitor 3 image" },
+    { "type": "header", "content": "Style" },
+    { "type": "color", "id": "accent_color", "label": "Accent / gradient start", "default": "#0A2240" },
+    { "type": "color", "id": "gradient_to", "label": "Gradient end", "default": "#c1457f" },
+    { "type": "color", "id": "bg_color", "label": "Section background" },
+    { "type": "header", "content": "Section spacing" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding top", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding bottom", "default": 64 }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Comparison row",
+      "settings": [
+        { "type": "text", "id": "feature_label", "label": "Feature", "default": "Feature" },
+        { "type": "select", "id": "comp1", "label": "Competitor 1", "default": "no", "options": [ {"value":"yes","label":"Yes"}, {"value":"partial","label":"Partial"}, {"value":"no","label":"No"} ] },
+        { "type": "select", "id": "comp2", "label": "Competitor 2", "default": "no", "options": [ {"value":"yes","label":"Yes"}, {"value":"partial","label":"Partial"}, {"value":"no","label":"No"} ] },
+        { "type": "select", "id": "comp3", "label": "Competitor 3", "default": "no", "options": [ {"value":"yes","label":"Yes"}, {"value":"partial","label":"Partial"}, {"value":"no","label":"No"} ] }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Comparison Pro",
+      "blocks": [
+        { "type": "row", "settings": { "feature_label": "Supports deep, restorative REM sleep", "comp1": "no", "comp2": "partial", "comp3": "no" } },
+        { "type": "row", "settings": { "feature_label": "Calms the nervous system", "comp1": "no", "comp2": "no", "comp3": "partial" } },
+        { "type": "row", "settings": { "feature_label": "Magnesium + minerals + soothing herbs", "comp1": "no", "comp2": "partial", "comp3": "no" } },
+        { "type": "row", "settings": { "feature_label": "No grogginess the next morning", "comp1": "partial", "comp2": "no", "comp3": "no" } },
+        { "type": "row", "settings": { "feature_label": "Non-habit forming", "comp1": "yes", "comp2": "partial", "comp3": "no" } },
+        { "type": "row", "settings": { "feature_label": "Made in Sweden, banned-substance tested", "comp1": "no", "comp2": "no", "comp3": "no" } }
+      ]
+    }
+  ],
+  "disabled_on": { "groups": ["header", "aside", "footer"] }
+}
+{% endschema %}

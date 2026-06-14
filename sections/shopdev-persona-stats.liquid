@@ -1,0 +1,122 @@
+{% comment %}
+  shopdev-persona-stats
+  Connects a study/survey stat to a specific persona + problem (Hears-style persona cards).
+  Each block = persona: lifestyle image (top) + persona title + a boxed row with a big stat
+  and the problem/result sentence. Self-contained. Brand: BKM Blue (#0A2240), inherits Avenir.
+
+  ⚠ STATS ARE PLACEHOLDERS. Replace block stats with real BKM customer-survey/study data before
+  publishing — do not ship invented clinical figures (BKM compliance).
+{% endcomment %}
+
+{%- liquid
+  assign accent = section.settings.accent_color | default: '#0A2240'
+  assign bg = section.settings.bg_color | default: '#ffffff'
+  assign uid = section.id
+-%}
+
+{%- style -%}
+  #ElytePersona--{{ uid }} {
+    --ps-accent: {{ accent }};
+    background: {{ bg }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  #ElytePersona--{{ uid }} .ps__inner { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+  #ElytePersona--{{ uid }} .ps__head { margin-bottom: 30px; max-width: 760px; }
+  #ElytePersona--{{ uid }} .ps__eyebrow { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; font-weight: 700; color: var(--ps-accent); opacity: .65; margin: 0 0 10px; }
+  #ElytePersona--{{ uid }} .ps__title { font-size: clamp(28px, 4.4vw, 44px); line-height: 1.08; margin: 0 0 12px; color: var(--ps-accent); }
+  #ElytePersona--{{ uid }} .ps__sub { font-size: 17px; line-height: 1.6; margin: 0; opacity: .82; }
+  #ElytePersona--{{ uid }} .ps__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  #ElytePersona--{{ uid }} .ps__card { display: flex; flex-direction: column; }
+  #ElytePersona--{{ uid }} .ps__media { aspect-ratio: 1 / 1; border-radius: 18px; overflow: hidden; background: rgba(10,34,64,.06); }
+  #ElytePersona--{{ uid }} .ps__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #ElytePersona--{{ uid }} .ps__name { font-size: clamp(22px, 2vw, 28px); font-weight: 700; color: var(--ps-accent); margin: 18px 0 12px; line-height: 1.1; }
+  #ElytePersona--{{ uid }} .ps__stat {
+    display: flex; align-items: center; gap: 14px;
+    background: rgba(10,34,64,.05); border-radius: 14px; padding: 16px 18px; margin-top: auto;
+  }
+  #ElytePersona--{{ uid }} .ps__num { font-size: clamp(26px, 2.4vw, 34px); font-weight: 800; color: var(--ps-accent); line-height: 1; flex: 0 0 auto; }
+  #ElytePersona--{{ uid }} .ps__claim { font-size: 14px; line-height: 1.45; margin: 0; opacity: .82; }
+  #ElytePersona--{{ uid }} .ps__foot { margin: 22px 0 0; font-size: 12px; opacity: .55; }
+  @media (max-width: 900px) { #ElytePersona--{{ uid }} .ps__grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { #ElytePersona--{{ uid }} .ps__grid { grid-template-columns: 1fr; } }
+{%- endstyle -%}
+
+<section id="ElytePersona--{{ uid }}" class="shopdev shopdev-persona-stats" data-section-id="{{ uid }}">
+  <div class="ps__inner">
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="ps__head">
+        {%- if section.settings.eyebrow != blank -%}<p class="ps__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 class="ps__title">{{ section.settings.heading }}</h2>{%- endif -%}
+        {%- if section.settings.subheading != blank -%}<div class="ps__sub">{{ section.settings.subheading }}</div>{%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="ps__grid">
+      {%- for block in section.blocks -%}
+        <div class="ps__card" {{ block.shopify_attributes }}>
+          <div class="ps__media">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: block.settings.title, widths: '300, 450, 600' }}
+            {%- endif -%}
+          </div>
+          {%- if block.settings.title != blank -%}<h3 class="ps__name">{{ block.settings.title }}</h3>{%- endif -%}
+          {%- if block.settings.stat != blank or block.settings.text != blank -%}
+            <div class="ps__stat">
+              {%- if block.settings.stat != blank -%}<span class="ps__num">{{ block.settings.stat }}</span>{%- endif -%}
+              {%- if block.settings.text != blank -%}<p class="ps__claim">{{ block.settings.text }}</p>{%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.footnote != blank -%}
+      <p class="ps__foot">{{ section.settings.footnote }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Persona Stats",
+  "class": "shopdev shopdev-persona-stats",
+  "tag": "section",
+  "settings": [
+    { "type": "paragraph", "content": "⚠ Stats are PLACEHOLDERS. Replace with real BKM customer-survey/study data before publishing." },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Built for every kind of bad night" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Which sleeper are you?" },
+    { "type": "richtext", "id": "subheading", "label": "Subheading", "default": "<p>Whatever's keeping you up, Tranquil is built to meet it — here's what people like you reported.</p>" },
+    { "type": "text", "id": "footnote", "label": "Footnote", "default": "*Placeholder figures — to be replaced with results from a BKM customer survey." },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#0A2240" },
+    { "type": "color", "id": "bg_color", "label": "Section background", "default": "#ffffff" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding top", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding bottom", "default": 64 }
+  ],
+  "blocks": [
+    {
+      "type": "persona",
+      "name": "Persona",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Lifestyle image" },
+        { "type": "text", "id": "title", "label": "Persona title", "default": "The 3 a.m. Waker" },
+        { "type": "text", "id": "stat", "label": "Stat (placeholder)", "default": "00%" },
+        { "type": "textarea", "id": "text", "label": "Problem / result sentence", "default": "of users reported sleeping through the night within the first two weeks." }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Persona Stats",
+      "blocks": [
+        { "type": "persona", "settings": { "title": "The 3 a.m. Waker", "stat": "00%", "text": "of users reported sleeping through the night within the first two weeks. (placeholder)" } },
+        { "type": "persona", "settings": { "title": "The Stressed Mind", "stat": "00%", "text": "of users said they fell asleep faster with a calmer, quieter head. (placeholder)" } },
+        { "type": "persona", "settings": { "title": "The Light Sleeper", "stat": "00%", "text": "of users reported deeper, less interrupted sleep. (placeholder)" } },
+        { "type": "persona", "settings": { "title": "The Shift Worker", "stat": "00%", "text": "of users felt more rested and steadier through the day. (placeholder)" } }
+      ]
+    }
+  ],
+  "disabled_on": { "groups": ["header", "aside", "footer"] }
+}
+{% endschema %}

@@ -1,0 +1,157 @@
+{% comment %}
+  shopdev-reviews-grid
+  Curated review-card grid for BKM PDPs (Hears-style: lifestyle image on top, avatar + name,
+  star rating, bold headline, body). Self-contained. Brand: BKM Blue (#0A2240), inherits Avenir.
+  Responsive grid on desktop → horizontal swipe scroller on mobile.
+  Each block = one review. Ratings are set per-block and rendered with the theme's star polygon.
+{% endcomment %}
+
+{%- liquid
+  assign accent = section.settings.accent_color | default: '#0A2240'
+  assign star = section.settings.star_color | default: '#E8639A'
+  assign bg = section.settings.bg_color
+  assign uid = section.id
+-%}
+
+{%- style -%}
+  #ElyteRev--{{ uid }} {
+    --rev-accent: {{ accent }};
+    --rev-star: {{ star }};
+    {%- if bg != blank and bg != 'rgba(0,0,0,0)' -%}background: {{ bg }};{%- endif -%}
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  #ElyteRev--{{ uid }} .rev__inner { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+  #ElyteRev--{{ uid }} .rev__head { margin-bottom: 28px; max-width: 760px; }
+  #ElyteRev--{{ uid }} .rev__title { font-size: clamp(28px, 4.4vw, 44px); line-height: 1.08; margin: 0 0 12px; color: var(--rev-accent); }
+  #ElyteRev--{{ uid }} .rev__sub { font-size: 17px; line-height: 1.6; margin: 0; opacity: .82; }
+  #ElyteRev--{{ uid }} .rev__grid {
+    display: grid; gap: 16px;
+    grid-template-columns: repeat({{ section.blocks.size | at_most: 5 }}, minmax(0, 1fr));
+  }
+  #ElyteRev--{{ uid }} .rev__card {
+    display: flex; flex-direction: column;
+    border: 1px solid rgba(10,34,64,.1); border-radius: 18px; overflow: hidden; background: #fff;
+    box-shadow: 0 14px 44px -28px rgba(10,34,64,.4);
+  }
+  #ElyteRev--{{ uid }} .rev__media { aspect-ratio: 4 / 5; background: rgba(10,34,64,.06); overflow: hidden; }
+  #ElyteRev--{{ uid }} .rev__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #ElyteRev--{{ uid }} .rev__body { padding: 16px 16px 20px; display: flex; flex-direction: column; gap: 8px; }
+  #ElyteRev--{{ uid }} .rev__person { display: flex; align-items: center; gap: 8px; }
+  #ElyteRev--{{ uid }} .rev__avatar { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; flex: 0 0 auto; background: rgba(10,34,64,.12); }
+  #ElyteRev--{{ uid }} .rev__avatar--ph { display: flex; align-items: center; justify-content: center; color: var(--rev-accent); }
+  #ElyteRev--{{ uid }} .rev__name { font-size: 13px; font-weight: 600; color: var(--rev-accent); }
+  #ElyteRev--{{ uid }} .rev__stars { display: inline-flex; line-height: 0; }
+  #ElyteRev--{{ uid }} .rev__stars svg { width: 16px; height: 16px; display: block; }
+  #ElyteRev--{{ uid }} .rev__stars .s-empty polygon { fill: rgba(10,34,64,.16); }
+  #ElyteRev--{{ uid }} .rev__stars .s-full polygon { fill: var(--rev-star); }
+  #ElyteRev--{{ uid }} .rev__star-wrap { position: relative; display: inline-block; }
+  #ElyteRev--{{ uid }} .rev__star-row { display: inline-flex; }
+  #ElyteRev--{{ uid }} .rev__star-full { position: absolute; inset: 0; overflow: hidden; }
+  #ElyteRev--{{ uid }} .rev__headline { font-size: 16px; font-weight: 700; color: var(--rev-accent); margin: 2px 0 0; line-height: 1.25; }
+  #ElyteRev--{{ uid }} .rev__text { font-size: 14px; line-height: 1.5; margin: 0; opacity: .82; }
+  @media (max-width: 1024px) {
+    #ElyteRev--{{ uid }} .rev__grid {
+      display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 14px;
+      padding-bottom: 8px; -webkit-overflow-scrolling: touch;
+    }
+    #ElyteRev--{{ uid }} .rev__card { flex: 0 0 78%; max-width: 320px; scroll-snap-align: start; }
+    #ElyteRev--{{ uid }} .rev__grid::-webkit-scrollbar { height: 6px; }
+    #ElyteRev--{{ uid }} .rev__grid::-webkit-scrollbar-thumb { background: rgba(10,34,64,.2); border-radius: 3px; }
+  }
+  @media (max-width: 560px) {
+    #ElyteRev--{{ uid }} .rev__card { flex-basis: 84%; }
+  }
+{%- endstyle -%}
+
+{%- comment -%} One reusable 5-star block, filled by --percent via clip {%- endcomment -%}
+{%- capture star_polygon -%}<polygon fill-rule="nonzero" points="16.2212909 8.77064179 12.5128412 0.870224269 8.80343056 8.77064179 0.512841234 10.0374085 6.51243703 16.1862739 5.09643337 24.8702243 12.5128412 20.7696377 19.9292491 24.8702243 18.5122845 16.1862739 24.5128412 10.0374085"></polygon>{%- endcapture -%}
+
+<section id="ElyteRev--{{ uid }}" class="shopdev shopdev-reviews-grid" data-section-id="{{ uid }}">
+  <div class="rev__inner">
+    {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="rev__head">
+        {%- if section.settings.heading != blank -%}<h2 class="rev__title">{{ section.settings.heading }}</h2>{%- endif -%}
+        {%- if section.settings.subheading != blank -%}<div class="rev__sub">{{ section.settings.subheading }}</div>{%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="rev__grid">
+      {%- for block in section.blocks -%}
+        {%- assign pct = block.settings.rating | times: 20 -%}
+        <article class="rev__card" {{ block.shopify_attributes }}>
+          <div class="rev__media">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: block.settings.name, widths: '320, 480, 600' }}
+            {%- endif -%}
+          </div>
+          <div class="rev__body">
+            <div class="rev__person">
+              {%- if block.settings.avatar != blank -%}
+                {{ block.settings.avatar | image_url: width: 52 | image_tag: class: 'rev__avatar', loading: 'lazy', alt: block.settings.name }}
+              {%- else -%}
+                <span class="rev__avatar rev__avatar--ph"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-5 0-9 2.5-9 6v2h18v-2c0-3.5-4-6-9-6Z"/></svg></span>
+              {%- endif -%}
+              {%- if block.settings.name != blank -%}<span class="rev__name">{{ block.settings.name }}</span>{%- endif -%}
+            </div>
+
+            <span class="rev__stars" role="img" aria-label="{{ block.settings.rating }} / 5">
+              <span class="rev__star-wrap">
+                <span class="rev__star-row s-empty">{%- for i in (1..5) -%}<svg viewBox="0 0 25 25">{{ star_polygon }}</svg>{%- endfor -%}</span>
+                <span class="rev__star-full s-full" style="width: {{ pct }}%;"><span class="rev__star-row">{%- for i in (1..5) -%}<svg viewBox="0 0 25 25">{{ star_polygon }}</svg>{%- endfor -%}</span></span>
+              </span>
+            </span>
+
+            {%- if block.settings.headline != blank -%}<p class="rev__headline">{{ block.settings.headline }}</p>{%- endif -%}
+            {%- if block.settings.body != blank -%}<div class="rev__text">{{ block.settings.body }}</div>{%- endif -%}
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Reviews Grid",
+  "class": "shopdev shopdev-reviews-grid",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Don't just take our word for it." },
+    { "type": "richtext", "id": "subheading", "label": "Subheading", "default": "<p>Real nights, real mornings — what people say after sleeping with Tranquil.</p>" },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#0A2240" },
+    { "type": "color", "id": "star_color", "label": "Star color", "default": "#E8639A" },
+    { "type": "color", "id": "bg_color", "label": "Section background" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding top", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding bottom", "default": 64 }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Lifestyle image" },
+        { "type": "image_picker", "id": "avatar", "label": "Reviewer avatar (optional)" },
+        { "type": "text", "id": "name", "label": "Reviewer name", "default": "Sophie R." },
+        { "type": "range", "id": "rating", "min": 1, "max": 5, "step": 1, "label": "Star rating", "default": 5 },
+        { "type": "text", "id": "headline", "label": "Headline", "default": "Finally, a full night." },
+        { "type": "richtext", "id": "body", "label": "Review text", "default": "<p>Add the review copy here.</p>" }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Reviews Grid",
+      "blocks": [
+        { "type": "review", "settings": { "name": "Sophie R.", "rating": 5, "headline": "Finally, deep sleep.", "body": "<p>I've tried every sleep supplement going. This is the first one where I actually wake up rested instead of groggy.</p>" } },
+        { "type": "review", "settings": { "name": "Jamie T.", "rating": 5, "headline": "My 3am waking stopped.", "body": "<p>I used to be wide awake at 3am every night. Two weeks on Tranquil and I sleep straight through.</p>" } },
+        { "type": "review", "settings": { "name": "Emma V.", "rating": 5, "headline": "A game changer for light sleepers.", "body": "<p>I wake at the slightest sound. These nights have completely changed — I feel rested for the first time in years.</p>" } },
+        { "type": "review", "settings": { "name": "Lenah M.", "rating": 5, "headline": "Calmer mind at bedtime.", "body": "<p>My head used to race the second it hit the pillow. Now I wind down properly and drift off.</p>" } },
+        { "type": "review", "settings": { "name": "Sabine Z.", "rating": 5, "headline": "Wow, I'm impressed.", "body": "<p>Reluctant at first, but Tranquil genuinely works. I've already recommended it to all my friends.</p>" } }
+      ]
+    }
+  ],
+  "disabled_on": { "groups": ["header", "aside", "footer"] }
+}
+{% endschema %}
