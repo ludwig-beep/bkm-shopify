@@ -1,0 +1,171 @@
+{% comment %}
+  shopdev-upsell-offers
+  "Exclusive offers" upsell list (Hears-style). Each block = a product to pair with the order:
+  image + title + price (with compare-at strikethrough + auto % OFF badge) + Add to cart.
+  Adds via /cart/add.js (no page reload). Optional "Show more / Show less" past N rows.
+  Self-contained. Brand: BKM Blue (#0A2240), inherits Avenir.
+{% endcomment %}
+
+{%- liquid
+  assign accent = section.settings.accent_color | default: '#0A2240'
+  assign badge = section.settings.badge_color | default: '#c1457f'
+  assign uid = section.id
+  assign visible = section.settings.visible_count | default: 3
+-%}
+
+{%- style -%}
+  #ElyteOffers--{{ uid }} { padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px; }
+  #ElyteOffers--{{ uid }} .of__inner { max-width: 640px; margin: 0 auto; padding: 24px; background: {{ section.settings.bg_color | default: '#f5f7f9' }}; border-radius: 20px; }
+  #ElyteOffers--{{ uid }} .of__head { margin: 0 0 16px; }
+  #ElyteOffers--{{ uid }} .of__title { font-size: 22px; font-weight: 700; color: {{ accent }}; margin: 0 0 4px; }
+  #ElyteOffers--{{ uid }} .of__sub { font-size: 14px; line-height: 1.5; margin: 0; opacity: .78; }
+  #ElyteOffers--{{ uid }} .of__list { display: flex; flex-direction: column; gap: 12px; }
+  #ElyteOffers--{{ uid }} .of__row {
+    display: flex; align-items: center; gap: 16px; background: #fff; border-radius: 14px; padding: 14px 16px;
+  }
+  #ElyteOffers--{{ uid }} .of__row.is-hidden { display: none; }
+  #ElyteOffers--{{ uid }} .of__img { width: 64px; height: 64px; flex: 0 0 auto; border-radius: 10px; overflow: hidden; background: rgba(10,34,64,.06); }
+  #ElyteOffers--{{ uid }} .of__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #ElyteOffers--{{ uid }} .of__info { flex: 1 1 auto; min-width: 0; }
+  #ElyteOffers--{{ uid }} .of__name { font-size: 16px; font-weight: 700; color: {{ accent }}; margin: 0 0 4px; line-height: 1.2; }
+  #ElyteOffers--{{ uid }} .of__prices { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  #ElyteOffers--{{ uid }} .of__compare { font-size: 14px; color: rgba(10,34,64,.45); text-decoration: line-through; }
+  #ElyteOffers--{{ uid }} .of__price { font-size: 15px; font-weight: 700; color: {{ accent }}; }
+  #ElyteOffers--{{ uid }} .of__off { font-size: 11px; font-weight: 700; color: #fff; background: {{ badge }}; padding: 3px 8px; border-radius: 6px; letter-spacing: .02em; }
+  #ElyteOffers--{{ uid }} .of__btn {
+    flex: 0 0 auto; border: 0; cursor: pointer; background: {{ accent }}; color: #fff;
+    font-family: inherit; font-size: 13px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+    padding: 12px 20px; border-radius: 999px; transition: transform .15s ease, opacity .15s ease; min-height: 44px;
+  }
+  #ElyteOffers--{{ uid }} .of__btn:hover { transform: translateY(-1px); }
+  #ElyteOffers--{{ uid }} .of__btn.is-added { background: #2e7d4f; }
+  #ElyteOffers--{{ uid }} .of__more { display: none; width: 100%; margin-top: 8px; background: transparent; border: 0; cursor: pointer; padding: 12px; font-family: inherit; font-size: 14px; font-weight: 600; color: {{ accent }}; }
+  #ElyteOffers--{{ uid }} .of__more.is-shown { display: block; }
+  @media (max-width: 560px) {
+    #ElyteOffers--{{ uid }} .of__inner { padding: 18px; }
+    #ElyteOffers--{{ uid }} .of__row { gap: 12px; padding: 12px; }
+    #ElyteOffers--{{ uid }} .of__img { width: 54px; height: 54px; }
+    #ElyteOffers--{{ uid }} .of__name { font-size: 14px; }
+    #ElyteOffers--{{ uid }} .of__btn { padding: 11px 14px; font-size: 12px; }
+  }
+{%- endstyle -%}
+
+<section id="ElyteOffers--{{ uid }}" class="shopdev shopdev-upsell-offers" data-section-id="{{ uid }}">
+  <div class="of__inner">
+    <div class="of__head">
+      {%- if section.settings.heading != blank -%}<p class="of__title">{{ section.settings.heading }}</p>{%- endif -%}
+      {%- if section.settings.subheading != blank -%}<p class="of__sub">{{ section.settings.subheading }}</p>{%- endif -%}
+    </div>
+
+    <div class="of__list" data-offers>
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign p = block.settings.product
+          assign v = p.selected_or_first_available_variant
+          assign hide = ''
+          if forloop.index > visible
+            assign hide = ' is-hidden'
+          endif
+        -%}
+        {%- if p != blank and v != blank -%}
+          <div class="of__row{{ hide }}" data-offer-row {{ block.shopify_attributes }}>
+            <a class="of__img" href="{{ p.url }}" aria-label="{{ p.title | escape }}">
+              {%- if p.featured_image != blank -%}{{ p.featured_image | image_url: width: 128 | image_tag: loading: 'lazy', alt: p.title }}{%- endif -%}
+            </a>
+            <div class="of__info">
+              <p class="of__name">{{ block.settings.custom_title | default: p.title }}</p>
+              <div class="of__prices">
+                {%- if v.compare_at_price > v.price -%}
+                  <span class="of__compare">{{ v.compare_at_price | money }}</span>
+                  <span class="of__price">{{ v.price | money }}</span>
+                  {%- assign pct = v.compare_at_price | minus: v.price | times: 100 | divided_by: v.compare_at_price -%}
+                  <span class="of__off">{{ pct }}% OFF</span>
+                {%- else -%}
+                  <span class="of__price">{{ v.price | money }}</span>
+                {%- endif -%}
+              </div>
+            </div>
+            <button type="button" class="of__btn" data-add-offer data-variant-id="{{ v.id }}" {% unless v.available %}disabled{% endunless %}>
+              {%- if v.available -%}Add to cart{%- else -%}Sold out{%- endif -%}
+            </button>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if section.blocks.size > visible -%}
+      <button type="button" class="of__more is-shown" data-offers-toggle aria-expanded="false">Show more  +</button>
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+  (function () {
+    var root = document.getElementById('ElyteOffers--{{ uid }}');
+    if (!root) return;
+
+    root.querySelectorAll('[data-add-offer]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var id = btn.getAttribute('data-variant-id');
+        var original = btn.textContent;
+        btn.disabled = true;
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items: [{ id: id, quantity: 1 }] })
+        }).then(function (r) { return r.json(); }).then(function () {
+          btn.classList.add('is-added');
+          btn.textContent = 'Added ✓';
+          document.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true }));
+          document.dispatchEvent(new CustomEvent('cart:build'));
+          setTimeout(function () { btn.classList.remove('is-added'); btn.textContent = original; btn.disabled = false; }, 2200);
+        }).catch(function () { btn.disabled = false; btn.textContent = original; });
+      });
+    });
+
+    var toggle = root.querySelector('[data-offers-toggle]');
+    if (toggle) {
+      toggle.addEventListener('click', function () {
+        var expanded = toggle.getAttribute('aria-expanded') === 'true';
+        root.querySelectorAll('[data-offer-row].is-hidden, [data-offer-row].was-hidden').forEach(function (row, i) {
+          if (i >= 0) { row.classList.toggle('is-hidden'); row.classList.toggle('was-hidden'); }
+        });
+        toggle.setAttribute('aria-expanded', String(!expanded));
+        toggle.textContent = expanded ? 'Show more  +' : 'Show less  −';
+      });
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Upsell Offers",
+  "class": "shopdev shopdev-upsell-offers",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Exclusive offers" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Pair these essentials with your Tranquil and get a special discount." },
+    { "type": "range", "id": "visible_count", "min": 1, "max": 6, "step": 1, "label": "Rows visible before \"Show more\"", "default": 3 },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#0A2240" },
+    { "type": "color", "id": "badge_color", "label": "Discount badge color", "default": "#c1457f" },
+    { "type": "color", "id": "bg_color", "label": "Card background", "default": "#f5f7f9" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding top", "default": 32 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding bottom", "default": 32 }
+  ],
+  "blocks": [
+    {
+      "type": "offer",
+      "name": "Offer product",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "text", "id": "custom_title", "label": "Custom title (optional)" }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    { "name": "Upsell Offers", "blocks": [ { "type": "offer" }, { "type": "offer" } ] }
+  ],
+  "disabled_on": { "groups": ["header", "aside", "footer"] }
+}
+{% endschema %}

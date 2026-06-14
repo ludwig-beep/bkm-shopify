@@ -24,10 +24,10 @@
   #ElyteUsp--{{ uid }} .usp__viewport { position: relative; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
   #ElyteUsp--{{ uid }} .usp__track { display: flex; width: max-content; animation: usp-scroll-{{ uid }} {{ speed }}s linear infinite; }
   #ElyteUsp--{{ uid }} .usp__viewport:hover .usp__track { animation-play-state: paused; }
-  #ElyteUsp--{{ uid }} .usp__item { display: inline-flex; align-items: center; gap: 12px; padding: 0 40px; flex: 0 0 auto; color: var(--usp-accent); font-size: 16px; font-weight: 600; white-space: nowrap; }
-  #ElyteUsp--{{ uid }} .usp__item img { width: 30px; height: 30px; object-fit: contain; flex: 0 0 auto; }
-  #ElyteUsp--{{ uid }} .usp__item svg { width: 22px; height: 22px; flex: 0 0 auto; }
-  #ElyteUsp--{{ uid }} .usp__sep { width: 5px; height: 5px; border-radius: 50%; background: var(--usp-accent); opacity: .3; align-self: center; flex: 0 0 auto; }
+  #ElyteUsp--{{ uid }} .usp__item { display: inline-flex; align-items: center; gap: 10px; padding: 0 28px; flex: 0 0 auto; color: var(--usp-accent); font-size: 15px; font-weight: 600; letter-spacing: -.01em; white-space: nowrap; }
+  #ElyteUsp--{{ uid }} .usp__item img { width: 26px; height: 26px; object-fit: contain; flex: 0 0 auto; }
+  #ElyteUsp--{{ uid }} .usp__item svg { width: 20px; height: 20px; flex: 0 0 auto; opacity: .9; }
+  #ElyteUsp--{{ uid }} .usp__sep { width: 4px; height: 4px; border-radius: 50%; background: var(--usp-accent); opacity: .22; align-self: center; flex: 0 0 auto; }
   @keyframes usp-scroll-{{ uid }} { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   @media (prefers-reduced-motion: reduce) { #ElyteUsp--{{ uid }} .usp__track { animation: none; } #ElyteUsp--{{ uid }} .usp__viewport { overflow-x: auto; } }
   @media (max-width: 600px) {
