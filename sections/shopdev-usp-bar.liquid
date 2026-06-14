@@ -1,0 +1,99 @@
+{% comment %}
+  shopdev-usp-bar
+  Clean, continuously-scrolling USP / trust marquee (Hears-style). Each block = one USP
+  (optional icon image + text). The track is rendered twice for a seamless infinite loop.
+  Self-contained. Brand: BKM Blue (#0A2240), inherits Avenir. Pauses on hover.
+{% endcomment %}
+
+{%- liquid
+  assign accent = section.settings.accent_color | default: '#0A2240'
+  assign bg = section.settings.bg_color | default: '#ffffff'
+  assign uid = section.id
+  assign speed = section.settings.speed | default: 30
+-%}
+
+{%- style -%}
+  #ElyteUsp--{{ uid }} {
+    --usp-accent: {{ accent }};
+    background: {{ bg }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    overflow: hidden;
+    {%- if section.settings.show_borders -%}border-top: 1px solid rgba(10,34,64,.1); border-bottom: 1px solid rgba(10,34,64,.1);{%- endif -%}
+  }
+  #ElyteUsp--{{ uid }} .usp__viewport { position: relative; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+  #ElyteUsp--{{ uid }} .usp__track { display: flex; width: max-content; animation: usp-scroll-{{ uid }} {{ speed }}s linear infinite; }
+  #ElyteUsp--{{ uid }} .usp__viewport:hover .usp__track { animation-play-state: paused; }
+  #ElyteUsp--{{ uid }} .usp__item { display: inline-flex; align-items: center; gap: 12px; padding: 0 40px; flex: 0 0 auto; color: var(--usp-accent); font-size: 16px; font-weight: 600; white-space: nowrap; }
+  #ElyteUsp--{{ uid }} .usp__item img { width: 30px; height: 30px; object-fit: contain; flex: 0 0 auto; }
+  #ElyteUsp--{{ uid }} .usp__item svg { width: 22px; height: 22px; flex: 0 0 auto; }
+  #ElyteUsp--{{ uid }} .usp__sep { width: 5px; height: 5px; border-radius: 50%; background: var(--usp-accent); opacity: .3; align-self: center; flex: 0 0 auto; }
+  @keyframes usp-scroll-{{ uid }} { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { #ElyteUsp--{{ uid }} .usp__track { animation: none; } #ElyteUsp--{{ uid }} .usp__viewport { overflow-x: auto; } }
+  @media (max-width: 600px) {
+    #ElyteUsp--{{ uid }} .usp__item { font-size: 14px; padding: 0 26px; gap: 10px; }
+    #ElyteUsp--{{ uid }} .usp__item img { width: 26px; height: 26px; }
+  }
+{%- endstyle -%}
+
+{%- capture shield -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/></svg>{%- endcapture -%}
+
+{%- comment -%} Build the items markup once, then render twice for a seamless loop {%- endcomment -%}
+{%- capture items -%}
+  {%- for block in section.blocks -%}
+    <span class="usp__item" {{ block.shopify_attributes }}>
+      {%- if block.settings.icon != blank -%}
+        {{ block.settings.icon | image_url: width: 60 | image_tag: alt: block.settings.text, loading: 'lazy' }}
+      {%- else -%}
+        {{ shield }}
+      {%- endif -%}
+      <span>{{ block.settings.text }}</span>
+    </span>
+    <span class="usp__sep" aria-hidden="true"></span>
+  {%- endfor -%}
+{%- endcapture -%}
+
+<section id="ElyteUsp--{{ uid }}" class="shopdev shopdev-usp-bar" data-section-id="{{ uid }}">
+  <div class="usp__viewport">
+    <div class="usp__track">{{ items }}{{ items }}</div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "USP Bar",
+  "class": "shopdev shopdev-usp-bar",
+  "tag": "section",
+  "settings": [
+    { "type": "color", "id": "accent_color", "label": "Text / icon color", "default": "#0A2240" },
+    { "type": "color", "id": "bg_color", "label": "Section background", "default": "#ffffff" },
+    { "type": "checkbox", "id": "show_borders", "label": "Show top & bottom borders", "default": true },
+    { "type": "range", "id": "speed", "min": 15, "max": 80, "step": 5, "unit": "s", "label": "Scroll duration (lower = faster)", "default": 35 },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 80, "step": 4, "unit": "px", "label": "Padding top", "default": 28 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 80, "step": 4, "unit": "px", "label": "Padding bottom", "default": 28 }
+  ],
+  "blocks": [
+    {
+      "type": "usp",
+      "name": "USP",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Icon (optional, falls back to a shield)" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Made in Sweden" }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "USP Bar",
+      "blocks": [
+        { "type": "usp", "settings": { "text": "Made in Sweden" } },
+        { "type": "usp", "settings": { "text": "GMP & HACCP certified" } },
+        { "type": "usp", "settings": { "text": "Cologne List® certified" } },
+        { "type": "usp", "settings": { "text": "30-day money-back guarantee" } }
+      ]
+    }
+  ],
+  "disabled_on": { "groups": ["header", "aside", "footer"] }
+}
+{% endschema %}
