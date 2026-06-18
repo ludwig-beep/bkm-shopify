@@ -1,0 +1,82 @@
+{% comment %}
+  shopdev-promo-bar
+  Sticky top promo bar for landing pages (Hears "Summer Sale" style). Offer text + optional
+  countdown to a REAL end date you set (no fake resetting timer) + optional dismiss. If no
+  end date is set, the countdown is hidden. Self-contained. Brand: BKM Blue (#0A2240).
+  NOTE: only enable the countdown for a genuine, dated promotion — don't fake urgency.
+{% endcomment %}
+
+{%- liquid
+  assign uid = section.id
+  assign bg = section.settings.bg_color | default: '#0A2240'
+  assign bg2 = section.settings.bg_color_2 | default: '#2E7CB8'
+  assign tc = section.settings.text_color | default: '#ffffff'
+-%}
+
+{%- style -%}
+  #ElytePromo--{{ uid }} { position: sticky; top: 0; z-index: 1100; background: linear-gradient(90deg, {{ bg }}, {{ bg2 }}); color: {{ tc }}; }
+  #ElytePromo--{{ uid }} .pb__inner { max-width: 1100px; margin: 0 auto; padding: 10px 44px 10px 20px; display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; position: relative; }
+  #ElytePromo--{{ uid }} .pb__offer { font-size: 15px; font-weight: 700; letter-spacing: .01em; }
+  #ElytePromo--{{ uid }} .pb__offer span { opacity: .85; font-weight: 600; }
+  #ElytePromo--{{ uid }} .pb__timer { display: flex; gap: 8px; }
+  #ElytePromo--{{ uid }} .pb__unit { background: rgba(255,255,255,.14); border-radius: 8px; padding: 4px 9px; text-align: center; min-width: 42px; }
+  #ElytePromo--{{ uid }} .pb__n { font-size: 16px; font-weight: 800; line-height: 1.1; display: block; }
+  #ElytePromo--{{ uid }} .pb__l { font-size: 9px; letter-spacing: .08em; text-transform: uppercase; opacity: .7; }
+  #ElytePromo--{{ uid }} .pb__close { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: 0; color: {{ tc }}; opacity: .7; cursor: pointer; font-size: 20px; line-height: 1; }
+  #ElytePromo--{{ uid }}.is-dismissed { display: none; }
+  @media (max-width: 560px) { #ElytePromo--{{ uid }} .pb__offer { font-size: 13px; } #ElytePromo--{{ uid }} .pb__inner { gap: 12px; } #ElytePromo--{{ uid }} .pb__unit { min-width: 36px; padding: 3px 7px; } }
+{%- endstyle -%}
+
+<section id="ElytePromo--{{ uid }}" class="shopdev shopdev-promo-bar" data-section-id="{{ uid }}">
+  <div class="pb__inner">
+    {%- if section.settings.offer != blank -%}<div class="pb__offer">{{ section.settings.offer }}</div>{%- endif -%}
+    {%- if section.settings.end_date != blank -%}
+      <div class="pb__timer" data-deadline="{{ section.settings.end_date }}">
+        <div class="pb__unit"><span class="pb__n" data-d>--</span><span class="pb__l">Days</span></div>
+        <div class="pb__unit"><span class="pb__n" data-h>--</span><span class="pb__l">Hrs</span></div>
+        <div class="pb__unit"><span class="pb__n" data-m>--</span><span class="pb__l">Min</span></div>
+        <div class="pb__unit"><span class="pb__n" data-s>--</span><span class="pb__l">Sec</span></div>
+      </div>
+    {%- endif -%}
+    {%- if section.settings.dismissible -%}<button class="pb__close" data-pb-close aria-label="Dismiss">×</button>{%- endif -%}
+  </div>
+</section>
+
+<script>
+  (function () {
+    var root = document.getElementById('ElytePromo--{{ uid }}');
+    if (!root) return;
+    var close = root.querySelector('[data-pb-close]');
+    if (close) close.addEventListener('click', function () { root.classList.add('is-dismissed'); });
+    var t = root.querySelector('[data-deadline]');
+    if (t) {
+      var end = new Date(t.getAttribute('data-deadline')).getTime();
+      var d=t.querySelector('[data-d]'),h=t.querySelector('[data-h]'),m=t.querySelector('[data-m]'),s=t.querySelector('[data-s]');
+      function tick(){
+        var diff = end - Date.now();
+        if (isNaN(end) || diff <= 0){ t.style.display='none'; return; }
+        var dd=Math.floor(diff/864e5), hh=Math.floor(diff%864e5/36e5), mm=Math.floor(diff%36e5/6e4), ss=Math.floor(diff%6e4/1e3);
+        d.textContent=dd; h.textContent=('0'+hh).slice(-2); m.textContent=('0'+mm).slice(-2); s.textContent=('0'+ss).slice(-2);
+      }
+      tick(); setInterval(tick, 1000);
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Promo Bar",
+  "class": "shopdev shopdev-promo-bar",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "offer", "label": "Offer text", "default": "Save 20% with subscription — cancel anytime" },
+    { "type": "text", "id": "end_date", "label": "Countdown end (real date)", "info": "Only set this for a genuine, dated promo, e.g. 2026-06-30T23:59:59. Leave blank to hide the timer — never fake urgency." },
+    { "type": "checkbox", "id": "dismissible", "label": "Allow dismiss", "default": true },
+    { "type": "color", "id": "bg_color", "label": "Background gradient start", "default": "#0A2240" },
+    { "type": "color", "id": "bg_color_2", "label": "Background gradient end", "default": "#2E7CB8" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#ffffff" }
+  ],
+  "presets": [ { "name": "Promo Bar" } ],
+  "disabled_on": { "groups": ["header", "aside", "footer"] }
+}
+{% endschema %}

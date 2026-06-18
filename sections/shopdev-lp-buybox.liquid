@@ -1,0 +1,90 @@
+{% comment %}
+  shopdev-lp-buybox
+  Rich closing offer card for landing pages (Hears "Summer Sale is live" style). Lead-in headline
+  + bordered card with a badge tab, product image, an offer headline + subtext, a big CTA that
+  links to the PDP, and a shipping + money-back trust line. No on-page add-to-cart (links to PDP).
+  Offer copy is fully editable — keep it truthful (no fake scarcity). Brand: BKM Blue (#0A2240).
+{% endcomment %}
+
+{%- liquid
+  assign accent = section.settings.accent_color | default: '#0A2240'
+  assign hl = section.settings.accent_2 | default: '#c1457f'
+  assign uid = section.id
+  assign p = section.settings.product
+  assign v = p.selected_or_first_available_variant
+-%}
+
+{%- style -%}
+  #ElyteLpBb--{{ uid }} { --bb-accent: {{ accent }}; --bb-hl: {{ hl }}; background: {{ section.settings.bg_color | default: '#fdfbf5' }}; padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px; }
+  #ElyteLpBb--{{ uid }} .bb__inner { max-width: 880px; margin: 0 auto; padding: 0 20px; }
+  #ElyteLpBb--{{ uid }} .bb__lead { text-align: center; font-size: clamp(22px, 3vw, 32px); font-weight: 800; line-height: 1.25; color: var(--bb-accent); text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 2px; margin: 0 auto 36px; max-width: 680px; }
+  #ElyteLpBb--{{ uid }} .bb__card { position: relative; border: 2px dashed rgba(10,34,64,.25); border-radius: 22px; padding: 40px 32px 32px; }
+  #ElyteLpBb--{{ uid }} .bb__badge { position: absolute; top: -16px; left: 50%; transform: translateX(-50%); background: linear-gradient(90deg, var(--bb-accent), var(--bb-hl)); color: #fff; font-size: 13px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; padding: 8px 18px; border-radius: 999px; white-space: nowrap; }
+  #ElyteLpBb--{{ uid }} .bb__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
+  #ElyteLpBb--{{ uid }} .bb__img { border-radius: 16px; overflow: hidden; aspect-ratio: 1/1; background: rgba(10,34,64,.05); }
+  #ElyteLpBb--{{ uid }} .bb__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #ElyteLpBb--{{ uid }} .bb__offer-sub { font-size: 15px; opacity: .7; margin: 0 0 4px; }
+  #ElyteLpBb--{{ uid }} .bb__offer { font-size: clamp(26px, 3.4vw, 38px); font-weight: 800; line-height: 1.1; color: var(--bb-accent); margin: 0 0 10px; }
+  #ElyteLpBb--{{ uid }} .bb__offer em { font-style: normal; color: var(--bb-hl); }
+  #ElyteLpBb--{{ uid }} .bb__desc { font-size: 15px; line-height: 1.55; opacity: .82; margin: 0 0 20px; }
+  #ElyteLpBb--{{ uid }} .bb__btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 56px; padding: 13px 28px; border-radius: 999px; background: linear-gradient(90deg, var(--bb-accent), var(--bb-hl)); color: #fff; font-size: 17px; font-weight: 700; text-decoration: none; transition: transform .15s; }
+  #ElyteLpBb--{{ uid }} .bb__btn:hover { transform: translateY(-1px); }
+  #ElyteLpBb--{{ uid }} .bb__info { display: flex; align-items: center; justify-content: center; gap: 6px 16px; flex-wrap: wrap; background: #fff6f0; border-radius: 10px; padding: 10px 14px; margin-top: 16px; font-size: 13px; font-weight: 600; color: var(--bb-accent); }
+  #ElyteLpBb--{{ uid }} .bb__mb { text-align: center; font-size: 13px; opacity: .75; margin-top: 12px; }
+  #ElyteLpBb--{{ uid }} .bb__mb svg { width: 14px; height: 14px; vertical-align: -2px; margin-right: 4px; }
+  @media (max-width: 680px) {
+    #ElyteLpBb--{{ uid }} .bb__grid { grid-template-columns: 1fr; gap: 20px; }
+    #ElyteLpBb--{{ uid }} .bb__img { max-width: 260px; margin: 0 auto; }
+    #ElyteLpBb--{{ uid }} .bb__card { padding: 36px 20px 28px; }
+  }
+{%- endstyle -%}
+
+<section id="ElyteLpBb--{{ uid }}" class="shopdev shopdev-lp-buybox" data-section-id="{{ uid }}">
+  <div class="bb__inner">
+    {%- if section.settings.lead_heading != blank -%}<p class="bb__lead">{{ section.settings.lead_heading }}</p>{%- endif -%}
+    <div class="bb__card">
+      {%- if section.settings.badge != blank -%}<span class="bb__badge">{{ section.settings.badge }}</span>{%- endif -%}
+      <div class="bb__grid">
+        <div class="bb__img">
+          {%- if section.settings.image != blank -%}{{ section.settings.image | image_url: width: 600 | image_tag: alt: p.title }}
+          {%- elsif p.featured_image -%}{{ p.featured_image | image_url: width: 600 | image_tag: alt: p.title }}{%- endif -%}
+        </div>
+        <div class="bb__offerwrap">
+          {%- if section.settings.offer_sub != blank -%}<p class="bb__offer-sub">{{ section.settings.offer_sub }}</p>{%- endif -%}
+          {%- if section.settings.offer != blank -%}<p class="bb__offer">{{ section.settings.offer }}</p>{%- endif -%}
+          {%- if section.settings.desc != blank -%}<p class="bb__desc">{{ section.settings.desc }}</p>{%- endif -%}
+          <a class="bb__btn" href="{{ p.url | default: '#' }}">{{ section.settings.button_text | default: 'Shop Tranquil' }} <span aria-hidden="true">→</span></a>
+          {%- if section.settings.info != blank -%}<div class="bb__info">{{ section.settings.info }}</div>{%- endif -%}
+          {%- if section.settings.guarantee != blank -%}<p class="bb__mb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>{{ section.settings.guarantee }}</p>{%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "LP Buy Box",
+  "class": "shopdev shopdev-lp-buybox",
+  "tag": "section",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Product" },
+    { "type": "image_picker", "id": "image", "label": "Image (defaults to product image)" },
+    { "type": "text", "id": "lead_heading", "label": "Lead-in headline", "default": "If you've made it this far, you're serious about better sleep." },
+    { "type": "text", "id": "badge", "label": "Badge text", "default": "Best value" },
+    { "type": "text", "id": "offer_sub", "label": "Offer sub-line", "default": "Subscribe & save" },
+    { "type": "text", "id": "offer", "label": "Offer headline", "info": "Wrap a word in <em> for the highlight colour. Keep it truthful.", "default": "Save up to <em>30%</em> on a 3-month supply" },
+    { "type": "textarea", "id": "desc", "label": "Offer description", "default": "Consistency is what makes a sleep routine work. Subscribe and lock in your best price — pause or cancel anytime." },
+    { "type": "text", "id": "button_text", "label": "Button text", "default": "Shop Tranquil" },
+    { "type": "richtext", "id": "info", "label": "Info strip", "default": "<p>Free shipping on subscriptions · Made in Sweden</p>" },
+    { "type": "text", "id": "guarantee", "label": "Guarantee line", "default": "30-day money-back guarantee — feel the difference or it's free." },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#0A2240" },
+    { "type": "color", "id": "accent_2", "label": "Highlight color", "default": "#c1457f" },
+    { "type": "color", "id": "bg_color", "label": "Section background", "default": "#fdfbf5" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding top", "default": 56 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding bottom", "default": 80 }
+  ],
+  "presets": [ { "name": "LP Buy Box" } ],
+  "disabled_on": { "groups": ["header", "aside", "footer"] }
+}
+{% endschema %}
