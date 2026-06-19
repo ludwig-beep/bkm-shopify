@@ -22,8 +22,11 @@
   .enhanced-variant-button:nth-child(1)::before { background: radial-gradient(circle at 30% 30%, #9ccb5a, #4f9d3a); }
   .enhanced-variant-button:nth-child(2)::before { background: radial-gradient(circle at 30% 30%, #c1457f, #7d2b6b); }
   .enhanced-variant-button:hover { border-color: #0A2240; }
-  .enhanced-variant-button--active { border-color: #0A2240; box-shadow: 0 0 0 2px #0A2240; }
+  /* Selected flavour: override the theme snippet's harsh black bg with on-brand BKM navy + white text */
+  .enhanced-variant-button--active { background: #0A2240 !important; border-color: #0A2240 !important; box-shadow: 0 0 0 2px #0A2240; }
   .enhanced-variant-button__name { font-weight: 600; color: #0A2240; font-size: 15px; }
+  .enhanced-variant-button--active .enhanced-variant-button__name { color: #fff !important; }
+  .enhanced-variant-button--active .enhanced-variant-button__stock { color: rgba(255,255,255,.7) !important; }
 {%- endstyle -%}
 
 {% schema %}
