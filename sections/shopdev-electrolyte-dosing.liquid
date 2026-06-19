@@ -98,6 +98,8 @@
           {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', sizes: '(max-width: 820px) 100vw, 50vw', widths: '600, 900, 1200, 1400' }}
         {%- elsif section.settings.image_asset != blank -%}
           <img src="{{ section.settings.image_asset | asset_url }}" alt="{{ section.settings.heading | escape }}" loading="lazy">
+        {%- elsif product.handle == 'bkm-electrolytes' -%}
+          <img src="{{ 'elyte-dosing-lifestyle.jpg' | asset_url }}" alt="{{ section.settings.heading | escape }}" loading="lazy">
         {%- else -%}
           <div class="elyte-dose__media-ph">Add image →</div>
         {%- endif -%}
