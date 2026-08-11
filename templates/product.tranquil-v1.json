@@ -133,7 +133,7 @@
           "type": "custom_code",
           "disabled": true,
           "settings": {
-            "custom_code": "<style>\n  .preorder-banner {\n    color: #0a1e3f;\n    background: #fff;\n    max-width: 600px;\n    padding: 1.2rem 0;\n    margin: 0 auto;\n  }\n\n  .preorder-banner h2 {\n    font-size: 1.4rem;\n    font-weight: bold;\n    margin-bottom: 0.3rem;\n  }\n\n  .preorder-banner p {\n    font-size: 1rem;\n    margin-bottom: 1rem;\n    color: #2e3a59;\n  }\n\n  .progress-wrapper {\n    width: 100%;\n  }\n\n  .progress-bar {\n    width: 100%;\n    height: 12px;\n    background-color: #ddd;\n    border-radius: 6px;\n    overflow: hidden;\n    position: relative;\n    margin-bottom: 0.4rem;\n  }\n\n  .progress-fill {\n    height: 100%;\n    width: 0%;\n    background-color: #0a1e3f;\n    animation: fillProgress 2s ease-out forwards;\n    border-radius: 6px;\n  }\n\n  @keyframes fillProgress {\n    0% { width: 0%; }\n    100% { width: 65%; } /* Adjust as needed */\n  }\n\n  .batch-labels-bar-aligned {\n    display: flex;\n    justify-content: space-between;\n    font-size: 0.9rem;\n    color: #2e3a59;\n  }\n\n  .batch-labels-bar-aligned div {\n    text-align: left;\n  }\n\n  .batch-labels-bar-aligned .highlight {\n    font-weight: bold;\n    color: #0a1e3f;\n  }\n\n  .batch-labels-bar-aligned .tag {\n    display: inline-block;\n    background-color: #0a1e3f;\n    color: #fff;\n    font-size: 0.75rem;\n    padding: 2px 6px;\n    border-radius: 4px;\n    margin-bottom: 4px;\n    text-transform: uppercase;\n    letter-spacing: 0.5px;\n  }\n\n  .batch-labels-bar-aligned span {\n    font-style: italic;\n    margin-top: 2px;\n    display: block;\n  }\n</style>\n\n<div class=\"preorder-banner\">\n  <h2>Pre order now!</h2>\n  <p>It’s going fast — secure yours before it’s gone again.</p>\n\n  <div class=\"progress-wrapper\">\n    <div class=\"progress-bar\">\n      <div class=\"progress-fill\"></div>\n    </div>\n\n    <div class=\"batch-labels-bar-aligned\">\n      <div>\n        <div class=\"tag\">Next up</div>\n        <strong class=\"highlight\">Batch 1</strong>\n        <span>Ships in 2 weeks</span>\n      </div>\n      <div>\n        <strong>Batch 2</strong>\n        <span>Ships in 10 weeks</span>\n      </div>\n    </div>\n  </div>\n</div>",
+            "custom_code": "<style>\n  .preorder-banner {\n    color: #0a1e3f;\n    background: #fff;\n    max-width: 600px;\n    padding: 1.2rem 0;\n    margin: 0 auto;\n  }\n\n  .preorder-banner h2 {\n    font-size: 1.4rem;\n    font-weight: bold;\n    margin-bottom: 0.3rem;\n  }\n\n  .preorder-banner p {\n    font-size: 1rem;\n    margin-bottom: 1rem;\n    color: #2e3a59;\n  }\n\n  .progress-wrapper {\n    width: 100%;\n  }\n\n  .progress-bar {\n    width: 100%;\n    height: 12px;\n    background-color: #ddd;\n    border-radius: 6px;\n    overflow: hidden;\n    position: relative;\n    margin-bottom: 0.4rem;\n  }\n\n  .progress-fill {\n    height: 100%;\n    width: 0%;\n    background-color: #0a1e3f;\n    animation: fillProgress 2s ease-out forwards;\n    border-radius: 6px;\n  }\n\n  @keyframes fillProgress {\n    0% { width: 0%; }\n    100% { width: 65%; } /* Adjust as needed */\n  }\n\n  .batch-labels-bar-aligned {\n    display: flex;\n    justify-content: space-between;\n    font-size: 0.9rem;\n    color: #2e3a59;\n  }\n\n  .batch-labels-bar-aligned div {\n    text-align: left;\n  }\n\n  .batch-labels-bar-aligned .highlight {\n    font-weight: bold;\n    color: #0a1e3f;\n  }\n\n  .batch-labels-bar-aligned .tag {\n    display: inline-block;\n    background-color: #0a1e3f;\n    color: #fff;\n    font-size: 0.75rem;\n    padding: 2px 6px;\n    border-radius: 4px;\n    margin-bottom: 4px;\n    text-transform: uppercase;\n    letter-spacing: 0.5px;\n  }\n\n  .batch-labels-bar-aligned span {\n    font-style: italic;\n    margin-top: 2px;\n    display: block;\n  }\n</style>\n\n<div class=\"preorder-banner\">\n  <h2>Pre order now!</h2>\n  <p>It’s going fast, secure yours before it’s gone again.</p>\n\n  <div class=\"progress-wrapper\">\n    <div class=\"progress-bar\">\n      <div class=\"progress-fill\"></div>\n    </div>\n\n    <div class=\"batch-labels-bar-aligned\">\n      <div>\n        <div class=\"tag\">Next up</div>\n        <strong class=\"highlight\">Batch 1</strong>\n        <span>Ships in 2 weeks</span>\n      </div>\n      <div>\n        <strong>Batch 2</strong>\n        <span>Ships in 10 weeks</span>\n      </div>\n    </div>\n  </div>\n</div>",
             "padding_bottom": 20
           }
         },
@@ -174,7 +174,7 @@
             "icon_name": "shield",
             "icon_width": 20,
             "title": "30-day money-back guarantee",
-            "text": "<p>Not sleeping better? Get 100% of your money back — only at bkm.health.*</p>",
+            "text": "<p>Not sleeping better? Get 100% of your money back, only at bkm.health.*</p>",
             "bg_color": "#f7f9fa",
             "text_color": "#000000",
             "padding_bottom": 20
@@ -853,7 +853,7 @@
           "settings": {
             "icon": "🌙",
             "title": "Deep, restorative sleep",
-            "text": "Tranquil targets deep and REM sleep — not just falling asleep — so you wake up genuinely rested."
+            "text": "Tranquil targets deep and REM sleep, not just falling asleep, so you wake up genuinely rested."
           }
         },
         "p2": {
@@ -877,7 +877,7 @@
           "settings": {
             "icon": "🌿",
             "title": "Soothing herbs",
-            "text": "Chamomile, lemon balm and California poppy — traditionally used to relax body and mind."
+            "text": "Chamomile, lemon balm and California poppy, traditionally used to relax body and mind."
           }
         },
         "p5": {
@@ -885,7 +885,7 @@
           "settings": {
             "icon": "☀️",
             "title": "Wake up clear",
-            "text": "No melatonin and no next-morning grogginess — just steadier energy through the day."
+            "text": "No melatonin and no next-morning grogginess, just steadier energy through the day."
           }
         },
         "p6": {
@@ -908,7 +908,7 @@
       "settings": {
         "eyebrow": "More than a sleep aid",
         "heading": "One serving. A whole night handled.",
-        "subheading": "<p>Where most sleep aids just knock you out, Tranquil is built as a full wind-down formula — calm, deep sleep and a clear morning, with no melatonin.</p>",
+        "subheading": "<p>Where most sleep aids just knock you out, Tranquil is built as a full wind-down formula, calm, deep sleep and a clear morning, with no melatonin.</p>",
         "accent_color": "#0A2240",
         "bg_color": "#f7f9fa",
         "padding_top": 64,
@@ -964,7 +964,7 @@
       "settings": {
         "eyebrow": "Built for every kind of bad night",
         "heading": "Which sleeper are you?",
-        "subheading": "<p>Whatever's keeping you up, Tranquil is built to meet it — here's what people like you reported.</p>",
+        "subheading": "<p>Whatever's keeping you up, Tranquil is built to meet it, here's what people like you reported.</p>",
         "footnote": "*Based on a survey of 24 BKM Tranquil customers, August 2026.",
         "accent_color": "#0A2240",
         "bg_color": "#ffffff",
@@ -1040,7 +1040,7 @@
       ],
       "settings": {
         "heading": "Why Tranquil is the <em>perfect choice.</em>",
-        "subheading": "<p>The sleep supplement built for deep, restorative rest — not just knocking you out.</p>",
+        "subheading": "<p>The sleep supplement built for deep, restorative rest, not just knocking you out.</p>",
         "feature_col_label": "What matters",
         "bkm_label": "Tranquil",
         "comp1_label": "Melatonin",
@@ -1079,7 +1079,7 @@
             "sticks": 3,
             "count_label": "The morning after",
             "label": "Wake restored",
-            "text": "No melatonin hangover — wake up clear-headed and genuinely recovered."
+            "text": "No melatonin hangover, wake up clear-headed and genuinely recovered."
           }
         }
       },
@@ -1091,7 +1091,7 @@
       "settings": {
         "eyebrow": "Your evening ritual",
         "heading": "How Tranquil works while you sleep.",
-        "subheading": "<p>One simple step before bed sets up the whole night — here’s what happens.</p>",
+        "subheading": "<p>One simple step before bed sets up the whole night, here’s what happens.</p>",
         "footnote": "Take 2 capsules in the evening, about 30–60 minutes before bedtime.",
         "image": "shopify://shop_images/tranquil-pdp-howitworks.jpg",
         "image_position": "right",
@@ -1173,7 +1173,7 @@
             "image": "shopify://shop_images/DSC06462.jpg",
             "sport": "Olympic Judoka",
             "name": "Tara Babulfath",
-            "creds": "Swedish Olympic judoka. “If I can make myself 1% better, I’ll do it — BKM helps me optimise sleep, focus and recovery.”"
+            "creds": "Swedish Olympic judoka. “If I can make myself 1% better, I’ll do it, BKM helps me optimise sleep, focus and recovery.”"
           }
         },
         "a2": {
@@ -1228,7 +1228,7 @@
             "name": "Tyron Zecchin Matuta",
             "rating": 5,
             "headline": "Sky is the limit!",
-            "body": "<p>I use all of BKM products — they are part of my daily routine and help me push my body to its ultimate potential, whether it's recovering or handling double sessions per day. I could not recommend any other brand that delivers the same results and consistency. So grateful to be part of this amazing worldwide community.</p>"
+            "body": "<p>I use all of BKM products, they are part of my daily routine and help me push my body to its ultimate potential, whether it's recovering or handling double sessions per day. I could not recommend any other brand that delivers the same results and consistency. So grateful to be part of this amazing worldwide community.</p>"
           }
         },
         "rv3": {
@@ -1238,7 +1238,7 @@
             "name": "Wilhelm Kark",
             "rating": 5,
             "headline": "Three weeks of 100% sleep score.",
-            "body": "<p>BKM has become a staple in my lifestyle, my routine, my preparation and my performance. As both a student and a professional sailor, I sometimes have to perform at my best even when I don't feel I have the capacity — BKM helps me every time. I'd never had three weeks straight of a perfect 100% sleep score on my Whoop until I tried Tranquil.</p>"
+            "body": "<p>BKM has become a staple in my lifestyle, my routine, my preparation and my performance. As both a student and a professional sailor, I sometimes have to perform at my best even when I don't feel I have the capacity, BKM helps me every time. I'd never had three weeks straight of a perfect 100% sleep score on my Whoop until I tried Tranquil.</p>"
           }
         },
         "rv4": {
@@ -1258,7 +1258,7 @@
             "name": "André Santana",
             "rating": 5,
             "headline": "Products I genuinely trust every day.",
-            "body": "<p>BKM has become an essential part of my daily routine. Tranquil helps me relax and recover after long days, and each product supports a different part of my active lifestyle. I appreciate the quality of the ingredients — these are products I genuinely trust and enjoy using every day.</p>"
+            "body": "<p>BKM has become an essential part of my daily routine. Tranquil helps me relax and recover after long days, and each product supports a different part of my active lifestyle. I appreciate the quality of the ingredients, these are products I genuinely trust and enjoy using every day.</p>"
           }
         }
       },
@@ -1271,7 +1271,7 @@
       ],
       "settings": {
         "heading": "Don’t just take our word for it.",
-        "subheading": "<p>Real reviews from BKM customers — rated 4.6★ across 36 Tranquil reviews.</p>",
+        "subheading": "<p>Real reviews from BKM customers, rated 4.6★ across 36 Tranquil reviews.</p>",
         "accent_color": "#0A2240",
         "star_color": "#E8639A",
         "padding_top": 64,
