@@ -990,7 +990,7 @@
             "feature_label": "Calms the nervous system",
             "comp1": "no",
             "comp2": "no",
-            "comp3": "partial"
+            "comp3": "no"
           }
         },
         "cr3": {
@@ -1006,7 +1006,7 @@
           "type": "row",
           "settings": {
             "feature_label": "No next-morning grogginess",
-            "comp1": "partial",
+            "comp1": "no",
             "comp2": "no",
             "comp3": "no"
           }
@@ -1015,7 +1015,7 @@
           "type": "row",
           "settings": {
             "feature_label": "Non-habit forming",
-            "comp1": "yes",
+            "comp1": "no",
             "comp2": "partial",
             "comp3": "no"
           }
