@@ -29,7 +29,15 @@
   #ElyteAth--{{ uid }} .ath__name { margin: 0 0 6px; font-size: 18px; font-weight: 700; color: var(--ath-accent); }
   #ElyteAth--{{ uid }} .ath__creds { margin: 0; font-size: 14px; line-height: 1.45; opacity: .82; }
   @media (max-width: 900px) { #ElyteAth--{{ uid }} .ath__grid { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 480px) { #ElyteAth--{{ uid }} .ath__grid { grid-template-columns: 1fr 1fr; gap: 12px; } }
+  @media (max-width: 600px) {
+    #ElyteAth--{{ uid }} .ath__grid {
+      display: flex; flex-wrap: nowrap; overflow-x: auto;
+      scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+      gap: 14px; padding-bottom: 6px; scrollbar-width: none;
+    }
+    #ElyteAth--{{ uid }} .ath__grid::-webkit-scrollbar { display: none; }
+    #ElyteAth--{{ uid }} .ath__card { flex: 0 0 80%; scroll-snap-align: start; }
+  }
 {%- endstyle -%}
 
 <section id="ElyteAth--{{ uid }}" class="shopdev shopdev-athlete-grid" data-section-id="{{ uid }}">
