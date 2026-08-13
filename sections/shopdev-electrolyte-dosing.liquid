@@ -96,6 +96,10 @@
       <div class="elyte-dose__media">
         {%- if section.settings.image != blank -%}
           {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', sizes: '(max-width: 820px) 100vw, 50vw', widths: '600, 900, 1200, 1400' }}
+        {%- elsif section.settings.image_asset != blank -%}
+          <img src="{{ section.settings.image_asset | asset_url }}" alt="{{ section.settings.heading | escape }}" loading="lazy">
+        {%- elsif product.handle == 'bkm-electrolytes' -%}
+          <img src="{{ 'elyte-dosing-lifestyle.jpg' | asset_url }}" alt="{{ section.settings.heading | escape }}" loading="lazy">
         {%- else -%}
           <div class="elyte-dose__media-ph">Add image →</div>
         {%- endif -%}
@@ -117,6 +121,7 @@
     { "type": "text", "id": "footnote", "label": "Footnote", "default": "Body size and conditions vary — listen to your body and adjust." },
     { "type": "header", "content": "Image" },
     { "type": "image_picker", "id": "image", "label": "Image (right side)" },
+    { "type": "text", "id": "image_asset", "label": "Image asset fallback (theme asset filename)", "info": "Used if no image is picked above. e.g. elyte-dosing-lifestyle.jpg" },
     { "type": "select", "id": "image_position", "label": "Image position", "options": [ { "value": "right", "label": "Right" }, { "value": "left", "label": "Left" } ], "default": "right" },
     { "type": "header", "content": "Style" },
     { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#0A2240" },
