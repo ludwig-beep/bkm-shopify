@@ -2131,12 +2131,7 @@
           <div class="product__icon icon-stroke" style="{{ icon_style }}">
             {%- if icon_image != blank -%}
               <div class="product__icon__holder used-block-image">
-                {%- render 'image',
-                  image: icon_image,
-                  width: 1000px,
-                  sizes: sizes,
-                  widths: image_widths,
-                  classes: 'product__icon__img' -%}
+                {%- render 'image', image: icon_image, width: renamed_variable_1000px, sizes: sizes, widths: image_widths, classes: 'product__icon__img' -%}
               </div>
             {%- else -%}
               {%- render 'icons', icon: icon_name -%}
@@ -3186,4 +3181,20 @@
       }
     });
   })();
-</script>
+</script>{%- comment -%}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: |-
+    {%- render 'image',
+                      image: icon_image,
+                      width: 1000px,
+                      sizes: sizes,
+                      widths: image_widths,
+                      classes: 'product__icon__img' -%}
+  to: "{%- render 'image', image: icon_image, width: renamed_variable_1000px, sizes:
+    sizes, widths: image_widths, classes: 'product__icon__img' -%}"
+  position: 94891..95031
+{%- endcomment -%}
