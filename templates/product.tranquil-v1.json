@@ -18,6 +18,13 @@
             "product": "{{product}}"
           }
         },
+        "bkm_gallery_badge": {
+          "type": "custom_code",
+          "settings": {
+            "custom_code": "<script>(function(){function a(){var g=document.querySelector('.product-single__gallery');if(!g||g.querySelector('.bkm-gallery-badges'))return;var w=document.createElement('div');w.className='bkm-gallery-badges';w.innerHTML='<span class=\\\"bkm-badge bkm-badge--try\\\">Try for 30 nights</span><span class=\\\"bkm-badge bkm-badge--new\\\">NEW</span>';g.prepend(w);}if(document.readyState!=='loading')a();else document.addEventListener('DOMContentLoaded',a);})();</script><style>.product-single__gallery .badge-wrapper,.product-single__gallery>div:empty{display:none!important}.product-single__gallery{position:relative}.bkm-gallery-badges{position:absolute;top:16px;left:16px;z-index:11;display:flex;gap:8px}.bkm-badge{font-size:12px;font-weight:700;letter-spacing:.02em;padding:7px 14px;border-radius:999px;line-height:1}.bkm-badge--try{background:#fff;color:#0A2240;border:1px solid rgba(10,34,64,.08)}.bkm-badge--new{background:#0A2240;color:#fff}</style>",
+            "padding_bottom": 0
+          }
+        },
         "text_qf4KFw": {
           "type": "text",
           "settings": {
@@ -137,6 +144,13 @@
             "padding_bottom": 20
           }
         },
+        "bkm_lowstock": {
+          "type": "custom_code",
+          "settings": {
+            "custom_code": "<p class=\"bkm-lowstock\">Almost out of stock</p><style>.bkm-lowstock{display:flex;align-items:center;gap:9px;margin:12px 0 2px;font-size:14px;font-weight:600;color:#c77800}.bkm-lowstock::before{content:'';width:9px;height:9px;border-radius:50%;background:#e0a020;box-shadow:0 0 0 3px rgba(224,160,32,.22);flex:0 0 auto}</style>",
+            "padding_bottom": 8
+          }
+        },
         "form": {
           "type": "form",
           "settings": {
@@ -147,6 +161,13 @@
             "padding_bottom": 20
           }
         },
+        "bkm_guarantee": {
+          "type": "custom_code",
+          "settings": {
+            "custom_code": "<div class=\"bkm-guarantee\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M8.5 12l2.5 2.5 4.5-5\"/></svg><span>30-day money-back guarantee</span></div><style>.bkm-guarantee{display:flex;align-items:center;justify-content:center;gap:8px;margin:14px 0 4px;font-size:14px;font-weight:500;color:#0A2240}.bkm-guarantee svg{width:18px;height:18px;flex:0 0 auto}</style>",
+            "padding_bottom": 8
+          }
+        },
         "payment_methods_xG6LG9": {
           "type": "payment_methods",
           "disabled": true,
@@ -154,6 +175,13 @@
             "heading": "",
             "alignment": "center",
             "size": 95,
+            "padding_bottom": 16
+          }
+        },
+        "bkm_payments": {
+          "type": "custom_code",
+          "settings": {
+            "custom_code": "<details class=\"bkm-pay\"><summary>Payment methods</summary><div class=\"bkm-pay__icons\">{%- for type in shop.enabled_payment_types -%}{{ type | payment_type_svg_tag: class: 'bkm-pay__icon' }}{%- endfor -%}</div></details><style>.bkm-pay{border-top:1px solid rgba(10,34,64,.1);border-bottom:1px solid rgba(10,34,64,.1);padding:14px 0;margin:6px 0}.bkm-pay summary{display:flex;align-items:center;justify-content:space-between;cursor:pointer;list-style:none;font-size:14px;font-weight:600;color:#0A2240}.bkm-pay summary::-webkit-details-marker{display:none}.bkm-pay summary::after{content:'';width:9px;height:9px;border-right:2px solid #0A2240;border-bottom:2px solid #0A2240;transform:rotate(45deg);transition:transform .2s;opacity:.6}.bkm-pay[open] summary::after{transform:rotate(-135deg)}.bkm-pay__icons{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.bkm-pay__icon{width:38px;height:24px}</style>",
             "padding_bottom": 16
           }
         },
@@ -282,7 +310,7 @@
           "settings": {
             "accordion_heading": "Why subscribe?",
             "heading_style": "font-heading",
-            "accordion_text": "<p>Consistency is key for a supplement routine.</p><p>Save 20% on each order.</p><p>Receive a metal container first, then refill bags monthly. </p>",
+            "accordion_text": "<p>Consistency is key for a supplement routine.</p><p>Monthly: 1 metal container first, then 1 refill bag every month. 3 months: 1 metal container and 2 refill bags first, then 3 refill bags every 3 months. Save 20% monthly or 30% on 3 months.</p>",
             "accordion_page": "",
             "accordion_image_1": "shopify://shop_images/bkm-tranquil-white-background.png",
             "accordion_image_1_text": "Month 1 Welcome Kit",
@@ -407,34 +435,6 @@
             "padding_bottom": 20
           }
         },
-        "bkm_lowstock": {
-          "type": "custom_code",
-          "settings": {
-            "custom_code": "<p class=\"bkm-lowstock\">Almost out of stock</p><style>.bkm-lowstock{display:flex;align-items:center;gap:9px;margin:12px 0 2px;font-size:14px;font-weight:600;color:#c77800}.bkm-lowstock::before{content:'';width:9px;height:9px;border-radius:50%;background:#e0a020;box-shadow:0 0 0 3px rgba(224,160,32,.22);flex:0 0 auto}</style>",
-            "padding_bottom": 8
-          }
-        },
-        "bkm_gallery_badge": {
-          "type": "custom_code",
-          "settings": {
-            "custom_code": "<script>(function(){function a(){var g=document.querySelector('.product-single__gallery');if(!g||g.querySelector('.bkm-gallery-badges'))return;var w=document.createElement('div');w.className='bkm-gallery-badges';w.innerHTML='<span class=\\\"bkm-badge bkm-badge--try\\\">Try for 30 nights</span><span class=\\\"bkm-badge bkm-badge--new\\\">NEW</span>';g.prepend(w);}if(document.readyState!=='loading')a();else document.addEventListener('DOMContentLoaded',a);})();</script><style>.product-single__gallery .badge-wrapper,.product-single__gallery>div:empty{display:none!important}.product-single__gallery{position:relative}.bkm-gallery-badges{position:absolute;top:16px;left:16px;z-index:11;display:flex;gap:8px}.bkm-badge{font-size:12px;font-weight:700;letter-spacing:.02em;padding:7px 14px;border-radius:999px;line-height:1}.bkm-badge--try{background:#fff;color:#0A2240;border:1px solid rgba(10,34,64,.08)}.bkm-badge--new{background:#0A2240;color:#fff}</style>",
-            "padding_bottom": 0
-          }
-        },
-        "bkm_guarantee": {
-          "type": "custom_code",
-          "settings": {
-            "custom_code": "<div class=\"bkm-guarantee\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M8.5 12l2.5 2.5 4.5-5\"/></svg><span>30-day money-back guarantee</span></div><style>.bkm-guarantee{display:flex;align-items:center;justify-content:center;gap:8px;margin:14px 0 4px;font-size:14px;font-weight:500;color:#0A2240}.bkm-guarantee svg{width:18px;height:18px;flex:0 0 auto}</style>",
-            "padding_bottom": 8
-          }
-        },
-        "bkm_payments": {
-          "type": "custom_code",
-          "settings": {
-            "custom_code": "<details class=\"bkm-pay\"><summary>Payment methods</summary><div class=\"bkm-pay__icons\">{%- for type in shop.enabled_payment_types -%}{{ type | payment_type_svg_tag: class: 'bkm-pay__icon' }}{%- endfor -%}</div></details><style>.bkm-pay{border-top:1px solid rgba(10,34,64,.1);border-bottom:1px solid rgba(10,34,64,.1);padding:14px 0;margin:6px 0}.bkm-pay summary{display:flex;align-items:center;justify-content:space-between;cursor:pointer;list-style:none;font-size:14px;font-weight:600;color:#0A2240}.bkm-pay summary::-webkit-details-marker{display:none}.bkm-pay summary::after{content:'';width:9px;height:9px;border-right:2px solid #0A2240;border-bottom:2px solid #0A2240;transform:rotate(45deg);transition:transform .2s;opacity:.6}.bkm-pay[open] summary::after{transform:rotate(-135deg)}.bkm-pay__icons{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.bkm-pay__icon{width:38px;height:24px}</style>",
-            "padding_bottom": 16
-          }
-        },
         "bkm_offers": {
           "type": "custom_code",
           "settings": {
@@ -494,8 +494,8 @@
         ".product__subheading {padding-bottom: 0px; margin-bottom: 0px;}",
         ".product__rating {display: none;}",
         ".product__selectors {display: none !important;}",
-        ".product__price{display:none !important;}",
-        "@media (min-width: 1024px){.product-single__gallery{position:sticky;top:90px;align-self:flex-start;}}"
+        ".product__price {display: none !important;}",
+        "@media (min-width: 1024px) {.product-single__gallery {position: sticky; top: 90px; align-self: flex-start; }}"
       ],
       "settings": {
         "product_sticky_enable": true,
@@ -509,6 +509,327 @@
         "padding_top": 60,
         "padding_bottom": 60,
         "show_default_variant_selectors": true
+      }
+    },
+    "shopdev_usp_bar_tq": {
+      "type": "shopdev-usp-bar",
+      "blocks": {
+        "u1": {
+          "type": "usp",
+          "settings": {
+            "icon": "shopify://shop_images/Sweden-icon-country.png",
+            "text": "Made in Sweden"
+          }
+        },
+        "u2": {
+          "type": "usp",
+          "settings": {
+            "icon": "shopify://shop_images/GMP_HAACP-cert.png",
+            "text": "GMP & HACCP certified"
+          }
+        },
+        "u3": {
+          "type": "usp",
+          "settings": {
+            "icon": "shopify://shop_images/Cologne-list_ENG_CMYK.png",
+            "text": "Cologne List® certified"
+          }
+        },
+        "u4": {
+          "type": "usp",
+          "settings": {
+            "text": "30-day money-back guarantee"
+          }
+        }
+      },
+      "block_order": [
+        "u1",
+        "u2",
+        "u3",
+        "u4"
+      ],
+      "settings": {
+        "accent_color": "#0a2240",
+        "bg_color": "#ffffff",
+        "show_borders": true,
+        "speed": 35,
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "shopdev_benefit_pillars_tq": {
+      "type": "shopdev-benefit-pillars",
+      "blocks": {
+        "p1": {
+          "type": "pillar",
+          "settings": {
+            "icon": "🌙",
+            "title": "Deep, restorative sleep",
+            "text": "Tranquil targets deep and REM sleep, not just falling asleep, so you wake up genuinely rested."
+          }
+        },
+        "p2": {
+          "type": "pillar",
+          "settings": {
+            "icon": "🧠",
+            "title": "Calms a racing mind",
+            "text": "Ashwagandha, GABA and L-theanine help quiet stress and ease the transition into sleep."
+          }
+        },
+        "p3": {
+          "type": "pillar",
+          "settings": {
+            "icon": "💪",
+            "title": "Magnesium + minerals",
+            "text": "Magnesium glycinate and zinc support muscle relaxation and help reduce tiredness and fatigue."
+          }
+        },
+        "p4": {
+          "type": "pillar",
+          "settings": {
+            "icon": "🌿",
+            "title": "Soothing herbs",
+            "text": "Chamomile, lemon balm and California poppy, traditionally used to relax body and mind."
+          }
+        },
+        "p5": {
+          "type": "pillar",
+          "settings": {
+            "icon": "☀️",
+            "title": "Wake up clear",
+            "text": "No melatonin and no next-morning grogginess, just steadier energy through the day."
+          }
+        },
+        "p6": {
+          "type": "pillar",
+          "settings": {
+            "icon": "🇸🇪",
+            "title": "Made in Sweden",
+            "text": "Developed by Swedish former top athletes, GMP & HACCP and Cologne List® tested."
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6"
+      ],
+      "settings": {
+        "eyebrow": "More than a sleep aid",
+        "heading": "One serving. A whole night handled.",
+        "subheading": "<p>Where most sleep aids just knock you out, Tranquil is built as a full wind-down formula, calm, deep sleep and a clear morning, with no melatonin.</p>",
+        "accent_color": "#0a2240",
+        "bg_color": "#f7f9fa",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "shopdev_persona_stats_tq": {
+      "type": "shopdev-persona-stats",
+      "blocks": {
+        "ps1": {
+          "type": "persona",
+          "settings": {
+            "title": "The 3 a.m. Waker",
+            "stat": "71%",
+            "text": "of users sleep through the night more often, with fewer 3 a.m. wake-ups."
+          }
+        },
+        "ps2": {
+          "type": "persona",
+          "settings": {
+            "title": "The Stressed Mind",
+            "stat": "95%",
+            "text": "of users said they fell asleep faster with a calmer, quieter head."
+          }
+        },
+        "ps3": {
+          "type": "persona",
+          "settings": {
+            "title": "The Light Sleeper",
+            "stat": "83%",
+            "text": "of users reported deeper, less interrupted sleep."
+          }
+        },
+        "ps4": {
+          "type": "persona",
+          "settings": {
+            "title": "The Shift Worker",
+            "stat": "75%",
+            "text": "of users felt more rested and steadier through the day."
+          }
+        }
+      },
+      "block_order": [
+        "ps1",
+        "ps2",
+        "ps3",
+        "ps4"
+      ],
+      "settings": {
+        "eyebrow": "Built for every kind of bad night",
+        "heading": "Which sleeper are you?",
+        "subheading": "<p>Whatever's keeping you up, Tranquil is built to meet it, here's what people like you reported.</p>",
+        "footnote": "*Based on a survey of 24 BKM Tranquil customers, August 2026.",
+        "accent_color": "#0a2240",
+        "bg_color": "#ffffff",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "shopdev_comparison_pro_tq": {
+      "type": "shopdev-comparison-pro",
+      "blocks": {
+        "cr1": {
+          "type": "row",
+          "settings": {
+            "feature_label": "Supports deep, restorative REM sleep",
+            "comp1": "no",
+            "comp2": "partial",
+            "comp3": "no"
+          }
+        },
+        "cr2": {
+          "type": "row",
+          "settings": {
+            "feature_label": "Calms the nervous system",
+            "comp1": "no",
+            "comp2": "no",
+            "comp3": "no"
+          }
+        },
+        "cr3": {
+          "type": "row",
+          "settings": {
+            "feature_label": "Magnesium + minerals + soothing herbs",
+            "comp1": "no",
+            "comp2": "partial",
+            "comp3": "no"
+          }
+        },
+        "cr4": {
+          "type": "row",
+          "settings": {
+            "feature_label": "No next-morning grogginess",
+            "comp1": "no",
+            "comp2": "no",
+            "comp3": "no"
+          }
+        },
+        "cr5": {
+          "type": "row",
+          "settings": {
+            "feature_label": "Non-habit forming",
+            "comp1": "no",
+            "comp2": "partial",
+            "comp3": "no"
+          }
+        },
+        "cr6": {
+          "type": "row",
+          "settings": {
+            "feature_label": "Made in Sweden, banned-substance tested",
+            "comp1": "no",
+            "comp2": "no",
+            "comp3": "no"
+          }
+        }
+      },
+      "block_order": [
+        "cr1",
+        "cr2",
+        "cr3",
+        "cr4",
+        "cr5",
+        "cr6"
+      ],
+      "settings": {
+        "heading": "Why Tranquil is the <em>perfect choice.</em>",
+        "subheading": "<p>The sleep supplement built for deep, restorative rest, not just knocking you out.</p>",
+        "feature_col_label": "What matters",
+        "bkm_label": "Tranquil",
+        "comp1_label": "Melatonin",
+        "comp2_label": "Typical sleep aids",
+        "comp3_label": "Sleeping pills",
+        "accent_color": "#0a2240",
+        "gradient_to": "#c1457f",
+        "bg_color": "",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "shopdev_reviews_grid_tq": {
+      "type": "shopdev-reviews-grid",
+      "blocks": {
+        "rv1": {
+          "type": "review",
+          "settings": {
+            "image": "shopify://shop_images/tranquil-pdp-review-alkassim.jpg",
+            "name": "Alkassim",
+            "rating": 5,
+            "headline": "A great addition to my recovery routine.",
+            "body": "<p>I've been using BKM Tranquil after long workdays and intense workouts, and it's become part of my evening routine. It helps me unwind, recover, and enjoy deeper, more restful sleep. I wake up feeling refreshed and ready for the next day.</p>"
+          }
+        },
+        "rv2": {
+          "type": "review",
+          "settings": {
+            "image": "shopify://shop_images/tranquil-pdp-review-tyron.jpg",
+            "name": "Tyron Zecchin Matuta",
+            "rating": 5,
+            "headline": "Sky is the limit!",
+            "body": "<p>I use all of BKM products, they are part of my daily routine and help me push my body to its ultimate potential, whether it's recovering or handling double sessions per day. I could not recommend any other brand that delivers the same results and consistency. So grateful to be part of this amazing worldwide community.</p>"
+          }
+        },
+        "rv3": {
+          "type": "review",
+          "settings": {
+            "image": "shopify://shop_images/tranquil-pdp-review-wilhelm.jpg",
+            "name": "Wilhelm Kark",
+            "rating": 5,
+            "headline": "Three weeks of 100% sleep score.",
+            "body": "<p>BKM has become a staple in my lifestyle, my routine, my preparation and my performance. As both a student and a professional sailor, I sometimes have to perform at my best even when I don't feel I have the capacity, BKM helps me every time. I'd never had three weeks straight of a perfect 100% sleep score on my Whoop until I tried Tranquil.</p>"
+          }
+        },
+        "rv4": {
+          "type": "review",
+          "settings": {
+            "image": "shopify://shop_images/tranquil-pdp-review-hanna.jpg",
+            "name": "Hanna Olsson",
+            "rating": 5,
+            "headline": "A game changer for my sleep and recovery.",
+            "body": "<p>Tranquil has been a game changer for my sleep and recovery. As an athlete, good sleep is essential, and Tranquil has become a natural part of my evening routine. I sleep better, recover better and wake up feeling more ready for the next day.</p>"
+          }
+        },
+        "rv5": {
+          "type": "review",
+          "settings": {
+            "image": "shopify://shop_images/tranquil-pdp-review-andre.jpg",
+            "name": "André Santana",
+            "rating": 5,
+            "headline": "Products I genuinely trust every day.",
+            "body": "<p>BKM has become an essential part of my daily routine. Tranquil helps me relax and recover after long days, and each product supports a different part of my active lifestyle. I appreciate the quality of the ingredients, these are products I genuinely trust and enjoy using every day.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "rv1",
+        "rv2",
+        "rv3",
+        "rv4",
+        "rv5"
+      ],
+      "settings": {
+        "heading": "Don’t just take our word for it.",
+        "subheading": "<p>Real reviews from BKM customers, rated 4.6★ across 36 Tranquil reviews.</p>",
+        "accent_color": "#0a2240",
+        "star_color": "#e8639a",
+        "bg_color": "",
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     },
     "shopdev_dynamic_ingredients_list_cards_WjVEVY": {
@@ -668,22 +989,99 @@
         "desktop_cards_to_show": 3
       }
     },
-    "174600737476ebbc95": {
-      "type": "apps",
+    "shopdev_dosing_ritual_tq": {
+      "type": "shopdev-electrolyte-dosing",
       "blocks": {
-        "klaviyo_reviews_product_reviews_efxUUr": {
-          "type": "shopify://apps/klaviyo-reviews/blocks/product-reviews/db20e365-d984-4ac4-9655-e1588d951ca9",
-          "settings": {}
+        "dr1": {
+          "type": "dose",
+          "settings": {
+            "sticks": 1,
+            "count_label": "Before sleep",
+            "label": "Wind down",
+            "text": "Take Tranquil 30–60 min before bed. Ashwagandha & L-theanine help lower stress so you fall asleep faster."
+          }
+        },
+        "dr2": {
+          "type": "dose",
+          "settings": {
+            "sticks": 2,
+            "count_label": "During sleep",
+            "label": "Go deeper",
+            "text": "GABA, magnesium and soothing herbs support deep and REM sleep through the night."
+          }
+        },
+        "dr3": {
+          "type": "dose",
+          "settings": {
+            "sticks": 3,
+            "count_label": "The morning after",
+            "label": "Wake restored",
+            "text": "No melatonin hangover, wake up clear-headed and genuinely recovered."
+          }
         }
       },
       "block_order": [
-        "klaviyo_reviews_product_reviews_efxUUr"
+        "dr1",
+        "dr2",
+        "dr3"
       ],
       "settings": {
+        "eyebrow": "Your evening ritual",
+        "heading": "How Tranquil works while you sleep.",
+        "subheading": "<p>One simple step before bed sets up the whole night, here’s what happens.</p>",
+        "footnote": "Take 2 capsules in the evening, about 30–60 minutes before bedtime.",
+        "image": "shopify://shop_images/tranquil-pdp-howitworks.jpg",
+        "image_asset": "",
+        "image_position": "right",
+        "accent_color": "#0a2240",
         "bg_color": "",
-        "width": "wrapper",
-        "padding_top": 60,
-        "padding_bottom": 60
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "shopdev_athlete_grid_tq": {
+      "type": "shopdev-athlete-grid",
+      "blocks": {
+        "a1": {
+          "type": "athlete",
+          "settings": {
+            "image": "shopify://shop_images/DSC06462.jpg",
+            "sport": "Olympic Judoka",
+            "name": "Tara Babulfath",
+            "creds": "Swedish Olympic judoka. “If I can make myself 1% better, I’ll do it, BKM helps me optimise sleep, focus and recovery.”"
+          }
+        },
+        "a2": {
+          "type": "athlete",
+          "settings": {
+            "image": "shopify://shop_images/image1-1.jpg",
+            "sport": "Pro Hockey",
+            "name": "Marcus Sörensen",
+            "creds": "HC Fribourg-Gottéron & Swedish national team. “With Tranquil I wake up fully rested, getting the deep sleep my body needs.”"
+          }
+        },
+        "a3": {
+          "type": "athlete",
+          "settings": {
+            "image": "shopify://shop_images/IMG_6332.jpg",
+            "sport": "#1 Padel, N. Europe",
+            "name": "Daniel Windahl",
+            "creds": "“It’s all about focus and rest between practice and matches. If you have high goals, you need high-quality help like BKM.”"
+          }
+        }
+      },
+      "block_order": [
+        "a1",
+        "a2",
+        "a3"
+      ],
+      "settings": {
+        "heading": "Trusted by athletes who can’t afford a bad night.",
+        "subheading": "<p>The Swedish competitors who rely on Tranquil to recover and perform.</p>",
+        "accent_color": "#0a2240",
+        "bg_color": "",
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     },
     "section_overlapping_images_jANHAF": {
@@ -797,6 +1195,24 @@
         "padding_bottom": 60
       }
     },
+    "174600737476ebbc95": {
+      "type": "apps",
+      "blocks": {
+        "klaviyo_reviews_product_reviews_efxUUr": {
+          "type": "shopify://apps/klaviyo-reviews/blocks/product-reviews/db20e365-d984-4ac4-9655-e1588d951ca9",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "klaviyo_reviews_product_reviews_efxUUr"
+      ],
+      "settings": {
+        "bg_color": "",
+        "width": "wrapper",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
     "related": {
       "type": "related-products",
       "blocks": {
@@ -845,261 +1261,6 @@
         "padding_bottom": 60
       }
     },
-    "shopdev_benefit_pillars_tq": {
-      "type": "shopdev-benefit-pillars",
-      "blocks": {
-        "p1": {
-          "type": "pillar",
-          "settings": {
-            "icon": "🌙",
-            "title": "Deep, restorative sleep",
-            "text": "Tranquil targets deep and REM sleep, not just falling asleep, so you wake up genuinely rested."
-          }
-        },
-        "p2": {
-          "type": "pillar",
-          "settings": {
-            "icon": "🧠",
-            "title": "Calms a racing mind",
-            "text": "Ashwagandha, GABA and L-theanine help quiet stress and ease the transition into sleep."
-          }
-        },
-        "p3": {
-          "type": "pillar",
-          "settings": {
-            "icon": "💪",
-            "title": "Magnesium + minerals",
-            "text": "Magnesium glycinate and zinc support muscle relaxation and help reduce tiredness and fatigue."
-          }
-        },
-        "p4": {
-          "type": "pillar",
-          "settings": {
-            "icon": "🌿",
-            "title": "Soothing herbs",
-            "text": "Chamomile, lemon balm and California poppy, traditionally used to relax body and mind."
-          }
-        },
-        "p5": {
-          "type": "pillar",
-          "settings": {
-            "icon": "☀️",
-            "title": "Wake up clear",
-            "text": "No melatonin and no next-morning grogginess, just steadier energy through the day."
-          }
-        },
-        "p6": {
-          "type": "pillar",
-          "settings": {
-            "icon": "🇸🇪",
-            "title": "Made in Sweden",
-            "text": "Developed by Swedish former top athletes, GMP & HACCP and Cologne List® tested."
-          }
-        }
-      },
-      "block_order": [
-        "p1",
-        "p2",
-        "p3",
-        "p4",
-        "p5",
-        "p6"
-      ],
-      "settings": {
-        "eyebrow": "More than a sleep aid",
-        "heading": "One serving. A whole night handled.",
-        "subheading": "<p>Where most sleep aids just knock you out, Tranquil is built as a full wind-down formula, calm, deep sleep and a clear morning, with no melatonin.</p>",
-        "accent_color": "#0A2240",
-        "bg_color": "#f7f9fa",
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
-    },
-    "shopdev_persona_stats_tq": {
-      "type": "shopdev-persona-stats",
-      "blocks": {
-        "ps1": {
-          "type": "persona",
-          "settings": {
-            "image": "",
-            "title": "The 3 a.m. Waker",
-            "stat": "71%",
-            "text": "of users sleep through the night more often, with fewer 3 a.m. wake-ups."
-          }
-        },
-        "ps2": {
-          "type": "persona",
-          "settings": {
-            "image": "",
-            "title": "The Stressed Mind",
-            "stat": "95%",
-            "text": "of users said they fell asleep faster with a calmer, quieter head."
-          }
-        },
-        "ps3": {
-          "type": "persona",
-          "settings": {
-            "image": "",
-            "title": "The Light Sleeper",
-            "stat": "83%",
-            "text": "of users reported deeper, less interrupted sleep."
-          }
-        },
-        "ps4": {
-          "type": "persona",
-          "settings": {
-            "image": "",
-            "title": "The Shift Worker",
-            "stat": "75%",
-            "text": "of users felt more rested and steadier through the day."
-          }
-        }
-      },
-      "block_order": [
-        "ps1",
-        "ps2",
-        "ps3",
-        "ps4"
-      ],
-      "settings": {
-        "eyebrow": "Built for every kind of bad night",
-        "heading": "Which sleeper are you?",
-        "subheading": "<p>Whatever's keeping you up, Tranquil is built to meet it, here's what people like you reported.</p>",
-        "footnote": "*Based on a survey of 24 BKM Tranquil customers, August 2026.",
-        "accent_color": "#0A2240",
-        "bg_color": "#ffffff",
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
-    },
-    "shopdev_comparison_pro_tq": {
-      "type": "shopdev-comparison-pro",
-      "blocks": {
-        "cr1": {
-          "type": "row",
-          "settings": {
-            "feature_label": "Supports deep, restorative REM sleep",
-            "comp1": "no",
-            "comp2": "partial",
-            "comp3": "no"
-          }
-        },
-        "cr2": {
-          "type": "row",
-          "settings": {
-            "feature_label": "Calms the nervous system",
-            "comp1": "no",
-            "comp2": "no",
-            "comp3": "no"
-          }
-        },
-        "cr3": {
-          "type": "row",
-          "settings": {
-            "feature_label": "Magnesium + minerals + soothing herbs",
-            "comp1": "no",
-            "comp2": "partial",
-            "comp3": "no"
-          }
-        },
-        "cr4": {
-          "type": "row",
-          "settings": {
-            "feature_label": "No next-morning grogginess",
-            "comp1": "no",
-            "comp2": "no",
-            "comp3": "no"
-          }
-        },
-        "cr5": {
-          "type": "row",
-          "settings": {
-            "feature_label": "Non-habit forming",
-            "comp1": "no",
-            "comp2": "partial",
-            "comp3": "no"
-          }
-        },
-        "cr6": {
-          "type": "row",
-          "settings": {
-            "feature_label": "Made in Sweden, banned-substance tested",
-            "comp1": "no",
-            "comp2": "no",
-            "comp3": "no"
-          }
-        }
-      },
-      "block_order": [
-        "cr1",
-        "cr2",
-        "cr3",
-        "cr4",
-        "cr5",
-        "cr6"
-      ],
-      "settings": {
-        "heading": "Why Tranquil is the <em>perfect choice.</em>",
-        "subheading": "<p>The sleep supplement built for deep, restorative rest, not just knocking you out.</p>",
-        "feature_col_label": "What matters",
-        "bkm_label": "Tranquil",
-        "comp1_label": "Melatonin",
-        "comp2_label": "Typical sleep aids",
-        "comp3_label": "Sleeping pills",
-        "accent_color": "#0A2240",
-        "gradient_to": "#c1457f",
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
-    },
-    "shopdev_dosing_ritual_tq": {
-      "type": "shopdev-electrolyte-dosing",
-      "blocks": {
-        "dr1": {
-          "type": "dose",
-          "settings": {
-            "sticks": 1,
-            "count_label": "Before sleep",
-            "label": "Wind down",
-            "text": "Take Tranquil 30–60 min before bed. Ashwagandha & L-theanine help lower stress so you fall asleep faster."
-          }
-        },
-        "dr2": {
-          "type": "dose",
-          "settings": {
-            "sticks": 2,
-            "count_label": "During sleep",
-            "label": "Go deeper",
-            "text": "GABA, magnesium and soothing herbs support deep and REM sleep through the night."
-          }
-        },
-        "dr3": {
-          "type": "dose",
-          "settings": {
-            "sticks": 3,
-            "count_label": "The morning after",
-            "label": "Wake restored",
-            "text": "No melatonin hangover, wake up clear-headed and genuinely recovered."
-          }
-        }
-      },
-      "block_order": [
-        "dr1",
-        "dr2",
-        "dr3"
-      ],
-      "settings": {
-        "eyebrow": "Your evening ritual",
-        "heading": "How Tranquil works while you sleep.",
-        "subheading": "<p>One simple step before bed sets up the whole night, here’s what happens.</p>",
-        "footnote": "Take 2 capsules in the evening, about 30–60 minutes before bedtime.",
-        "image": "shopify://shop_images/tranquil-pdp-howitworks.jpg",
-        "image_position": "right",
-        "accent_color": "#0A2240",
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
-    },
     "shopdev_sticky_bar_tq": {
       "type": "shopdev-sticky-shop-now-bar",
       "settings": {
@@ -1111,171 +1272,11 @@
         "trust_signal_2": "GMP & HACCP certified",
         "trust_signal_3": "30-day money-back",
         "background_color": "#ffffff",
-        "text_color": "#0A2240",
-        "button_bg_color": "#0A2240",
+        "text_color": "#0a2240",
+        "button_bg_color": "#0a2240",
         "button_text_color": "#ffffff",
         "border_color": "#e5e5e5",
         "font_family": "system-ui, -apple-system, sans-serif"
-      }
-    },
-    "shopdev_usp_bar_tq": {
-      "type": "shopdev-usp-bar",
-      "blocks": {
-        "u1": {
-          "type": "usp",
-          "settings": {
-            "icon": "shopify://shop_images/Sweden-icon-country.png",
-            "text": "Made in Sweden"
-          }
-        },
-        "u2": {
-          "type": "usp",
-          "settings": {
-            "icon": "shopify://shop_images/GMP_HAACP-cert.png",
-            "text": "GMP & HACCP certified"
-          }
-        },
-        "u3": {
-          "type": "usp",
-          "settings": {
-            "icon": "shopify://shop_images/Cologne-list_ENG_CMYK.png",
-            "text": "Cologne List® certified"
-          }
-        },
-        "u4": {
-          "type": "usp",
-          "settings": {
-            "text": "30-day money-back guarantee"
-          }
-        }
-      },
-      "block_order": [
-        "u1",
-        "u2",
-        "u3",
-        "u4"
-      ],
-      "settings": {
-        "accent_color": "#0A2240",
-        "bg_color": "#ffffff",
-        "show_borders": true,
-        "speed": 35,
-        "padding_top": 28,
-        "padding_bottom": 28
-      }
-    },
-    "shopdev_athlete_grid_tq": {
-      "type": "shopdev-athlete-grid",
-      "blocks": {
-        "a1": {
-          "type": "athlete",
-          "settings": {
-            "image": "shopify://shop_images/DSC06462.jpg",
-            "sport": "Olympic Judoka",
-            "name": "Tara Babulfath",
-            "creds": "Swedish Olympic judoka. “If I can make myself 1% better, I’ll do it, BKM helps me optimise sleep, focus and recovery.”"
-          }
-        },
-        "a2": {
-          "type": "athlete",
-          "settings": {
-            "image": "shopify://shop_images/image1-1.jpg",
-            "sport": "Pro Hockey",
-            "name": "Marcus Sörensen",
-            "creds": "HC Fribourg-Gottéron & Swedish national team. “With Tranquil I wake up fully rested, getting the deep sleep my body needs.”"
-          }
-        },
-        "a3": {
-          "type": "athlete",
-          "settings": {
-            "image": "shopify://shop_images/IMG_6332.jpg",
-            "sport": "#1 Padel, N. Europe",
-            "name": "Daniel Windahl",
-            "creds": "“It’s all about focus and rest between practice and matches. If you have high goals, you need high-quality help like BKM.”"
-          }
-        }
-      },
-      "block_order": [
-        "a1",
-        "a2",
-        "a3"
-      ],
-      "settings": {
-        "heading": "Trusted by athletes who can’t afford a bad night.",
-        "subheading": "<p>The Swedish competitors who rely on Tranquil to recover and perform.</p>",
-        "accent_color": "#0A2240",
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
-    },
-    "shopdev_reviews_grid_tq": {
-      "type": "shopdev-reviews-grid",
-      "blocks": {
-        "rv1": {
-          "type": "review",
-          "settings": {
-            "image": "shopify://shop_images/tranquil-pdp-review-alkassim.jpg",
-            "name": "Alkassim",
-            "rating": 5,
-            "headline": "A great addition to my recovery routine.",
-            "body": "<p>I've been using BKM Tranquil after long workdays and intense workouts, and it's become part of my evening routine. It helps me unwind, recover, and enjoy deeper, more restful sleep. I wake up feeling refreshed and ready for the next day.</p>"
-          }
-        },
-        "rv2": {
-          "type": "review",
-          "settings": {
-            "image": "shopify://shop_images/tranquil-pdp-review-tyron.jpg",
-            "name": "Tyron Zecchin Matuta",
-            "rating": 5,
-            "headline": "Sky is the limit!",
-            "body": "<p>I use all of BKM products, they are part of my daily routine and help me push my body to its ultimate potential, whether it's recovering or handling double sessions per day. I could not recommend any other brand that delivers the same results and consistency. So grateful to be part of this amazing worldwide community.</p>"
-          }
-        },
-        "rv3": {
-          "type": "review",
-          "settings": {
-            "image": "shopify://shop_images/tranquil-pdp-review-wilhelm.jpg",
-            "name": "Wilhelm Kark",
-            "rating": 5,
-            "headline": "Three weeks of 100% sleep score.",
-            "body": "<p>BKM has become a staple in my lifestyle, my routine, my preparation and my performance. As both a student and a professional sailor, I sometimes have to perform at my best even when I don't feel I have the capacity, BKM helps me every time. I'd never had three weeks straight of a perfect 100% sleep score on my Whoop until I tried Tranquil.</p>"
-          }
-        },
-        "rv4": {
-          "type": "review",
-          "settings": {
-            "image": "shopify://shop_images/tranquil-pdp-review-hanna.jpg",
-            "name": "Hanna Olsson",
-            "rating": 5,
-            "headline": "A game changer for my sleep and recovery.",
-            "body": "<p>Tranquil has been a game changer for my sleep and recovery. As an athlete, good sleep is essential, and Tranquil has become a natural part of my evening routine. I sleep better, recover better and wake up feeling more ready for the next day.</p>"
-          }
-        },
-        "rv5": {
-          "type": "review",
-          "settings": {
-            "image": "shopify://shop_images/tranquil-pdp-review-andre.jpg",
-            "name": "André Santana",
-            "rating": 5,
-            "headline": "Products I genuinely trust every day.",
-            "body": "<p>BKM has become an essential part of my daily routine. Tranquil helps me relax and recover after long days, and each product supports a different part of my active lifestyle. I appreciate the quality of the ingredients, these are products I genuinely trust and enjoy using every day.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "rv1",
-        "rv2",
-        "rv3",
-        "rv4",
-        "rv5"
-      ],
-      "settings": {
-        "heading": "Don’t just take our word for it.",
-        "subheading": "<p>Real reviews from BKM customers, rated 4.6★ across 36 Tranquil reviews.</p>",
-        "accent_color": "#0A2240",
-        "star_color": "#E8639A",
-        "padding_top": 64,
-        "padding_bottom": 64
       }
     }
   },
